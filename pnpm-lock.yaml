@@ -1,0 +1,7 @@
+# This is a placeholder pnpm-lock.yaml file
+# Run 'pnpm install' to generate the actual lockfile with dependencies
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
