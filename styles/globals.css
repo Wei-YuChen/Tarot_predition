@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --mystic-primary: #7c3aed;
+    --mystic-secondary: #a855f7;
+    --mystic-accent: #ec4899;
+    --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
+    --card-shadow-hover: 0 20px 35px -5px rgba(0, 0, 0, 0.35);
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen text-white;
+  }
+
+  .dark body {
+    @apply bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900;
+  }
+
+  body:not(.dark) {
+    @apply bg-gradient-to-br from-slate-100 via-purple-100 to-slate-100 text-slate-900;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .card-flip {
+      @apply transition-opacity duration-300;
+    }
+    
+    .card-flip[data-flipped="true"] {
+      @apply opacity-100;
+    }
+    
+    .card-flip[data-flipped="false"] {
+      @apply opacity-80;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .card-flip {
+      @apply transition-transform duration-600 ease-in-out;
+      transform-style: preserve-3d;
+    }
+    
+    .card-flip[data-flipped="true"] {
+      @apply rotate-y-180;
+    }
+  }
+}
+
+@layer components {
+  .card-container {
+    @apply relative w-24 h-36 md:w-32 md:h-48 lg:w-40 lg:h-60 cursor-pointer;
+    perspective: 1000px;
+  }
+
+  .card-face {
+    @apply absolute inset-0 rounded-lg border-2 border-mystic-500/30 shadow-lg;
+    @apply bg-gradient-to-b from-slate-800 to-slate-900 p-2;
+    backface-visibility: hidden;
+  }
+
+  .dark .card-face {
+    @apply bg-gradient-to-b from-slate-800 to-slate-900;
+  }
+
+  body:not(.dark) .card-face {
+    @apply bg-gradient-to-b from-white to-slate-50 border-purple-300;
+  }
+
+  .card-face-back {
+    @apply card-face;
+  }
+
+  .card-face-front {
+    @apply card-face;
+    transform: rotateY(180deg);
+  }
+
+  .card-reversed {
+    @apply rotate-180;
+  }
+
+  .card-reversed::after {
+    content: '';
+    @apply absolute inset-0 border-2 border-red-500/50 rounded-lg pointer-events-none;
+  }
+
+  .mystic-button {
+    @apply px-6 py-3 bg-gradient-to-r from-mystic-600 to-mystic-500;
+    @apply text-white font-semibold rounded-lg shadow-lg;
+    @apply hover:from-mystic-700 hover:to-mystic-600 transition-all duration-300;
+    @apply focus:outline-none focus:ring-4 focus:ring-mystic-400/50;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .mystic-button-secondary {
+    @apply px-4 py-2 bg-transparent border-2 border-mystic-500;
+    @apply text-mystic-300 font-medium rounded-lg;
+    @apply hover:bg-mystic-500 hover:text-white transition-all duration-300;
+    @apply focus:outline-none focus:ring-4 focus:ring-mystic-400/50;
+  }
+
+  .mystic-card {
+    @apply bg-slate-800/50 border border-slate-700/50 rounded-xl p-6;
+    @apply backdrop-blur-sm shadow-xl;
+  }
+
+  .dark .mystic-card {
+    @apply bg-slate-800/50 border-slate-700/50;
+  }
+
+  body:not(.dark) .mystic-card {
+    @apply bg-white/80 border-purple-200/50 text-slate-900;
+  }
+
+  .deck-container {
+    @apply relative transform transition-all duration-1000 ease-out;
+  }
+
+  .deck-container.shuffled {
+    @apply scale-105 rotate-1;
+  }
+
+  .spread-position {
+    @apply flex flex-col items-center space-y-2 min-h-[200px] md:min-h-[280px];
+  }
+
+  .spread-position-label {
+    @apply text-sm font-medium text-mystic-300 uppercase tracking-wider;
+  }
+
+  .dark .spread-position-label {
+    @apply text-mystic-300;
+  }
+
+  body:not(.dark) .spread-position-label {
+    @apply text-purple-600;
+  }
+
+  .hero-gradient {
+    @apply bg-gradient-to-r from-mystic-600 via-mystic-500 to-purple-600;
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+}
+
+@layer utilities {
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}

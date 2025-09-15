@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150" class="w-full h-full">
+  <defs>
+    <linearGradient id="foolGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fef3c7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fbbf24;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Card background -->
+  <rect width="100" height="150" rx="8" fill="url(#foolGradient)" stroke="#d97706" stroke-width="2"/>
+  
+  <!-- The Fool illustration placeholder -->
+  <circle cx="50" cy="40" r="12" fill="#dc2626" opacity="0.8"/>
+  <rect x="40" y="55" width="20" height="30" rx="3" fill="#dc2626" opacity="0.8"/>
+  <rect x="35" y="60" width="30" height="3" fill="#fbbf24"/>
+  <rect x="35" y="68" width="30" height="3" fill="#fbbf24"/>
+  
+  <!-- Sun symbol -->
+  <circle cx="80" cy="30" r="8" fill="#f59e0b" opacity="0.9"/>
+  <path d="M 80 22 L 80 18 M 88 30 L 92 30 M 84.24 24.24 L 86.66 21.76 M 84.24 35.76 L 86.66 38.24" stroke="#f59e0b" stroke-width="2"/>
+  
+  <!-- Cliff edge -->
+  <path d="M 0 120 L 30 120 L 35 130 L 0 130 Z" fill="#8b5cf6"/>
+  
+  <!-- Title -->
+  <text x="50" y="140" text-anchor="middle" font-family="serif" font-size="8" fill="#92400e" font-weight="bold">THE FOOL</text>
+</svg>
