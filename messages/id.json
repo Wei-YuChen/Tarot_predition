@@ -1,0 +1,78 @@
+{
+  "common": {
+    "appName": "Tarot Prediction",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "close": "Close",
+    "skip": "Skip",
+    "back": "Back",
+    "next": "Next",
+    "share": "Share"
+  },
+  "navigation": {
+    "home": "Home",
+    "draw": "Draw Cards",
+    "result": "Result"
+  },
+  "home": {
+    "title": "Discover Your Destiny",
+    "subtitle": "Unlock the mysteries of your future with our ancient Tarot wisdom",
+    "cta": "Draw Your Cards",
+    "description": "Experience the mystical power of Tarot cards to gain insights into your past, present, and future. Our authentic readings provide guidance for your life's journey."
+  },
+  "draw": {
+    "title": "Draw Your Cards",
+    "subtitle": "Focus on your question and select 3 cards for your Past, Present, and Future reading",
+    "shuffleButton": "Shuffle Deck",
+    "drawButton": "Draw 3 Cards",
+    "viewInterpretation": "View Interpretation",
+    "dailyLimit": "Daily limit reached",
+    "dailyLimitMessage": "You have used all {count} of your daily readings. Return tomorrow for more insights.",
+    "remainingDraws": "Remaining draws today: {count}",
+    "flipCard": "Tap to flip",
+    "cardRevealed": "Card revealed"
+  },
+  "result": {
+    "title": "Your Reading",
+    "noReading": "No reading found",
+    "noReadingMessage": "You haven't drawn any cards yet. Go to the draw page to get your reading.",
+    "goToDraw": "Draw Cards",
+    "baseInterpretation": "Base Interpretation",
+    "deepAnalysis": "Deep Analysis",
+    "aiAnalysis": "AI Analysis",
+    "analyzing": "Analyzing your cards...",
+    "analysisError": "Failed to get AI analysis. Please try again.",
+    "positions": {
+      "past": "Past",
+      "present": "Present", 
+      "future": "Future"
+    },
+    "cardStates": {
+      "upright": "Upright",
+      "reversed": "Reversed"
+    },
+    "shareReading": "Share Reading",
+    "timestamp": "Reading from {date}"
+  },
+  "ads": {
+    "title": "Advertisement",
+    "countdown": "You can skip this ad in {seconds} seconds",
+    "skipAd": "Skip Ad",
+    "loading": "Loading ad..."
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light mode",
+    "dark": "Dark mode"
+  },
+  "language": {
+    "select": "Select Language",
+    "current": "Current: {language}"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "Network error. Please check your connection.",
+    "storage": "Storage error. Please check your browser settings."
+  }
+}

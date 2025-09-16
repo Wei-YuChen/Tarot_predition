@@ -1,0 +1,78 @@
+{
+  "common": {
+    "appName": "塔罗预测",
+    "loading": "加载中...",
+    "error": "发生错误",
+    "retry": "重试",
+    "close": "关闭",
+    "skip": "跳过",
+    "back": "返回",
+    "next": "下一步",
+    "share": "分享"
+  },
+  "navigation": {
+    "home": "首页",
+    "draw": "抽卡",
+    "result": "结果"
+  },
+  "home": {
+    "title": "探索你的命运",
+    "subtitle": "运用古老的塔罗智慧，揭开你未来的神秘面纱",
+    "cta": "抽取你的塔罗牌",
+    "description": "体验塔罗牌的神秘力量，洞察你的过去、现在和未来。我们的真实读牌为你的人生旅程提供指引。"
+  },
+  "draw": {
+    "title": "抽取你的塔罗牌",
+    "subtitle": "专注于你的问题，选择3张牌进行过去、现在和未来的解读",
+    "shuffleButton": "洗牌",
+    "drawButton": "抽取3张牌",
+    "viewInterpretation": "查看解读",
+    "dailyLimit": "已达每日限制",
+    "dailyLimitMessage": "你已经用完了今天的{count}次读牌机会。明天再来获取更多洞察。",
+    "remainingDraws": "今日剩余抽牌次数：{count}",
+    "flipCard": "点击翻牌",
+    "cardRevealed": "牌面已显示"
+  },
+  "result": {
+    "title": "你的解读",
+    "noReading": "未找到解读",
+    "noReadingMessage": "你还没有抽取任何牌。前往抽牌页面获取你的解读。",
+    "goToDraw": "抽取塔罗牌",
+    "baseInterpretation": "基础解读",
+    "deepAnalysis": "深度分析",
+    "aiAnalysis": "AI分析",
+    "analyzing": "正在分析你的牌面...",
+    "analysisError": "获取AI分析失败。请重试。",
+    "positions": {
+      "past": "过去",
+      "present": "现在", 
+      "future": "未来"
+    },
+    "cardStates": {
+      "upright": "正位",
+      "reversed": "逆位"
+    },
+    "shareReading": "分享解读",
+    "timestamp": "{date} 的解读"
+  },
+  "ads": {
+    "title": "广告",
+    "countdown": "{seconds}秒后可跳过广告",
+    "skipAd": "跳过广告",
+    "loading": "广告加载中..."
+  },
+  "theme": {
+    "toggle": "切换主题",
+    "light": "亮色模式",
+    "dark": "暗色模式"
+  },
+  "language": {
+    "select": "选择语言",
+    "current": "当前：{language}"
+  },
+  "errors": {
+    "generic": "出现问题。请重试。",
+    "network": "网络错误。请检查你的连接。",
+    "storage": "存储错误。请检查你的浏览器设置。"
+  }
+}
