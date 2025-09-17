@@ -257,6 +257,10 @@ clearAllReadings();
 Create a `.env.local` file for local development:
 
 ```bash
+# Google AdSense Configuration
+# Replace with your actual AdSense publisher client ID
+NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-XXXXXXXXXXXXXXXX
+
 # Optional: Add Google Analytics ID
 NEXT_PUBLIC_GA_ID=your_ga_id
 
