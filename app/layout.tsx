@@ -35,6 +35,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
+      <head>
+        {/* Google AdSense verification meta tag */}
+        <meta name="google-adsense-account" content="ca-pub-8388475297920969" />
+      </head>
       <body className="font-sans antialiased">
         {/* Google AdSense verification script */}
         <Script
