@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from '@/lib/theme-context';
 import ClientThemeToggle from '@/components/ClientThemeToggle';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import { Suspense } from 'react';
 import '@/styles/globals.css';
 
 interface LocaleLayoutProps {
@@ -88,7 +89,13 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
                           ? '抽牌'
                           : 'Reading'}
                     </a>
-                    <LanguageSwitcher currentLocale={locale} />
+                    <Suspense
+                      fallback={
+                        <div className="w-32 h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+                      }
+                    >
+                      <LanguageSwitcher currentLocale={locale} />
+                    </Suspense>
                     <ClientThemeToggle />
                   </nav>
                 </div>

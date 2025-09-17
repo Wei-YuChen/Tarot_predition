@@ -17,17 +17,6 @@ interface ReadingPageProps {
   params: { locale: string };
 }
 
-// Move the component that uses useSearchParams into a separate component
-function ReadingContent({ locale }: { locale: string }) {
-  const searchParams = useSearchParams();
-  const question = searchParams.get('q');
-  const [cards, setCards] = useState<DrawnCard[]>([]);
-  const [deepAnalysis, setDeepAnalysis] = useState<string>('');
-  const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
-  const [analysisError, setAnalysisError] = useState(false);
-
-  const t = texts[locale as keyof typeof texts] || texts.en;
-
 const texts = {
   en: {
     title: 'Your Tarot Reading',
@@ -86,8 +75,8 @@ const texts = {
   },
 };
 
-export default function ReadingPage({ params }: ReadingPageProps) {
-  const { locale } = params;
+// Component that uses useSearchParams - wrapped in Suspense
+function ReadingContent({ locale }: { locale: string }) {
   const searchParams = useSearchParams();
   const question = searchParams.get('q');
   const [cards, setCards] = useState<DrawnCard[]>([]);
@@ -119,21 +108,21 @@ export default function ReadingPage({ params }: ReadingPageProps) {
         body: JSON.stringify({
           locale,
           question,
-          cards: cards.map(({ card, isReversed, position }) => ({
-            name: card.name,
-            meaning: meaningByOrientation(card, isReversed),
-            isReversed,
-            position,
+          cards: cards.map((card) => ({
+            name: card.card.name,
+            meaning: meaningByOrientation(card.card, card.isReversed),
+            isReversed: card.isReversed,
+            position: card.position,
           })),
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to get analysis');
+      if (response.ok) {
+        const data = await response.json();
+        setDeepAnalysis(data.analysis);
+      } else {
+        setAnalysisError(true);
       }
-
-      const data = await response.json();
-      setDeepAnalysis(data.analysis);
     } catch (error) {
       console.error('Deep analysis error:', error);
       setAnalysisError(true);
@@ -161,29 +150,28 @@ export default function ReadingPage({ params }: ReadingPageProps) {
     },
   };
 
+  // If no question is provided, show error message
   if (!question) {
     return (
       <motion.div
-        className="min-h-screen flex flex-col items-center justify-center text-center"
+        className="min-h-screen flex items-center justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
       >
-        <div className="max-w-2xl mx-auto">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="card-frame p-8 mb-8"
-          >
-            <div className="text-6xl mb-4">🃏</div>
-            <h1 className="text-3xl font-serif font-bold mb-4 text-gray-800 dark:text-gray-200">
-              {t.noQuestion}
-            </h1>
-            <a href={`/${locale}`} className="mystic-button inline-block">
-              {t.backToHome}
-            </a>
-          </motion.div>
-        </div>
+        <motion.div
+          className="text-center"
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-2xl font-serif font-bold mb-4 text-gray-800 dark:text-gray-200">
+            {t.noQuestion}
+          </h1>
+          <a href={`/${locale}`} className="mystic-button inline-block">
+            {t.backToHome}
+          </a>
+        </motion.div>
       </motion.div>
     );
   }
@@ -203,9 +191,7 @@ export default function ReadingPage({ params }: ReadingPageProps) {
           </h1>
           <div className="bg-tarot-purple/10 dark:bg-tarot-purple/20 rounded-lg p-4 mb-6">
             <p className="text-lg text-gray-700 dark:text-gray-300 font-medium">
-              <span className="text-tarot-purple dark:text-tarot-gold">"</span>
-              {decodeURIComponent(question)}
-              <span className="text-tarot-purple dark:text-tarot-gold">"</span>
+              "{decodeURIComponent(question)}"
             </p>
           </div>
         </motion.div>
@@ -304,7 +290,7 @@ export default function ReadingPage({ params }: ReadingPageProps) {
                 <h3 className="text-2xl font-serif font-bold mb-4 text-gray-800 dark:text-gray-200">
                   {t.deepAnalysisTitle}
                 </h3>
-                <div className="prose prose-lg dark:prose-invert max-w-none text-left">
+                <div className="bg-gradient-to-r from-tarot-purple/5 to-tarot-gold/5 dark:from-tarot-purple/10 dark:to-tarot-gold/10 rounded-lg p-6">
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
                     {deepAnalysis}
                   </p>
@@ -314,16 +300,37 @@ export default function ReadingPage({ params }: ReadingPageProps) {
           </div>
         </motion.div>
 
-        {/* Navigation */}
+        {/* Back to Home */}
         <motion.div variants={itemVariants} className="text-center">
-          <a
-            href={`/${locale}`}
-            className="text-gray-600 dark:text-gray-400 hover:text-tarot-purple dark:hover:text-tarot-gold transition-colors underline"
-          >
-            ← {t.backToHome}
+          <a href={`/${locale}`} className="mystic-button inline-block">
+            {t.backToHome}
           </a>
         </motion.div>
       </div>
     </motion.div>
   );
 }
+
+export default function ReadingPage({ params }: ReadingPageProps) {
+  const { locale } = params;
+
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-4xl mb-4">🔮</div>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              Loading your reading...
+            </p>
+          </div>
+        </div>
+      }
+    >
+      <ReadingContent locale={locale} />
+    </Suspense>
+  );
+}
+
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic';

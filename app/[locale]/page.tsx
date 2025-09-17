@@ -263,3 +263,6 @@ export default function LocalePage({ params }: LocalePageProps) {
     </motion.div>
   );
 }
+
+// Force dynamic rendering for this page since it uses useRouter
+export const dynamic = 'force-dynamic';
