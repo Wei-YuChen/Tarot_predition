@@ -1,0 +1,28 @@
+{
+  "title": "Tarot Mistis",
+  "subtitle": "Buka misteri masa lalu, sekarang, dan masa depan Anda",
+  "description": "Rasakan seni kuno membaca kartu tarot dengan penyebaran tiga kartu mistis kami. Biarkan kartu memandu Anda melalui perjalanan hidup dengan kebijaksanaan yang diturunkan melalui berabad-abad.",
+  "questionTitle": "Ajukan Pertanyaan Anda",
+  "questionPlaceholder": "Bimbingan apa yang Anda cari dari kartu hari ini?",
+  "questionHelper": "Pikirkan situasi spesifik, keputusan, atau bidang kehidupan yang ingin Anda dapatkan wawasannya.",
+  "drawCards": "Ambil Kartu Saya",
+  "disclaimer": "Pembacaan tarot kami dirancang untuk tujuan hiburan dan refleksi diri. Meskipun kartu dapat menawarkan wawasan dan bimbingan, ingatlah bahwa Anda memiliki kekuatan untuk membentuk takdir Anda sendiri.",
+  "features": {
+    "deck": {
+      "title": "Dek Tarot Lengkap",
+      "desc": "Dek lengkap 78 kartu dengan makna tradisional Major dan Minor Arcana"
+    },
+    "daily": {
+      "title": "Pembacaan Harian",
+      "desc": "Pembacaan tanpa batas untuk memandu perjalanan spiritual Anda"
+    },
+    "detailed": {
+      "title": "Interpretasi Terperinci",
+      "desc": "Makna komprehensif untuk posisi kartu tegak dan terbalik"
+    }
+  },
+  "nav": {
+    "home": "Beranda",
+    "reading": "Pembacaan"
+  }
+}
