@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const locales = ['en', 'zh', 'tw'];
+const locales = ['en', 'zh', 'tw', 'ja', 'ko', 'vi', 'th', 'id', 'ms'];
 const defaultLocale = 'en';
 
 // Get locale from pathname
@@ -38,6 +38,12 @@ function detectLocale(request: NextRequest): string {
           return 'tw';
         if (lang.startsWith('zh')) return 'zh'; // Default Chinese to simplified
         if (lang.startsWith('en')) return 'en';
+        if (lang.startsWith('ja')) return 'ja';
+        if (lang.startsWith('ko')) return 'ko';
+        if (lang.startsWith('vi')) return 'vi';
+        if (lang.startsWith('th')) return 'th';
+        if (lang.startsWith('id')) return 'id';
+        if (lang.startsWith('ms')) return 'ms';
         return lang;
       });
 

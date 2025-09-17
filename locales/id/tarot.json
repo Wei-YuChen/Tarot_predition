@@ -1,0 +1,548 @@
+{
+  "0-fool": {
+    "name": "Si Bodoh",
+    "meanings": {
+      "upright": "Awal baru, kepolosan, spontanitas, jiwa bebas",
+      "reversed": "Sembrono, dimanfaatkan, tidak peduli"
+    }
+  },
+  "1-magician": {
+    "name": "Penyihir",
+    "meanings": {
+      "upright": "Manifestasi, kecerdikan, kekuatan, tindakan terinspirasi",
+      "reversed": "Manipulasi, perencanaan buruk, bakat yang tidak dikembangkan"
+    }
+  },
+  "2-high-priestess": {
+    "name": "Pendeta Agung",
+    "meanings": {
+      "upright": "Intuisi, pengetahuan suci, feminitas suci, alam bawah sadar",
+      "reversed": "Rahasia, terputus dari intuisi, menarik diri"
+    }
+  },
+  "3-empress": {
+    "name": "Permaisuri",
+    "meanings": {
+      "upright": "Feminitas, keindahan, alam, memelihara, kelimpahan",
+      "reversed": "Blokade kreatif, ketergantungan pada orang lain, sarang kosong"
+    }
+  },
+  "4-emperor": {
+    "name": "Kaisar",
+    "meanings": {
+      "upright": "Otoritas, pembentukan, struktur, figur ayah",
+      "reversed": "Tirani, kekakuan, kedinginan"
+    }
+  },
+  "5-hierophant": {
+    "name": "Paus",
+    "meanings": {
+      "upright": "Kebijaksanaan spiritual, kepercayaan agama, konformitas, tradisi",
+      "reversed": "Kepercayaan pribadi, kebebasan, menantang status quo"
+    }
+  },
+  "6-lovers": {
+    "name": "Kekasih",
+    "meanings": {
+      "upright": "Cinta, harmoni, hubungan, keselarasan nilai",
+      "reversed": "Cinta diri, ketidakharmonisan, ketidakseimbangan, ketidakselarasan nilai"
+    }
+  },
+  "7-chariot": {
+    "name": "Kereta Perang",
+    "meanings": {
+      "upright": "Kontrol, kemauan, kesuksesan, tindakan, determinasi",
+      "reversed": "Disiplin diri, oposisi, kurangnya arah"
+    }
+  },
+  "8-strength": {
+    "name": "Kekuatan",
+    "meanings": {
+      "upright": "Kekuatan, keberanian, persuasi, pengaruh, kasih sayang",
+      "reversed": "Keraguan diri, energi rendah, emosi mentah"
+    }
+  },
+  "9-hermit": {
+    "name": "Pertapa",
+    "meanings": {
+      "upright": "Pencarian jiwa, introspeksi, bimbingan batin",
+      "reversed": "Isolasi, kesepian, menarik diri"
+    }
+  },
+  "10-wheel-of-fortune": {
+    "name": "Roda Keberuntungan",
+    "meanings": {
+      "upright": "Keberuntungan, karma, siklus hidup, takdir, titik balik",
+      "reversed": "Nasib buruk, kurangnya kontrol, berpegang pada kontrol"
+    }
+  },
+  "11-justice": {
+    "name": "Keadilan",
+    "meanings": {
+      "upright": "Keadilan, keadilan, kebenaran, sebab dan akibat, hukum",
+      "reversed": "Ketidakadilan, kurangnya akuntabilitas, ketidakjujuran"
+    }
+  },
+  "12-hanged-man": {
+    "name": "Orang Tergantung",
+    "meanings": {
+      "upright": "Penangguhan, pembatasan, melepaskan, pengorbanan",
+      "reversed": "Penundaan, resistensi, stagnan, ketidakpastian"
+    }
+  },
+  "13-death": {
+    "name": "Kematian",
+    "meanings": {
+      "upright": "Akhir, perubahan, transformasi, transisi",
+      "reversed": "Resistensi terhadap perubahan, transformasi pribadi, pembersihan batin"
+    }
+  },
+  "14-temperance": {
+    "name": "Temperansi",
+    "meanings": {
+      "upright": "Keseimbangan, moderasi, kesabaran, tujuan",
+      "reversed": "Ketidakseimbangan, berlebihan, penyembuhan diri, realignment"
+    }
+  },
+  "15-devil": {
+    "name": "Iblis",
+    "meanings": {
+      "upright": "Perbudakan, kecanduan, seksualitas, materialisme",
+      "reversed": "Melepaskan kepercayaan yang membatasi, mengeksplorasi pikiran gelap, detasemen"
+    }
+  },
+  "16-tower": {
+    "name": "Menara",
+    "meanings": {
+      "upright": "Perubahan mendadak, pergolakan, kekacauan, wahyu, kebangkitan",
+      "reversed": "Transformasi pribadi, takut akan perubahan, menghindari bencana"
+    }
+  },
+  "17-star": {
+    "name": "Bintang",
+    "meanings": {
+      "upright": "Harapan, iman, tujuan, pembaruan, spiritualitas",
+      "reversed": "Kurangnya iman, putus asa, kepercayaan diri, keterputusan"
+    }
+  },
+  "18-moon": {
+    "name": "Bulan",
+    "meanings": {
+      "upright": "Ilusi, ketakutan, kecemasan, alam bawah sadar, intuisi",
+      "reversed": "Pelepasan ketakutan, emosi yang ditekan, kebingungan batin"
+    }
+  },
+  "19-sun": {
+    "name": "Matahari",
+    "meanings": {
+      "upright": "Optimisme, kehangatan, kesuksesan, positivitas, vitalitas",
+      "reversed": "Anak batin, merasa sedih, terlalu optimis"
+    }
+  },
+  "20-judgement": {
+    "name": "Penghakiman",
+    "meanings": {
+      "upright": "Penghakiman, kelahiran kembali, panggilan batin, absolusi",
+      "reversed": "Keraguan diri, kritikus batin, mengabaikan panggilan"
+    }
+  },
+  "21-world": {
+    "name": "Dunia",
+    "meanings": {
+      "upright": "Penyelesaian, integrasi, pencapaian, perjalanan",
+      "reversed": "Mencari penutupan pribadi, jalan pintas menuju kesuksesan"
+    }
+  },
+  "cups-1": {
+    "name": "As Cangkir",
+    "meanings": {
+      "upright": "Cinta, intuisi, koneksi spiritual, hubungan baru",
+      "reversed": "Cinta diri, blokade kreatif, kekosongan, kehilangan emosional"
+    }
+  },
+  "cups-2": {
+    "name": "Dua Cangkir",
+    "meanings": {
+      "upright": "Cinta yang menyatu, kemitraan, daya tarik timbal balik",
+      "reversed": "Cinta diri, putus cinta, ketidakharmonisan, ketidakpercayaan"
+    }
+  },
+  "cups-3": {
+    "name": "Tiga Cangkir",
+    "meanings": {
+      "upright": "Perayaan, persahabatan, kreativitas, kolaborasi",
+      "reversed": "Kemerdekaan, waktu sendiri, pesta keras, bertiga adalah kerumunan"
+    }
+  },
+  "cups-4": {
+    "name": "Empat Cangkir",
+    "meanings": {
+      "upright": "Meditasi, kontemplasi, apatis, reevaluasi",
+      "reversed": "Mundur, menarik diri, pemeriksaan kesehatan emosional"
+    }
+  },
+  "cups-5": {
+    "name": "Lima Cangkir",
+    "meanings": {
+      "upright": "Penyesalan, kegagalan, kekecewaan, pesimisme",
+      "reversed": "Kemunduran pribadi, pengampunan diri, bergerak maju"
+    }
+  },
+  "cups-6": {
+    "name": "Enam Cangkir",
+    "meanings": {
+      "upright": "Mengunjungi kembali masa lalu, kenangan masa kecil, kepolosan",
+      "reversed": "Hidup di masa lalu, pengampunan, kurangnya keceriaan"
+    }
+  },
+  "cups-7": {
+    "name": "Tujuh Cangkir",
+    "meanings": {
+      "upright": "Peluang, pilihan, harapan kosong, ilusi",
+      "reversed": "Penyelarasan, nilai pribadi, kewalahan oleh pilihan"
+    }
+  },
+  "cups-8": {
+    "name": "Delapan Cangkir",
+    "meanings": {
+      "upright": "Kekecewaan, pengabaian, penarikan diri, eskapisme",
+      "reversed": "Mencoba lagi, keraguan, melayang tanpa tujuan"
+    }
+  },
+  "cups-9": {
+    "name": "Sembilan Cangkir",
+    "meanings": {
+      "upright": "Kepuasan, kepuasan, rasa syukur, keinginan menjadi kenyataan",
+      "reversed": "Kebahagiaan batin, materialisme, ketidakpuasan"
+    }
+  },
+  "cups-10": {
+    "name": "Sepuluh Cangkir",
+    "meanings": {
+      "upright": "Cinta ilahi, hubungan bahagia, harmoni, keselarasan",
+      "reversed": "Keterputusan, nilai yang tidak selaras, hubungan yang berjuang"
+    }
+  },
+  "cups-11": {
+    "name": "Halaman Cangkir",
+    "meanings": {
+      "upright": "Peluang kreatif, pesan intuitif, rasa ingin tahu",
+      "reversed": "Ide baru, meragukan intuisi, blokade kreatif"
+    }
+  },
+  "cups-12": {
+    "name": "Ksatria Cangkir",
+    "meanings": {
+      "upright": "Kreativitas, romantis, pesona, imajinasi, keindahan",
+      "reversed": "Imajinasi yang terlalu aktif, tidak realistis, cemburu"
+    }
+  },
+  "cups-13": {
+    "name": "Ratu Cangkir",
+    "meanings": {
+      "upright": "Welas asih, peduli, stabil secara emosional, intuitif",
+      "reversed": "Perasaan batin, perawatan diri, cinta diri"
+    }
+  },
+  "cups-14": {
+    "name": "Raja Cangkir",
+    "meanings": {
+      "upright": "Keseimbangan emosional, murah hati, diplomatis",
+      "reversed": "Welas asih diri, perasaan batin, suasana hati"
+    }
+  },
+  "pentacles-1": {
+    "name": "As Pentakel",
+    "meanings": {
+      "upright": "Peluang keuangan atau karir baru, manifestasi",
+      "reversed": "Kehilangan peluang, kurangnya perencanaan, keputusan keuangan yang buruk"
+    }
+  },
+  "pentacles-2": {
+    "name": "Dua Pentakel",
+    "meanings": {
+      "upright": "Beberapa prioritas, manajemen waktu, prioritas",
+      "reversed": "Komitmen berlebihan, disorganisasi, reprioritisasi"
+    }
+  },
+  "pentacles-3": {
+    "name": "Tiga Pentakel",
+    "meanings": {
+      "upright": "Kolaborasi, pembelajaran, implementasi",
+      "reversed": "Ketidakharmonisan, ketidakselarasan, bekerja sendiri"
+    }
+  },
+  "pentacles-4": {
+    "name": "Empat Pentakel",
+    "meanings": {
+      "upright": "Menghemat uang, keamanan, konservatisme, kelangkaan",
+      "reversed": "Pengeluaran berlebihan, keserakahan, perlindungan diri"
+    }
+  },
+  "pentacles-5": {
+    "name": "Lima Pentakel",
+    "meanings": {
+      "upright": "Kerugian finansial, kemiskinan, pola pikir kelangkaan, isolasi",
+      "reversed": "Pemulihan dari kerugian finansial, kemiskinan spiritual"
+    }
+  },
+  "pentacles-6": {
+    "name": "Enam Pentakel",
+    "meanings": {
+      "upright": "Memberi, menerima, berbagi kekayaan, kemurahan hati",
+      "reversed": "Perawatan diri, hutang yang belum dibayar, amal sepihak"
+    }
+  },
+  "pentacles-7": {
+    "name": "Tujuh Pentakel",
+    "meanings": {
+      "upright": "Ketekunan, investasi, usaha, pandangan jangka panjang",
+      "reversed": "Kurangnya imbalan, ketidaksabaran, investasi"
+    }
+  },
+  "pentacles-8": {
+    "name": "Delapan Pentakel",
+    "meanings": {
+      "upright": "Magang, tugas berulang, penguasaan, pengembangan keterampilan",
+      "reversed": "Pengembangan diri, perfeksionisme, aktivitas yang salah arah"
+    }
+  },
+  "pentacles-9": {
+    "name": "Sembilan Pentakel",
+    "meanings": {
+      "upright": "Kelimpahan, kemewahan, swasembada, kemerdekaan finansial",
+      "reversed": "Harga diri, investasi berlebihan dalam pekerjaan, kesibukan"
+    }
+  },
+  "pentacles-10": {
+    "name": "Sepuluh Pentakel",
+    "meanings": {
+      "upright": "Kekayaan, keamanan finansial, keluarga, kesuksesan jangka panjang",
+      "reversed": "Sisi gelap kekayaan, kegagalan atau kerugian finansial"
+    }
+  },
+  "pentacles-11": {
+    "name": "Halaman Pentakel",
+    "meanings": {
+      "upright": "Belajar, belajar, ide baru, peluang keuangan",
+      "reversed": "Kurangnya kemajuan, penundaan, belajar dari kegagalan"
+    }
+  },
+  "pentacles-12": {
+    "name": "Ksatria Pentakel",
+    "meanings": {
+      "upright": "Kerja keras, produktivitas, rutinitas, konservatisme",
+      "reversed": "Disiplin diri, kebosanan, merasa 'terjebak', perfeksionisme"
+    }
+  },
+  "pentacles-13": {
+    "name": "Ratu Pentakel",
+    "meanings": {
+      "upright": "Memelihara, praktis, menyediakan finansial, orang tua yang bekerja",
+      "reversed": "Kemerdekaan finansial, perawatan diri, konflik kerja-rumah"
+    }
+  },
+  "pentacles-14": {
+    "name": "Raja Pentakel",
+    "meanings": {
+      "upright": "Kesuksesan finansial, kepandaian bisnis, keamanan",
+      "reversed": "Kemunduran finansial, pengeluaran berlebihan, keras kepala"
+    }
+  },
+  "swords-1": {
+    "name": "As Pedang",
+    "meanings": {
+      "upright": "Terobosan, kejelasan, pikiran tajam",
+      "reversed": "Kebingungan, kebrutalan, kekacauan"
+    }
+  },
+  "swords-2": {
+    "name": "Dua Pedang",
+    "meanings": {
+      "upright": "Keputusan sulit, menimbang pilihan, jalan buntu",
+      "reversed": "Ketidakpastian, kebingungan, kelebihan informasi"
+    }
+  },
+  "swords-3": {
+    "name": "Tiga Pedang",
+    "meanings": {
+      "upright": "Patah hati, rasa sakit emosional, kesedihan, duka, luka",
+      "reversed": "Percakapan diri negatif, melepaskan rasa sakit, optimisme"
+    }
+  },
+  "swords-4": {
+    "name": "Empat Pedang",
+    "meanings": {
+      "upright": "Istirahat, relaksasi, meditasi, kontemplasi",
+      "reversed": "Kelelahan, kelelahan, kontemplasi mendalam, stagnasi"
+    }
+  },
+  "swords-5": {
+    "name": "Lima Pedang",
+    "meanings": {
+      "upright": "Konflik, ketidaksepakatan, kompetisi, kekalahan",
+      "reversed": "Rekonsiliasi, memperbaiki, dendam masa lalu"
+    }
+  },
+  "swords-6": {
+    "name": "Enam Pedang",
+    "meanings": {
+      "upright": "Transisi, perubahan, ritus peralihan, melepaskan bagasi",
+      "reversed": "Transisi pribadi, resistensi terhadap perubahan, bisnis yang belum selesai"
+    }
+  },
+  "swords-7": {
+    "name": "Tujuh Pedang",
+    "meanings": {
+      "upright": "Pengkhianatan, penipuan, melarikan diri dari sesuatu",
+      "reversed": "Sindrom penipu, penipuan diri, menyimpan rahasia"
+    }
+  },
+  "swords-8": {
+    "name": "Delapan Pedang",
+    "meanings": {
+      "upright": "Pikiran negatif, pembatasan diri, penjara",
+      "reversed": "Kepercayaan yang membatasi diri, kritikus batin, melepaskan pikiran negatif"
+    }
+  },
+  "swords-9": {
+    "name": "Sembilan Pedang",
+    "meanings": {
+      "upright": "Kecemasan, kekhawatiran, ketakutan, depresi, mimpi buruk",
+      "reversed": "Gejolak batin, ketakutan yang mengakar, rahasia"
+    }
+  },
+  "swords-10": {
+    "name": "Sepuluh Pedang",
+    "meanings": {
+      "upright": "Akhir yang menyakitkan, luka dalam, pengkhianatan, kehilangan",
+      "reversed": "Pemulihan, regenerasi, menolak akhir yang tak terhindarkan"
+    }
+  },
+  "swords-11": {
+    "name": "Halaman Pedang",
+    "meanings": {
+      "upright": "Ide baru, rasa ingin tahu, haus akan pengetahuan",
+      "reversed": "Ekspresi diri, banyak bicara tanpa tindakan, tindakan sembrono"
+    }
+  },
+  "swords-12": {
+    "name": "Ksatria Pedang",
+    "meanings": {
+      "upright": "Ambisius, berorientasi aksi, didorong untuk sukses",
+      "reversed": "Gelisah, tidak fokus, kurangnya arah, kekuatan kasar"
+    }
+  },
+  "swords-13": {
+    "name": "Ratu Pedang",
+    "meanings": {
+      "upright": "Mandiri, penilaian tidak bias, batas yang jelas",
+      "reversed": "Terlalu emosional, mudah terpengaruh, jahat, berhati dingin"
+    }
+  },
+  "swords-14": {
+    "name": "Raja Pedang",
+    "meanings": {
+      "upright": "Kejelasan mental, kekuatan intelektual, otoritas, kebenaran",
+      "reversed": "Kekuatan tenang, kebenaran batin, penyalahgunaan kekuasaan, manipulasi"
+    }
+  },
+  "wands-1": {
+    "name": "As Tongkat",
+    "meanings": {
+      "upright": "Inspirasi, percikan kreatif, inisiatif baru",
+      "reversed": "Penundaan, kurangnya motivasi, tertimbun"
+    }
+  },
+  "wands-2": {
+    "name": "Dua Tongkat",
+    "meanings": {
+      "upright": "Perencanaan masa depan, membuat keputusan, meninggalkan zona nyaman",
+      "reversed": "Tujuan pribadi, penyelarasan batin, takut akan yang tidak diketahui"
+    }
+  },
+  "wands-3": {
+    "name": "Tiga Tongkat",
+    "meanings": {
+      "upright": "Kemajuan, ekspansi, pandangan jauh ke depan, peluang luar negeri",
+      "reversed": "Bermain kecil, kurangnya pandangan jauh ke depan, penundaan yang tidak terduga"
+    }
+  },
+  "wands-4": {
+    "name": "Empat Tongkat",
+    "meanings": {
+      "upright": "Perayaan, reuni yang gembira, harmoni, relaksasi, pulang ke rumah",
+      "reversed": "Perayaan pribadi, harmoni batin, konflik dengan orang lain"
+    }
+  },
+  "wands-5": {
+    "name": "Lima Tongkat",
+    "meanings": {
+      "upright": "Konflik, ketidaksepakatan, kompetisi, ketegangan",
+      "reversed": "Konflik batin, menghindari konflik, pelepasan ketegangan"
+    }
+  },
+  "wands-6": {
+    "name": "Enam Tongkat",
+    "meanings": {
+      "upright": "Kesuksesan, pengakuan publik, kemajuan, kepercayaan diri",
+      "reversed": "Pencapaian pribadi, definisi kesuksesan pribadi, jatuh dari kemasyhuran"
+    }
+  },
+  "wands-7": {
+    "name": "Tujuh Tongkat",
+    "meanings": {
+      "upright": "Tantangan, kompetisi, perlindungan, ketekunan",
+      "reversed": "Kelelahan, menyerah, kewalahan"
+    }
+  },
+  "wands-8": {
+    "name": "Delapan Tongkat",
+    "meanings": {
+      "upright": "Gerakan, perubahan cepat, tindakan, penyelarasan",
+      "reversed": "Penundaan, frustrasi, menolak perubahan"
+    }
+  },
+  "wands-9": {
+    "name": "Sembilan Tongkat",
+    "meanings": {
+      "upright": "Ketahanan, keberanian, ketekunan, ujian iman",
+      "reversed": "Sumber daya batin, perjuangan, kewalahan"
+    }
+  },
+  "wands-10": {
+    "name": "Sepuluh Tongkat",
+    "meanings": {
+      "upright": "Beban, tanggung jawab tambahan, kerja keras, stres",
+      "reversed": "Ketidakmampuan mendelegasikan, stres berlebihan, kelelahan"
+    }
+  },
+  "wands-11": {
+    "name": "Halaman Tongkat",
+    "meanings": {
+      "upright": "Inspirasi, ide, penemuan, potensi tak terbatas",
+      "reversed": "Ide yang baru terbentuk, mengarahkan ulang energi, kepercayaan yang membatasi diri"
+    }
+  },
+  "wands-12": {
+    "name": "Ksatria Tongkat",
+    "meanings": {
+      "upright": "Energi, gairah, tindakan terinspirasi, petualangan",
+      "reversed": "Proyek gairah, terburu-buru, energi yang tersebar"
+    }
+  },
+  "wands-13": {
+    "name": "Ratu Tongkat",
+    "meanings": {
+      "upright": "Keberanian, kepercayaan diri, kemerdekaan, kupu-kupu sosial",
+      "reversed": "Harga diri, kepercayaan diri, introvert"
+    }
+  },
+  "wands-14": {
+    "name": "Raja Tongkat",
+    "meanings": {
+      "upright": "Pemimpin alami, visi, wirausaha, kehormatan",
+      "reversed": "Impulsivitas, terburu-buru, kejam, ekspektasi tinggi"
+    }
+  }
+}

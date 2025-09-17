@@ -1,0 +1,548 @@
+{
+  "0-fool": {
+    "name": "Kẻ Ngốc",
+    "meanings": {
+      "upright": "Khởi đầu mới, ngây thơ, tự phát, tinh thần tự do",
+      "reversed": "Liều lĩnh, bị lợi dụng, thiếu suy nghĩ"
+    }
+  },
+  "1-magician": {
+    "name": "Phù Thủy",
+    "meanings": {
+      "upright": "Hiện thực hóa, tháo vát, sức mạnh, hành động có cảm hứng",
+      "reversed": "Thao túng, kế hoạch kém, tài năng chưa được phát triển"
+    }
+  },
+  "2-high-priestess": {
+    "name": "Nữ Tế",
+    "meanings": {
+      "upright": "Trực giác, kiến thức thiêng liêng, nữ tính thiêng liêng, tiềm thức",
+      "reversed": "Bí mật, mất kết nối với trực giác, rút lui"
+    }
+  },
+  "3-empress": {
+    "name": "Hoàng Hậu",
+    "meanings": {
+      "upright": "Nữ tính, vẻ đẹp, tự nhiên, nuôi dưỡng, dồi dào",
+      "reversed": "Tắc nghẽn sáng tạo, phụ thuộc người khác, tổ ấm trống rỗng"
+    }
+  },
+  "4-emperor": {
+    "name": "Hoàng Đế",
+    "meanings": {
+      "upright": "Quyền uy, thiết lập, cấu trúc, hình tượng cha",
+      "reversed": "Bạo chúa, cứng nhắc, lạnh lùng"
+    }
+  },
+  "5-hierophant": {
+    "name": "Giáo Hoàng",
+    "meanings": {
+      "upright": "Trí tuệ tâm linh, tín ngưỡng tôn giáo, tuân thủ, truyền thống",
+      "reversed": "Tín ngưỡng cá nhân, tự do, thách thức hiện trạng"
+    }
+  },
+  "6-lovers": {
+    "name": "Người Yêu",
+    "meanings": {
+      "upright": "Tình yêu, hòa hợp, mối quan hệ, sự thống nhất giá trị",
+      "reversed": "Tự yêu bản thân, bất hòa, mất cân bằng, bất đồng giá trị"
+    }
+  },
+  "7-chariot": {
+    "name": "Xe Chiến",
+    "meanings": {
+      "upright": "Kiểm soát, ý chí, thành công, hành động, quyết tâm",
+      "reversed": "Tự kỷ luật, đối lập, thiếu phương hướng"
+    }
+  },
+  "8-strength": {
+    "name": "Sức Mạnh",
+    "meanings": {
+      "upright": "Sức mạnh, can đảm, thuyết phục, ảnh hưởng, lòng từ bi",
+      "reversed": "Nghi ngờ bản thân, năng lượng thấp, cảm xúc thô"
+    }
+  },
+  "9-hermit": {
+    "name": "Ẩn Sĩ",
+    "meanings": {
+      "upright": "Tìm kiếm tâm hồn, nội tâm, hướng dẫn bên trong",
+      "reversed": "Cô lập, cô đơn, rút lui"
+    }
+  },
+  "10-wheel-of-fortune": {
+    "name": "Bánh Xe Vận Mệnh",
+    "meanings": {
+      "upright": "May mắn, nghiệp, chu kỳ cuộc sống, định mệnh, bước ngoặt",
+      "reversed": "Xui xẻo, thiếu kiểm soát, bám víu kiểm soát"
+    }
+  },
+  "11-justice": {
+    "name": "Công Lý",
+    "meanings": {
+      "upright": "Công lý, công bằng, sự thật, nhân quả, luật pháp",
+      "reversed": "Bất công, thiếu trách nhiệm, không trung thực"
+    }
+  },
+  "12-hanged-man": {
+    "name": "Người Bị Treo",
+    "meanings": {
+      "upright": "Tạm dừng, hạn chế, buông bỏ, hy sinh",
+      "reversed": "Chậm trễ, kháng cự, trì trệ, do dự"
+    }
+  },
+  "13-death": {
+    "name": "Thần Chết",
+    "meanings": {
+      "upright": "Kết thúc, thay đổi, biến đổi, chuyển tiếp",
+      "reversed": "Kháng cự thay đổi, biến đổi cá nhân, thanh lọc nội tâm"
+    }
+  },
+  "14-temperance": {
+    "name": "Tiết Chế",
+    "meanings": {
+      "upright": "Cân bằng, điều độ, kiên nhẫn, mục đích",
+      "reversed": "Mất cân bằng, quá mức, tự chữa lành, tái điều chỉnh"
+    }
+  },
+  "15-devil": {
+    "name": "Ác Quỷ",
+    "meanings": {
+      "upright": "Trói buộc, nghiện, dục tính, chủ nghĩa vật chất",
+      "reversed": "Giải phóng niềm tin hạn chế, khám phá suy nghĩ tối tăm, siêu thoát"
+    }
+  },
+  "16-tower": {
+    "name": "Tháp",
+    "meanings": {
+      "upright": "Thay đổi đột ngột, biến động, hỗn loạn, tiết lộ, tỉnh thức",
+      "reversed": "Biến đổi cá nhân, sợ thay đổi, tránh thảm họa"
+    }
+  },
+  "17-star": {
+    "name": "Ngôi Sao",
+    "meanings": {
+      "upright": "Hy vọng, đức tin, mục đích, tái sinh, tâm linh",
+      "reversed": "Thiếu đức tin, tuyệt vọng, tự tin, mất kết nối"
+    }
+  },
+  "18-moon": {
+    "name": "Mặt Trăng",
+    "meanings": {
+      "upright": "Ảo tưởng, sợ hãi, lo lắng, tiềm thức, trực giác",
+      "reversed": "Giải phóng nỗi sợ, cảm xúc bị đè nén, nhầm lẫn nội tâm"
+    }
+  },
+  "19-sun": {
+    "name": "Mặt Trời",
+    "meanings": {
+      "upright": "Lạc quan, ấm áp, thành công, tích cực, sức sống",
+      "reversed": "Đứa trẻ bên trong, chán nản, quá lạc quan"
+    }
+  },
+  "20-judgement": {
+    "name": "Phán Xét",
+    "meanings": {
+      "upright": "Phán xét, tái sinh, tiếng gọi nội tâm, tha thứ",
+      "reversed": "Nghi ngờ bản thân, nhà phê bình nội tâm, phớt lờ tiếng gọi"
+    }
+  },
+  "21-world": {
+    "name": "Thế Giới",
+    "meanings": {
+      "upright": "Hoàn thành, tích hợp, thành tựu, du lịch",
+      "reversed": "Tìm kiếm kết thúc cá nhân, đường tắt thành công"
+    }
+  },
+  "cups-1": {
+    "name": "Chén Át",
+    "meanings": {
+      "upright": "Tình yêu, trực giác, kết nối tâm linh, mối quan hệ mới",
+      "reversed": "Tự yêu thương, tắc nghẽn sáng tạo, trống rỗng, mất mát cảm xúc"
+    }
+  },
+  "cups-2": {
+    "name": "Chén Hai",
+    "meanings": {
+      "upright": "Tình yêu thống nhất, đối tác, thu hút lẫn nhau",
+      "reversed": "Tự yêu thương, chia tay, bất hòa, không tin tưởng"
+    }
+  },
+  "cups-3": {
+    "name": "Chén Ba",
+    "meanings": {
+      "upright": "Ăn mừng, tình bạn, sáng tạo, hợp tác",
+      "reversed": "Độc lập, thời gian riêng, tiệc tùng quá mức, ba người là đông"
+    }
+  },
+  "cups-4": {
+    "name": "Chén Bốn",
+    "meanings": {
+      "upright": "Thiền định, suy ngẫm, thờ ơ, đánh giá lại",
+      "reversed": "Rút lui, ẩn mình, kiểm tra sức khỏe cảm xúc"
+    }
+  },
+  "cups-5": {
+    "name": "Chén Năm",
+    "meanings": {
+      "upright": "Hối tiếc, thất bại, thất vọng, bi quan",
+      "reversed": "Thất bại cá nhân, tự tha thứ, tiến về phía trước"
+    }
+  },
+  "cups-6": {
+    "name": "Chén Sáu",
+    "meanings": {
+      "upright": "Xem lại quá khứ, ký ức tuổi thơ, ngây thơ",
+      "reversed": "Sống trong quá khứ, tha thứ, thiếu tinh thần vui chơi"
+    }
+  },
+  "cups-7": {
+    "name": "Chén Bảy",
+    "meanings": {
+      "upright": "Cơ hội, lựa chọn, hy vọng hão huyền, ảo tưởng",
+      "reversed": "Sắp xếp, giá trị cá nhân, choáng ngợp bởi lựa chọn"
+    }
+  },
+  "cups-8": {
+    "name": "Chén Tám",
+    "meanings": {
+      "upright": "Thất vọng, bỏ rơi, rút lui, chủ nghĩa trốn tránh",
+      "reversed": "Thử một lần nữa, do dự, trôi dạt vô mục đích"
+    }
+  },
+  "cups-9": {
+    "name": "Chén Chín",
+    "meanings": {
+      "upright": "Hài lòng, thỏa mãn, biết ơn, điều ước thành hiện thực",
+      "reversed": "Hạnh phúc nội tâm, chủ nghĩa vật chất, bất mãn"
+    }
+  },
+  "cups-10": {
+    "name": "Chén Mười",
+    "meanings": {
+      "upright": "Tình yêu thiêng liêng, mối quan hệ hạnh phúc, hòa hợp, thống nhất",
+      "reversed": "Mất kết nối, giá trị không thống nhất, khó khăn trong mối quan hệ"
+    }
+  },
+  "cups-11": {
+    "name": "Chén Thiếu Niên",
+    "meanings": {
+      "upright": "Cơ hội sáng tạo, thông điệp trực giác, tò mò",
+      "reversed": "Ý tưởng mới, nghi ngờ trực giác, tắc nghẽn sáng tạo"
+    }
+  },
+  "cups-12": {
+    "name": "Chén Hiệp Sĩ",
+    "meanings": {
+      "upright": "Sáng tạo, lãng mạn, quyến rũ, tưởng tượng, vẻ đẹp",
+      "reversed": "Trí tưởng tượng quá mức, không thực tế, ghen tuông"
+    }
+  },
+  "cups-13": {
+    "name": "Chén Hoàng Hậu",
+    "meanings": {
+      "upright": "Từ bi, chăm sóc, ổn định cảm xúc, trực giác",
+      "reversed": "Cảm xúc nội tâm, tự chăm sóc, tự yêu thương"
+    }
+  },
+  "cups-14": {
+    "name": "Chén Quốc Vương",
+    "meanings": {
+      "upright": "Cân bằng cảm xúc, hào phóng, ngoại giao",
+      "reversed": "Tự thương hại, cảm xúc nội tâm, thay đổi tâm trạng"
+    }
+  },
+  "pentacles-1": {
+    "name": "Xu Át",
+    "meanings": {
+      "upright": "Cơ hội tài chính hoặc nghề nghiệp mới, hiện thực hóa",
+      "reversed": "Mất cơ hội, thiếu kế hoạch, quyết định tài chính tồi"
+    }
+  },
+  "pentacles-2": {
+    "name": "Xu Hai",
+    "meanings": {
+      "upright": "Nhiều ưu tiên, quản lý thời gian, sắp xếp ưu tiên",
+      "reversed": "Cam kết quá mức, mất tổ chức, sắp xếp lại ưu tiên"
+    }
+  },
+  "pentacles-3": {
+    "name": "Xu Ba",
+    "meanings": {
+      "upright": "Hợp tác, học tập, thực hiện",
+      "reversed": "Bất hòa, không thống nhất, làm việc một mình"
+    }
+  },
+  "pentacles-4": {
+    "name": "Xu Bốn",
+    "meanings": {
+      "upright": "Tiết kiệm tiền, an toàn, bảo thủ, khan hiếm",
+      "reversed": "Chi tiêu quá mức, tham lam, tự bảo vệ"
+    }
+  },
+  "pentacles-5": {
+    "name": "Xu Năm",
+    "meanings": {
+      "upright": "Mất mát tài chính, nghèo khó, tư duy khan hiếm, cô lập",
+      "reversed": "Phục hồi từ mất mát tài chính, nghèo khó tinh thần"
+    }
+  },
+  "pentacles-6": {
+    "name": "Xu Sáu",
+    "meanings": {
+      "upright": "Cho, nhận, chia sẻ của cải, hào phóng",
+      "reversed": "Tự chăm sóc, nợ chưa trả, từ thiện một chiều"
+    }
+  },
+  "pentacles-7": {
+    "name": "Xu Bảy",
+    "meanings": {
+      "upright": "Kiên trì, đầu tư, nỗ lực, tầm nhìn dài hạn",
+      "reversed": "Thiếu phần thưởng, thiếu kiên nhẫn, đầu tư"
+    }
+  },
+  "pentacles-8": {
+    "name": "Xu Tám",
+    "meanings": {
+      "upright": "Thời kỳ học việc, công việc lặp lại, làm chủ, phát triển kỹ năng",
+      "reversed": "Tự phát triển, chủ nghĩa hoàn hảo, hoạt động sai hướng"
+    }
+  },
+  "pentacles-9": {
+    "name": "Xu Chín",
+    "meanings": {
+      "upright": "Dồi dào, xa xỉ, tự cung tự cấp, độc lập tài chính",
+      "reversed": "Giá trị bản thân, đầu tư quá mức vào công việc, bận rộn"
+    }
+  },
+  "pentacles-10": {
+    "name": "Xu Mười",
+    "meanings": {
+      "upright": "Của cải, an ninh tài chính, gia đình, thành công lâu dài",
+      "reversed": "Mặt tối của của cải, thất bại hoặc mất mát tài chính"
+    }
+  },
+  "pentacles-11": {
+    "name": "Xu Thiếu Niên",
+    "meanings": {
+      "upright": "Học tập, nghiên cứu, ý tưởng mới, cơ hội tài chính",
+      "reversed": "Thiếu tiến bộ, trì hoãn, học từ thất bại"
+    }
+  },
+  "pentacles-12": {
+    "name": "Xu Hiệp Sĩ",
+    "meanings": {
+      "upright": "Làm việc chăm chỉ, năng suất, thói quen, bảo thủ",
+      "reversed": "Tự kỷ luật, chán nản, cảm giác 'bị mắc kẹt', chủ nghĩa hoàn hảo"
+    }
+  },
+  "pentacles-13": {
+    "name": "Xu Hoàng Hậu",
+    "meanings": {
+      "upright": "Nuôi dưỡng, thực tế, cung cấp tài chính, cha mẹ làm việc",
+      "reversed": "Độc lập tài chính, tự chăm sóc, xung đột công việc-gia đình"
+    }
+  },
+  "pentacles-14": {
+    "name": "Xu Quốc Vương",
+    "meanings": {
+      "upright": "Thành công tài chính, óc kinh doanh, an toàn",
+      "reversed": "Thất bại tài chính, chi tiêu quá mức, cứng đầu"
+    }
+  },
+  "swords-1": {
+    "name": "Kiếm Át",
+    "meanings": {
+      "upright": "Bước đột phá, rõ ràng, tâm trí sắc bén",
+      "reversed": "Nhầm lẫn, tàn bạo, hỗn loạn"
+    }
+  },
+  "swords-2": {
+    "name": "Kiếm Hai",
+    "meanings": {
+      "upright": "Quyết định khó khăn, cân nhắc lựa chọn, bế tắc",
+      "reversed": "Do dự, nhầm lẫn, quá tải thông tin"
+    }
+  },
+  "swords-3": {
+    "name": "Kiếm Ba",
+    "meanings": {
+      "upright": "Tan vỡ trái tim, đau khổ cảm xúc, buồn bã, đau buồn, tổn thương",
+      "reversed": "Tự nói chuyện tiêu cực, giải phóng đau khổ, lạc quan"
+    }
+  },
+  "swords-4": {
+    "name": "Kiếm Bốn",
+    "meanings": {
+      "upright": "Nghỉ ngơi, thư giãn, thiền định, suy ngẫm",
+      "reversed": "Kiệt sức, cháy hết, suy ngẫm sâu, trì trệ"
+    }
+  },
+  "swords-5": {
+    "name": "Kiếm Năm",
+    "meanings": {
+      "upright": "Xung đột, bất đồng, cạnh tranh, thất bại",
+      "reversed": "Hòa giải, bù đắp, oán hận quá khứ"
+    }
+  },
+  "swords-6": {
+    "name": "Kiếm Sáu",
+    "meanings": {
+      "upright": "Chuyển tiếp, thay đổi, nghi lễ chuyển giao, thả bỏ gánh nặng",
+      "reversed": "Chuyển tiếp cá nhân, kháng cự thay đổi, việc chưa hoàn thành"
+    }
+  },
+  "swords-7": {
+    "name": "Kiếm Bảy",
+    "meanings": {
+      "upright": "Phản bội, lừa dối, trốn thoát khỏi điều gì đó",
+      "reversed": "Hội chứng kẻ mạo danh, tự lừa dối, giữ bí mật"
+    }
+  },
+  "swords-8": {
+    "name": "Kiếm Tám",
+    "meanings": {
+      "upright": "Suy nghĩ tiêu cực, tự áp đặt hạn chế, giam cầm",
+      "reversed": "Niềm tin tự hạn chế, nhà phê bình nội tâm, giải phóng suy nghĩ tiêu cực"
+    }
+  },
+  "swords-9": {
+    "name": "Kiếm Chín",
+    "meanings": {
+      "upright": "Lo lắng, lo âu, sợ hãi, trầm cảm, ác mộng",
+      "reversed": "Xáo trộn nội tâm, nỗi sợ sâu sắc, bí mật"
+    }
+  },
+  "swords-10": {
+    "name": "Kiếm Mười",
+    "meanings": {
+      "upright": "Kết thúc đau đớn, vết thương sâu, phản bội, mất mát",
+      "reversed": "Phục hồi, tái sinh, kháng cự kết thúc không thể tránh khỏi"
+    }
+  },
+  "swords-11": {
+    "name": "Kiếm Thiếu Niên",
+    "meanings": {
+      "upright": "Ý tưởng mới, tò mò, khao khát kiến thức",
+      "reversed": "Tự thể hiện, nói nhiều làm ít, hành động thiếu suy nghĩ"
+    }
+  },
+  "swords-12": {
+    "name": "Kiếm Hiệp Sĩ",
+    "meanings": {
+      "upright": "Tham vọng, hướng hành động, động lực thành công",
+      "reversed": "Bồn chồn, thiếu tập trung, thiếu phương hướng, vũ lực"
+    }
+  },
+  "swords-13": {
+    "name": "Kiếm Hoàng Hậu",
+    "meanings": {
+      "upright": "Độc lập, phán đoán không thiên vị, ranh giới rõ ràng",
+      "reversed": "Quá cảm xúc, dễ bị ảnh hưởng, độc ác, lạnh lùng"
+    }
+  },
+  "swords-14": {
+    "name": "Kiếm Quốc Vương",
+    "meanings": {
+      "upright": "Tâm trí rõ ràng, sức mạnh trí tuệ, quyền uy, sự thật",
+      "reversed": "Sức mạnh yên lặng, sự thật nội tâm, lạm dụng quyền lực, thao túng"
+    }
+  },
+  "wands-1": {
+    "name": "Gậy Át",
+    "meanings": {
+      "upright": "Cảm hứng, tia lửa sáng tạo, sáng kiến mới",
+      "reversed": "Chậm trễ, thiếu động lực, bị đè nặng"
+    }
+  },
+  "wands-2": {
+    "name": "Gậy Hai",
+    "meanings": {
+      "upright": "Lập kế hoạch tương lai, đưa ra quyết định, rời khỏi vùng an toàn",
+      "reversed": "Mục tiêu cá nhân, sắp xếp nội tâm, sợ hãi điều chưa biết"
+    }
+  },
+  "wands-3": {
+    "name": "Gậy Ba",
+    "meanings": {
+      "upright": "Tiến bộ, mở rộng, tầm nhìn xa, cơ hội nước ngoài",
+      "reversed": "Chơi nhỏ, thiếu tầm nhìn xa, chậm trễ bất ngờ"
+    }
+  },
+  "wands-4": {
+    "name": "Gậy Bốn",
+    "meanings": {
+      "upright": "Ăn mừng, đoàn tụ vui vẻ, hòa hợp, thư giãn, về nhà",
+      "reversed": "Ăn mừng cá nhân, hòa hợp nội tâm, xung đột với người khác"
+    }
+  },
+  "wands-5": {
+    "name": "Gậy Năm",
+    "meanings": {
+      "upright": "Xung đột, bất đồng, cạnh tranh, căng thẳng",
+      "reversed": "Xung đột nội tâm, tránh xung đột, giải tỏa căng thẳng"
+    }
+  },
+  "wands-6": {
+    "name": "Gậy Sáu",
+    "meanings": {
+      "upright": "Thành công, công nhận công khai, tiến bộ, tự tin",
+      "reversed": "Thành tựu riêng tư, định nghĩa thành công cá nhân, mất uy tín"
+    }
+  },
+  "wands-7": {
+    "name": "Gậy Bảy",
+    "meanings": {
+      "upright": "Thách thức, cạnh tranh, bảo vệ, kiên trì",
+      "reversed": "Kiệt sức, từ bỏ, choáng ngợp"
+    }
+  },
+  "wands-8": {
+    "name": "Gậy Tám",
+    "meanings": {
+      "upright": "Chuyển động, thay đổi nhịp độ nhanh, hành động, sắp xếp",
+      "reversed": "Chậm trễ, thất vọng, kháng cự thay đổi"
+    }
+  },
+  "wands-9": {
+    "name": "Gậy Chín",
+    "meanings": {
+      "upright": "Khả năng phục hồi, can đảm, kiên trì, thử thách đức tin",
+      "reversed": "Tài nguyên nội tâm, đấu tranh, choáng ngợp"
+    }
+  },
+  "wands-10": {
+    "name": "Gậy Mười",
+    "meanings": {
+      "upright": "Gánh nặng, trách nhiệm thêm, công việc vất vả, căng thẳng",
+      "reversed": "Không thể ủy quyền, quá căng thẳng, kiệt sức"
+    }
+  },
+  "wands-11": {
+    "name": "Gậy Thiếu Niên",
+    "meanings": {
+      "upright": "Cảm hứng, ý tưởng, khám phá, tiềm năng vô hạn",
+      "reversed": "Ý tưởng mới hình thành, chuyển hướng năng lượng, niềm tin tự hạn chế"
+    }
+  },
+  "wands-12": {
+    "name": "Gậy Hiệp Sĩ",
+    "meanings": {
+      "upright": "Năng lượng, đam mê, hành động có cảm hứng, phiêu lưu",
+      "reversed": "Dự án đam mê, vội vàng, năng lượng rải rác"
+    }
+  },
+  "wands-13": {
+    "name": "Gậy Hoàng Hậu",
+    "meanings": {
+      "upright": "Can đảm, tự tin, độc lập, bướm xã hội",
+      "reversed": "Tự trọng, tự tin, hướng nội"
+    }
+  },
+  "wands-14": {
+    "name": "Gậy Quốc Vương",
+    "meanings": {
+      "upright": "Nhà lãnh đạo bẩm sinh, tầm nhìn, doanh nhân, danh dự",
+      "reversed": "Bốc đồng, vội vàng, tàn nhẫn, kỳ vọng cao"
+    }
+  }
+}

@@ -12,6 +12,11 @@ import {
   POSITIONS_ZH,
   POSITIONS_TW,
 } from '@/lib/tarot';
+import {
+  cardDisplayName,
+  meaningByOrientationLocalized,
+  getOrientationLabels,
+} from '@/lib/tarot-i18n';
 
 interface ReadingPageProps {
   params: { locale: string };
@@ -27,10 +32,6 @@ const texts = {
     cardPosition: 'Position',
     cardMeaning: 'Meaning',
     basicInterpretation: 'Basic Interpretation',
-    orientation: {
-      upright: 'Upright',
-      reversed: 'Reversed',
-    },
     positions: POSITIONS,
     deepAnalysisTitle: 'Deep Analysis',
     errorAnalysis:
@@ -46,10 +47,6 @@ const texts = {
     cardPosition: '位置',
     cardMeaning: '含义',
     basicInterpretation: '基础解析',
-    orientation: {
-      upright: '正位',
-      reversed: '逆位',
-    },
     positions: POSITIONS_ZH,
     deepAnalysisTitle: '深度分析',
     errorAnalysis: '抱歉，获取深度分析时出现错误。请重试。',
@@ -64,14 +61,101 @@ const texts = {
     cardPosition: '位置',
     cardMeaning: '含義',
     basicInterpretation: '基礎解析',
-    orientation: {
-      upright: '正位',
-      reversed: '逆位',
-    },
     positions: POSITIONS_TW,
     deepAnalysisTitle: '深度解析',
     errorAnalysis: '抱歉，獲取深度解析時出現錯誤。請重試。',
     retryAnalysis: '重試',
+  },
+  ja: {
+    title: 'あなたのタロット占い',
+    noQuestion: '質問が見つかりません。戻って質問をしてください。',
+    backToHome: 'ホームに戻る',
+    deepAnalysis: '深い分析を取得',
+    loadingAnalysis: 'カードを分析中...',
+    cardPosition: 'ポジション',
+    cardMeaning: '意味',
+    basicInterpretation: '基本的な解釈',
+    positions: POSITIONS,
+    deepAnalysisTitle: '深い分析',
+    errorAnalysis:
+      '申し訳ありませんが、深い分析の取得中にエラーが発生しました。もう一度お試しください。',
+    retryAnalysis: '再試行',
+  },
+  ko: {
+    title: '당신의 타로 리딩',
+    noQuestion: '질문을 찾을 수 없습니다. 돌아가서 질문을 해주세요.',
+    backToHome: '홈으로 돌아가기',
+    deepAnalysis: '심층 분석 받기',
+    loadingAnalysis: '카드를 분석 중...',
+    cardPosition: '위치',
+    cardMeaning: '의미',
+    basicInterpretation: '기본 해석',
+    positions: POSITIONS,
+    deepAnalysisTitle: '심층 분석',
+    errorAnalysis:
+      '죄송합니다. 심층 분석을 가져오는 중 오류가 발생했습니다. 다시 시도해주세요.',
+    retryAnalysis: '다시 시도',
+  },
+  vi: {
+    title: 'Bài Tarot Của Bạn',
+    noQuestion: 'Không tìm thấy câu hỏi. Vui lòng quay lại và đặt câu hỏi.',
+    backToHome: 'Về Trang Chủ',
+    deepAnalysis: 'Nhận Phân Tích Sâu',
+    loadingAnalysis: 'Đang phân tích thẻ bài của bạn...',
+    cardPosition: 'Vị trí',
+    cardMeaning: 'Ý nghĩa',
+    basicInterpretation: 'Giải thích cơ bản',
+    positions: POSITIONS,
+    deepAnalysisTitle: 'Phân Tích Sâu',
+    errorAnalysis:
+      'Xin lỗi, đã có lỗi xảy ra khi lấy phân tích sâu. Vui lòng thử lại.',
+    retryAnalysis: 'Thử Lại',
+  },
+  th: {
+    title: 'การอ่านไพ่ทาโรต์ของคุณ',
+    noQuestion: 'ไม่พบคำถาม กรุณากลับไปและถามคำถาม',
+    backToHome: 'กลับสู่หน้าแรก',
+    deepAnalysis: 'รับการวิเคราะห์เชิงลึก',
+    loadingAnalysis: 'กำลังวิเคราะห์ไพ่ของคุณ...',
+    cardPosition: 'ตำแหน่ง',
+    cardMeaning: 'ความหมาย',
+    basicInterpretation: 'การตีความพื้นฐาน',
+    positions: POSITIONS,
+    deepAnalysisTitle: 'การวิเคราะห์เชิงลึก',
+    errorAnalysis:
+      'ขออภัย เกิดข้อผิดพลาดในการรับการวิเคราะห์เชิงลึก กรุณาลองใหม่',
+    retryAnalysis: 'ลองใหม่',
+  },
+  id: {
+    title: 'Pembacaan Tarot Anda',
+    noQuestion:
+      'Tidak ada pertanyaan yang ditemukan. Silakan kembali dan ajukan pertanyaan.',
+    backToHome: 'Kembali ke Beranda',
+    deepAnalysis: 'Dapatkan Analisis Mendalam',
+    loadingAnalysis: 'Menganalisis kartu Anda...',
+    cardPosition: 'Posisi',
+    cardMeaning: 'Makna',
+    basicInterpretation: 'Interpretasi Dasar',
+    positions: POSITIONS,
+    deepAnalysisTitle: 'Analisis Mendalam',
+    errorAnalysis:
+      'Maaf, terjadi kesalahan saat mendapatkan analisis mendalam. Silakan coba lagi.',
+    retryAnalysis: 'Coba Lagi',
+  },
+  ms: {
+    title: 'Bacaan Tarot Anda',
+    noQuestion: 'Tiada soalan ditemui. Sila kembali dan tanya soalan.',
+    backToHome: 'Kembali ke Laman Utama',
+    deepAnalysis: 'Dapatkan Analisis Mendalam',
+    loadingAnalysis: 'Menganalisis kad anda...',
+    cardPosition: 'Kedudukan',
+    cardMeaning: 'Makna',
+    basicInterpretation: 'Tafsiran Asas',
+    positions: POSITIONS,
+    deepAnalysisTitle: 'Analisis Mendalam',
+    errorAnalysis:
+      'Maaf, terdapat ralat semasa mendapatkan analisis mendalam. Sila cuba lagi.',
+    retryAnalysis: 'Cuba Lagi',
   },
 };
 
@@ -80,18 +164,39 @@ function ReadingContent({ locale }: { locale: string }) {
   const searchParams = useSearchParams();
   const question = searchParams.get('q');
   const [cards, setCards] = useState<DrawnCard[]>([]);
+  const [localizedCards, setLocalizedCards] = useState<
+    { name: string; meaning: string }[]
+  >([]);
   const [deepAnalysis, setDeepAnalysis] = useState<string>('');
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
   const [analysisError, setAnalysisError] = useState(false);
 
   const t = texts[locale as keyof typeof texts] || texts.en;
+  const orientationLabels = getOrientationLabels(locale);
 
   useEffect(() => {
-    if (question) {
-      const drawnCards = drawCards(question, 3);
-      setCards(drawnCards);
-    }
-  }, [question]);
+    const loadCardData = async () => {
+      if (question) {
+        const drawnCards = drawCards(question, 3);
+        setCards(drawnCards);
+
+        // Load localized card names and meanings
+        const localizedData = await Promise.all(
+          drawnCards.map(async (card) => ({
+            name: await cardDisplayName(locale, card.card.id),
+            meaning: await meaningByOrientationLocalized(
+              locale,
+              card.card.id,
+              card.isReversed ? 'reversed' : 'upright'
+            ),
+          }))
+        );
+        setLocalizedCards(localizedData);
+      }
+    };
+
+    loadCardData();
+  }, [question, locale]);
 
   const handleDeepAnalysis = async () => {
     if (!question || cards.length === 0) return;
@@ -108,12 +213,22 @@ function ReadingContent({ locale }: { locale: string }) {
         body: JSON.stringify({
           locale,
           question,
-          cards: cards.map((card) => ({
-            name: card.card.name,
-            meaning: meaningByOrientation(card.card, card.isReversed),
-            isReversed: card.isReversed,
-            position: card.position,
-          })),
+          cards: await Promise.all(
+            cards.map(async (card, index) => ({
+              name:
+                localizedCards[index]?.name ||
+                (await cardDisplayName(locale, card.card.id)),
+              meaning:
+                localizedCards[index]?.meaning ||
+                (await meaningByOrientationLocalized(
+                  locale,
+                  card.card.id,
+                  card.isReversed ? 'reversed' : 'upright'
+                )),
+              isReversed: card.isReversed,
+              position: card.position,
+            }))
+          ),
         }),
       });
 
@@ -217,16 +332,16 @@ function ReadingContent({ locale }: { locale: string }) {
                   🃏
                 </div>
                 <h4 className="text-xl font-serif font-bold text-gray-800 dark:text-gray-200 mb-2">
-                  {drawnCard.card.name}
+                  {localizedCards[index]?.name || drawnCard.card.name}
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                   {drawnCard.isReversed
                     ? locale === 'zh' || locale === 'tw'
-                      ? `（${t.orientation.reversed}）`
-                      : `(${t.orientation.reversed})`
+                      ? `（${orientationLabels.reversed}）`
+                      : `(${orientationLabels.reversed})`
                     : locale === 'zh' || locale === 'tw'
-                      ? `（${t.orientation.upright}）`
-                      : `(${t.orientation.upright})`}
+                      ? `（${orientationLabels.upright}）`
+                      : `(${orientationLabels.upright})`}
                 </p>
               </div>
 
@@ -235,7 +350,8 @@ function ReadingContent({ locale }: { locale: string }) {
                   {t.basicInterpretation}:
                 </h5>
                 <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                  {meaningByOrientation(drawnCard.card, drawnCard.isReversed)}
+                  {localizedCards[index]?.meaning ||
+                    meaningByOrientation(drawnCard.card, drawnCard.isReversed)}
                 </p>
               </div>
             </motion.div>
