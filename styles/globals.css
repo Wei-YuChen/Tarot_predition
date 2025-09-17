@@ -39,6 +39,16 @@ body {
   .reversed-card {
     transform: rotate(180deg);
   }
+
+  .deep-reading {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    padding-bottom: 1.25rem;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
