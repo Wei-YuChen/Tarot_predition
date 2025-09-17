@@ -19,6 +19,34 @@ export const POSITIONS_ZH = ['过去/现在', '障碍/课题', '建议/方向'];
 
 export const POSITIONS_TW = ['過去/現在', '障礙/課題', '建議/方向'];
 
+export const POSITIONS_JA = ['過去/現在', '障害/レッスン', '助言/方向'];
+
+export const POSITIONS_KO = ['과거/현재', '장애/교훈', '조언/방향'];
+
+export const POSITIONS_VI = [
+  'Quá khứ/Hiện tại',
+  'Cản trở/Bài học',
+  'Lời khuyên/Hướng đi',
+];
+
+export const POSITIONS_TH = [
+  'อดีต/ปัจจุบัน',
+  'อุปสรรค/บทเรียน',
+  'คำแนะนำ/ทิศทาง',
+];
+
+export const POSITIONS_ID = [
+  'Masa Lalu/Sekarang',
+  'Hambatan/Pelajaran',
+  'Saran/Arah',
+];
+
+export const POSITIONS_MS = [
+  'Masa Lalu/Sekarang',
+  'Halangan/Pelajaran',
+  'Nasihat/Arah',
+];
+
 /**
  * Build the complete 78-card tarot deck
  */

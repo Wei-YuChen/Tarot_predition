@@ -11,6 +11,12 @@ import {
   POSITIONS,
   POSITIONS_ZH,
   POSITIONS_TW,
+  POSITIONS_JA,
+  POSITIONS_KO,
+  POSITIONS_VI,
+  POSITIONS_TH,
+  POSITIONS_ID,
+  POSITIONS_MS,
 } from '@/lib/tarot';
 import {
   cardDisplayName,
@@ -75,7 +81,7 @@ const texts = {
     cardPosition: 'ポジション',
     cardMeaning: '意味',
     basicInterpretation: '基本的な解釈',
-    positions: POSITIONS,
+    positions: POSITIONS_JA,
     deepAnalysisTitle: '深い分析',
     errorAnalysis:
       '申し訳ありませんが、深い分析の取得中にエラーが発生しました。もう一度お試しください。',
@@ -90,7 +96,7 @@ const texts = {
     cardPosition: '위치',
     cardMeaning: '의미',
     basicInterpretation: '기본 해석',
-    positions: POSITIONS,
+    positions: POSITIONS_KO,
     deepAnalysisTitle: '심층 분석',
     errorAnalysis:
       '죄송합니다. 심층 분석을 가져오는 중 오류가 발생했습니다. 다시 시도해주세요.',
@@ -105,7 +111,7 @@ const texts = {
     cardPosition: 'Vị trí',
     cardMeaning: 'Ý nghĩa',
     basicInterpretation: 'Giải thích cơ bản',
-    positions: POSITIONS,
+    positions: POSITIONS_VI,
     deepAnalysisTitle: 'Phân Tích Sâu',
     errorAnalysis:
       'Xin lỗi, đã có lỗi xảy ra khi lấy phân tích sâu. Vui lòng thử lại.',
@@ -120,7 +126,7 @@ const texts = {
     cardPosition: 'ตำแหน่ง',
     cardMeaning: 'ความหมาย',
     basicInterpretation: 'การตีความพื้นฐาน',
-    positions: POSITIONS,
+    positions: POSITIONS_TH,
     deepAnalysisTitle: 'การวิเคราะห์เชิงลึก',
     errorAnalysis:
       'ขออภัย เกิดข้อผิดพลาดในการรับการวิเคราะห์เชิงลึก กรุณาลองใหม่',
@@ -136,7 +142,7 @@ const texts = {
     cardPosition: 'Posisi',
     cardMeaning: 'Makna',
     basicInterpretation: 'Interpretasi Dasar',
-    positions: POSITIONS,
+    positions: POSITIONS_ID,
     deepAnalysisTitle: 'Analisis Mendalam',
     errorAnalysis:
       'Maaf, terjadi kesalahan saat mendapatkan analisis mendalam. Silakan coba lagi.',
@@ -151,7 +157,7 @@ const texts = {
     cardPosition: 'Kedudukan',
     cardMeaning: 'Makna',
     basicInterpretation: 'Tafsiran Asas',
-    positions: POSITIONS,
+    positions: POSITIONS_MS,
     deepAnalysisTitle: 'Analisis Mendalam',
     errorAnalysis:
       'Maaf, terdapat ralat semasa mendapatkan analisis mendalam. Sila cuba lagi.',
