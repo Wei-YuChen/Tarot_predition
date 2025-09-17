@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { formatDeepReading } from '@/lib/deep-reading';
 
 interface CardData {
   name: string;
@@ -220,7 +221,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ analysis });
+    // Apply deep reading formatting pipeline
+    const formattedAnalysis = formatDeepReading(body.locale, analysis);
+
+    return NextResponse.json({ analysis: formattedAnalysis });
   } catch (error) {
     console.error('Deep analysis error:', error);
     return NextResponse.json(
