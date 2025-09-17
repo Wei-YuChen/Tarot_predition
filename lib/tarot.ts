@@ -17,6 +17,8 @@ export const POSITIONS = [
 
 export const POSITIONS_ZH = ['过去/现在', '障碍/课题', '建议/方向'];
 
+export const POSITIONS_TW = ['過去/現在', '障礙/課題', '建議/方向'];
+
 /**
  * Build the complete 78-card tarot deck
  */

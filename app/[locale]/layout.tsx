@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/lib/theme-context';
 import ClientThemeToggle from '@/components/ClientThemeToggle';
+import LanguageSwitcher from './components/LanguageSwitcher';
 import '@/styles/globals.css';
 
 interface LocaleLayoutProps {
@@ -32,6 +33,11 @@ export const metadata: Metadata = {
       'Get your free daily tarot reading with our mystical three-card spread.',
   },
 };
+
+// Generate static params for all supported locales
+export async function generateStaticParams() {
+  return [{ locale: 'en' }, { locale: 'zh' }, { locale: 'tw' }];
+}
 
 export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const { locale } = params;
@@ -66,28 +72,23 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
                       href={`/${locale}`}
                       className="text-gray-600 dark:text-gray-300 hover:text-tarot-purple dark:hover:text-tarot-gold transition-colors"
                     >
-                      {locale === 'zh' ? '首页' : 'Home'}
+                      {locale === 'zh'
+                        ? '首页'
+                        : locale === 'tw'
+                          ? '首頁'
+                          : 'Home'}
                     </a>
                     <a
                       href={`/${locale}/reading`}
                       className="text-gray-600 dark:text-gray-300 hover:text-tarot-purple dark:hover:text-tarot-gold transition-colors"
                     >
-                      {locale === 'zh' ? '抽牌' : 'Reading'}
+                      {locale === 'zh'
+                        ? '抽牌'
+                        : locale === 'tw'
+                          ? '抽牌'
+                          : 'Reading'}
                     </a>
-                    <div className="flex items-center space-x-2">
-                      <a
-                        href="/en"
-                        className={`text-sm px-2 py-1 rounded ${locale === 'en' ? 'bg-tarot-purple text-white' : 'text-gray-600 dark:text-gray-300'}`}
-                      >
-                        EN
-                      </a>
-                      <a
-                        href="/zh"
-                        className={`text-sm px-2 py-1 rounded ${locale === 'zh' ? 'bg-tarot-purple text-white' : 'text-gray-600 dark:text-gray-300'}`}
-                      >
-                        中文
-                      </a>
-                    </div>
+                    <LanguageSwitcher currentLocale={locale} />
                     <ClientThemeToggle />
                   </nav>
                 </div>
@@ -108,12 +109,16 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
                     -{' '}
                     {locale === 'zh'
                       ? '通往古老智慧的门户'
-                      : 'Your gateway to ancient wisdom'}
+                      : locale === 'tw'
+                        ? '通往古老智慧的門戶'
+                        : 'Your gateway to ancient wisdom'}
                   </p>
                   <p className="text-sm">
                     {locale === 'zh'
                       ? '请记住，塔罗牌阅读仅供娱乐和自我反思之用。'
-                      : 'Remember, tarot readings are for entertainment and self-reflection purposes only.'}
+                      : locale === 'tw'
+                        ? '請記住，塔羅牌閱讀僅供娛樂和自我反思之用。'
+                        : 'Remember, tarot readings are for entertainment and self-reflection purposes only.'}
                   </p>
                   <p className="text-xs mt-4 text-gray-500 dark:text-gray-500">
                     © 2024 Mystic Tarot. All rights reserved.

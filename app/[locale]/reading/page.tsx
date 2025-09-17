@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -10,11 +10,23 @@ import {
   getCardDisplayName,
   POSITIONS,
   POSITIONS_ZH,
+  POSITIONS_TW,
 } from '@/lib/tarot';
 
 interface ReadingPageProps {
   params: { locale: string };
 }
+
+// Move the component that uses useSearchParams into a separate component
+function ReadingContent({ locale }: { locale: string }) {
+  const searchParams = useSearchParams();
+  const question = searchParams.get('q');
+  const [cards, setCards] = useState<DrawnCard[]>([]);
+  const [deepAnalysis, setDeepAnalysis] = useState<string>('');
+  const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
+  const [analysisError, setAnalysisError] = useState(false);
+
+  const t = texts[locale as keyof typeof texts] || texts.en;
 
 const texts = {
   en: {
@@ -25,6 +37,7 @@ const texts = {
     loadingAnalysis: 'Analyzing your cards...',
     cardPosition: 'Position',
     cardMeaning: 'Meaning',
+    basicInterpretation: 'Basic Interpretation',
     orientation: {
       upright: 'Upright',
       reversed: 'Reversed',
@@ -43,6 +56,7 @@ const texts = {
     loadingAnalysis: '正在分析你的牌卡...',
     cardPosition: '位置',
     cardMeaning: '含义',
+    basicInterpretation: '基础解析',
     orientation: {
       upright: '正位',
       reversed: '逆位',
@@ -51,6 +65,24 @@ const texts = {
     deepAnalysisTitle: '深度分析',
     errorAnalysis: '抱歉，获取深度分析时出现错误。请重试。',
     retryAnalysis: '重试',
+  },
+  tw: {
+    title: '你的塔羅牌閱讀',
+    noQuestion: '未找到問題。請返回並提出問題。',
+    backToHome: '返回首頁',
+    deepAnalysis: '獲取深度解析',
+    loadingAnalysis: '正在解析你的牌卡...',
+    cardPosition: '位置',
+    cardMeaning: '含義',
+    basicInterpretation: '基礎解析',
+    orientation: {
+      upright: '正位',
+      reversed: '逆位',
+    },
+    positions: POSITIONS_TW,
+    deepAnalysisTitle: '深度解析',
+    errorAnalysis: '抱歉，獲取深度解析時出現錯誤。請重試。',
+    retryAnalysis: '重試',
   },
 };
 
@@ -199,18 +231,22 @@ export default function ReadingPage({ params }: ReadingPageProps) {
                   🃏
                 </div>
                 <h4 className="text-xl font-serif font-bold text-gray-800 dark:text-gray-200 mb-2">
-                  {getCardDisplayName(drawnCard.card, drawnCard.isReversed)}
+                  {drawnCard.card.name}
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                   {drawnCard.isReversed
-                    ? t.orientation.reversed
-                    : t.orientation.upright}
+                    ? locale === 'zh' || locale === 'tw'
+                      ? `（${t.orientation.reversed}）`
+                      : `(${t.orientation.reversed})`
+                    : locale === 'zh' || locale === 'tw'
+                      ? `（${t.orientation.upright}）`
+                      : `(${t.orientation.upright})`}
                 </p>
               </div>
 
               <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
                 <h5 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                  {t.cardMeaning}:
+                  {t.basicInterpretation}:
                 </h5>
                 <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                   {meaningByOrientation(drawnCard.card, drawnCard.isReversed)}
