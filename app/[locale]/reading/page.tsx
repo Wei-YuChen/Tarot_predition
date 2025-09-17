@@ -43,6 +43,9 @@ const texts = {
     errorAnalysis:
       'Sorry, there was an error getting your deep analysis. Please try again.',
     retryAnalysis: 'Try Again',
+    compactMode: 'Compact',
+    standardMode: 'Detailed',
+    modeToggle: 'Mode:',
   },
   zh: {
     title: '你的塔罗牌阅读',
@@ -57,6 +60,9 @@ const texts = {
     deepAnalysisTitle: '深度分析',
     errorAnalysis: '抱歉，获取深度分析时出现错误。请重试。',
     retryAnalysis: '重试',
+    compactMode: '简洁',
+    standardMode: '详细',
+    modeToggle: '模式：',
   },
   tw: {
     title: '你的塔羅牌閱讀',
@@ -71,6 +77,9 @@ const texts = {
     deepAnalysisTitle: '深度解析',
     errorAnalysis: '抱歉，獲取深度解析時出現錯誤。請重試。',
     retryAnalysis: '重試',
+    compactMode: '簡潔',
+    standardMode: '詳細',
+    modeToggle: '模式：',
   },
   ja: {
     title: 'あなたのタロット占い',
@@ -86,6 +95,9 @@ const texts = {
     errorAnalysis:
       '申し訳ありませんが、深い分析の取得中にエラーが発生しました。もう一度お試しください。',
     retryAnalysis: '再試行',
+    compactMode: 'コンパクト',
+    standardMode: '詳細',
+    modeToggle: 'モード：',
   },
   ko: {
     title: '당신의 타로 리딩',
@@ -101,6 +113,9 @@ const texts = {
     errorAnalysis:
       '죄송합니다. 심층 분석을 가져오는 중 오류가 발생했습니다. 다시 시도해주세요.',
     retryAnalysis: '다시 시도',
+    compactMode: '간결',
+    standardMode: '상세',
+    modeToggle: '모드:',
   },
   vi: {
     title: 'Bài Tarot Của Bạn',
@@ -116,6 +131,9 @@ const texts = {
     errorAnalysis:
       'Xin lỗi, đã có lỗi xảy ra khi lấy phân tích sâu. Vui lòng thử lại.',
     retryAnalysis: 'Thử Lại',
+    compactMode: 'Gọn',
+    standardMode: 'Chi tiết',
+    modeToggle: 'Chế độ:',
   },
   th: {
     title: 'การอ่านไพ่ทาโรต์ของคุณ',
@@ -131,6 +149,9 @@ const texts = {
     errorAnalysis:
       'ขออภัย เกิดข้อผิดพลาดในการรับการวิเคราะห์เชิงลึก กรุณาลองใหม่',
     retryAnalysis: 'ลองใหม่',
+    compactMode: 'กระชับ',
+    standardMode: 'รายละเอียด',
+    modeToggle: 'โหมด:',
   },
   id: {
     title: 'Pembacaan Tarot Anda',
@@ -147,6 +168,9 @@ const texts = {
     errorAnalysis:
       'Maaf, terjadi kesalahan saat mendapatkan analisis mendalam. Silakan coba lagi.',
     retryAnalysis: 'Coba Lagi',
+    compactMode: 'Ringkas',
+    standardMode: 'Detail',
+    modeToggle: 'Mode:',
   },
   ms: {
     title: 'Bacaan Tarot Anda',
@@ -162,6 +186,9 @@ const texts = {
     errorAnalysis:
       'Maaf, terdapat ralat semasa mendapatkan analisis mendalam. Sila cuba lagi.',
     retryAnalysis: 'Cuba Lagi',
+    compactMode: 'Ringkas',
+    standardMode: 'Terperinci',
+    modeToggle: 'Mod:',
   },
 };
 
@@ -176,6 +203,13 @@ function ReadingContent({ locale }: { locale: string }) {
   const [deepAnalysis, setDeepAnalysis] = useState<string>('');
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
   const [analysisError, setAnalysisError] = useState(false);
+
+  // Default to compact mode for zh and tw locales
+  const getDefaultMode = () =>
+    locale === 'zh' || locale === 'tw' ? 'compact' : 'standard';
+  const [analysisMode, setAnalysisMode] = useState<'compact' | 'standard'>(
+    getDefaultMode()
+  );
 
   const t = texts[locale as keyof typeof texts] || texts.en;
   const orientationLabels = getOrientationLabels(locale);
@@ -219,6 +253,69 @@ function ReadingContent({ locale }: { locale: string }) {
         body: JSON.stringify({
           locale,
           question,
+          mode: analysisMode,
+          cards: await Promise.all(
+            cards.map(async (card, index) => ({
+              name:
+                localizedCards[index]?.name ||
+                (await cardDisplayName(locale, card.card.id)),
+              meaning:
+                localizedCards[index]?.meaning ||
+                (await meaningByOrientationLocalized(
+                  locale,
+                  card.card.id,
+                  card.isReversed ? 'reversed' : 'upright'
+                )),
+              isReversed: card.isReversed,
+              position: card.position,
+            }))
+          ),
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setDeepAnalysis(data.analysis);
+      } else {
+        setAnalysisError(true);
+      }
+    } catch (error) {
+      console.error('Deep analysis error:', error);
+      setAnalysisError(true);
+    } finally {
+      setIsLoadingAnalysis(false);
+    }
+  };
+
+  const handleModeChange = (newMode: 'compact' | 'standard') => {
+    setAnalysisMode(newMode);
+    // Clear the existing analysis so user can generate new one with different mode
+    if (deepAnalysis) {
+      setDeepAnalysis('');
+    }
+  };
+
+  const handleRegenerateWithDifferentMode = async () => {
+    const newMode = analysisMode === 'compact' ? 'standard' : 'compact';
+    setAnalysisMode(newMode);
+
+    // Update the mode in analysisMode state then trigger a new analysis
+    // We need to create a local reference to the new mode since state won't update immediately
+    if (!question || cards.length === 0) return;
+
+    setIsLoadingAnalysis(true);
+    setAnalysisError(false);
+
+    try {
+      const response = await fetch('/api/deep-analysis', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          locale,
+          question,
+          mode: newMode, // Use the new mode directly
           cards: await Promise.all(
             cards.map(async (card, index) => ({
               name:
@@ -366,6 +463,35 @@ function ReadingContent({ locale }: { locale: string }) {
 
         {/* Deep Analysis Section */}
         <motion.div variants={itemVariants} className="card-frame p-6 mb-8">
+          {/* Mode Toggle */}
+          <div className="flex items-center justify-center mb-4">
+            <span className="text-sm text-gray-600 dark:text-gray-400 mr-3">
+              {t.modeToggle}
+            </span>
+            <div className="flex rounded-lg border border-gray-200 dark:border-gray-600 overflow-hidden">
+              <button
+                onClick={() => handleModeChange('compact')}
+                className={`px-3 py-1 text-sm transition-colors ${
+                  analysisMode === 'compact'
+                    ? 'bg-tarot-purple text-white'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                }`}
+              >
+                {t.compactMode}
+              </button>
+              <button
+                onClick={() => handleModeChange('standard')}
+                className={`px-3 py-1 text-sm transition-colors ${
+                  analysisMode === 'standard'
+                    ? 'bg-tarot-purple text-white'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                }`}
+              >
+                {t.standardMode}
+              </button>
+            </div>
+          </div>
+
           <div className="text-center">
             {!deepAnalysis && !isLoadingAnalysis && (
               <button
@@ -417,6 +543,15 @@ function ReadingContent({ locale }: { locale: string }) {
                     {deepAnalysis}
                   </p>
                 </div>
+                {/* Option to generate with different mode */}
+                <button
+                  onClick={handleRegenerateWithDifferentMode}
+                  className="mt-4 text-sm px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                >
+                  🔄 Regenerate in{' '}
+                  {analysisMode === 'compact' ? t.standardMode : t.compactMode}{' '}
+                  Mode
+                </button>
               </motion.div>
             )}
           </div>
