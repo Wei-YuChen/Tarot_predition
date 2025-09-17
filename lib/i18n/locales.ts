@@ -20,7 +20,7 @@ export const FALLBACK_CHAIN: Record<Locale, Locale[]> = {
   ko: ['ko', 'en'],
   vi: ['vi', 'en'],
   th: ['th', 'en'],
-  id: ['id', 'en'],
+  id: ['id', 'ms', 'en'],
   ms: ['ms', 'en'],
 };
 
