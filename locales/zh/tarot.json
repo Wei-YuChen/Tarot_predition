@@ -1,0 +1,170 @@
+{
+  "0-fool": {
+    "name": "愚者",
+    "meanings": {
+      "upright": "新的开始，天真，自发性，自由精神",
+      "reversed": "鲁莽，被利用，不周到"
+    }
+  },
+  "1-magician": {
+    "name": "魔术师",
+    "meanings": {
+      "upright": "显化，足智多谋，力量，受启发的行动",
+      "reversed": "操纵，计划不周，未开发的天赋"
+    }
+  },
+  "2-high-priestess": {
+    "name": "女祭司",
+    "meanings": {
+      "upright": "直觉，神圣知识，神圣女性，潜意识",
+      "reversed": "秘密，与直觉断开连接，退缩"
+    }
+  },
+  "3-empress": {
+    "name": "皇后",
+    "meanings": {
+      "upright": "女性气质，美丽，自然，养育，丰富",
+      "reversed": "创造性阻塞，依赖他人，空巢"
+    }
+  },
+  "4-emperor": {
+    "name": "皇帝",
+    "meanings": {
+      "upright": "权威，建立，结构，父亲形象",
+      "reversed": "统治，过度控制，缺乏纪律"
+    }
+  },
+  "5-hierophant": {
+    "name": "教皇",
+    "meanings": {
+      "upright": "精神智慧，宗教信仰，循规蹈矩，传统",
+      "reversed": "个人信仰，自由，挑战现状"
+    }
+  },
+  "6-lovers": {
+    "name": "恋人",
+    "meanings": {
+      "upright": "爱情，和谐，关系，价值观一致",
+      "reversed": "自爱，不和谐，失衡，不协调"
+    }
+  },
+  "7-chariot": {
+    "name": "战车",
+    "meanings": {
+      "upright": "控制，意志力，成功，决心",
+      "reversed": "自我约束，反对，缺乏方向"
+    }
+  },
+  "8-strength": {
+    "name": "力量",
+    "meanings": {
+      "upright": "力量，勇气，说服，影响，同情",
+      "reversed": "内在力量，自我怀疑，低能量，原始情感"
+    }
+  },
+  "9-hermit": {
+    "name": "隐士",
+    "meanings": {
+      "upright": "灵魂探索，内省，独处，内在指引",
+      "reversed": "孤立，孤独，退缩"
+    }
+  },
+  "10-wheel-of-fortune": {
+    "name": "命运之轮",
+    "meanings": {
+      "upright": "好运，业力，生命周期，命运，转折点",
+      "reversed": "霉运，失控，执着于控制"
+    }
+  },
+  "11-justice": {
+    "name": "正义",
+    "meanings": {
+      "upright": "正义，公平，真理，因果关系，法律",
+      "reversed": "不公平，缺乏责任感，不诚实"
+    }
+  },
+  "12-hanged-man": {
+    "name": "倒吊人",
+    "meanings": {
+      "upright": "暂停，限制，放手，牺牲",
+      "reversed": "延迟，抵抗，拖延，犹豫不决"
+    }
+  },
+  "13-death": {
+    "name": "死神",
+    "meanings": {
+      "upright": "结束，开始，变化，转变，过渡",
+      "reversed": "抗拒变化，个人转变，内在净化"
+    }
+  },
+  "14-temperance": {
+    "name": "节制",
+    "meanings": {
+      "upright": "平衡，节制，耐心，目标",
+      "reversed": "失衡，过度，自我疗愈，重新调整"
+    }
+  },
+  "15-devil": {
+    "name": "恶魔",
+    "meanings": {
+      "upright": "阴暗自我，依恋，成瘾，限制",
+      "reversed": "释放限制性信念，探索黑暗思想"
+    }
+  },
+  "16-tower": {
+    "name": "高塔",
+    "meanings": {
+      "upright": "突然变化，动荡，混乱，启示，觉醒",
+      "reversed": "个人转变，害怕变化，避免灾难"
+    }
+  },
+  "17-star": {
+    "name": "星星",
+    "meanings": {
+      "upright": "希望，信念，目标，更新，灵性",
+      "reversed": "缺乏信念，绝望，自信，断开连接"
+    }
+  },
+  "18-moon": {
+    "name": "月亮",
+    "meanings": {
+      "upright": "幻觉，恐惧，焦虑，潜意识，直觉",
+      "reversed": "释放恐惧，压抑情感，内心困惑"
+    }
+  },
+  "19-sun": {
+    "name": "太阳",
+    "meanings": {
+      "upright": "快乐，成功，乐观，活力，喜悦",
+      "reversed": "内在孩子，情绪低落，过度乐观"
+    }
+  },
+  "20-judgement": {
+    "name": "审判",
+    "meanings": {
+      "upright": "审判，重生，内在召唤，赦免",
+      "reversed": "自我怀疑，内在批评者，忽视召唤"
+    }
+  },
+  "21-world": {
+    "name": "世界",
+    "meanings": {
+      "upright": "完成，整合，成就，旅行",
+      "reversed": "寻求个人终结，成功的捷径"
+    }
+  },
+  "wands-1": {
+    "name": "权杖王牌",
+    "meanings": {
+      "upright": "灵感，新机会，增长潜力",
+      "reversed": "新想法萌芽，缺乏方向，分心"
+    }
+  },
+  "pentacles-14": {
+    "name": "钱币国王",
+    "meanings": {
+      "upright": "财务成功，商业头脑，安全感",
+      "reversed": "财务不稳定，贪婪，自我放纵"
+    }
+  }
+}

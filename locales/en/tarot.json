@@ -1,0 +1,170 @@
+{
+  "0-fool": {
+    "name": "The Fool",
+    "meanings": {
+      "upright": "New beginnings, innocence, spontaneity, free spirit",
+      "reversed": "Recklessness, taken advantage of, inconsideration"
+    }
+  },
+  "1-magician": {
+    "name": "The Magician",
+    "meanings": {
+      "upright": "Manifestation, resourcefulness, power, inspired action",
+      "reversed": "Manipulation, poor planning, untapped talents"
+    }
+  },
+  "2-high-priestess": {
+    "name": "The High Priestess",
+    "meanings": {
+      "upright": "Intuition, sacred knowledge, divine feminine, subconscious",
+      "reversed": "Secrets, disconnected from intuition, withdrawal"
+    }
+  },
+  "3-empress": {
+    "name": "The Empress",
+    "meanings": {
+      "upright": "Femininity, beauty, nature, nurturing, abundance",
+      "reversed": "Creative block, dependence on others, empty nest"
+    }
+  },
+  "4-emperor": {
+    "name": "The Emperor",
+    "meanings": {
+      "upright": "Authority, establishment, structure, father figure",
+      "reversed": "Domination, excessive control, lack of discipline"
+    }
+  },
+  "5-hierophant": {
+    "name": "The Hierophant",
+    "meanings": {
+      "upright": "Spiritual wisdom, religious beliefs, conformity, tradition",
+      "reversed": "Personal beliefs, freedom, challenging the status quo"
+    }
+  },
+  "6-lovers": {
+    "name": "The Lovers",
+    "meanings": {
+      "upright": "Love, harmony, relationships, values alignment",
+      "reversed": "Self-love, disharmony, imbalance, misalignment"
+    }
+  },
+  "7-chariot": {
+    "name": "The Chariot",
+    "meanings": {
+      "upright": "Control, willpower, success, determination",
+      "reversed": "Self-discipline, opposition, lack of direction"
+    }
+  },
+  "8-strength": {
+    "name": "Strength",
+    "meanings": {
+      "upright": "Strength, courage, persuasion, influence, compassion",
+      "reversed": "Inner strength, self-doubt, low energy, raw emotion"
+    }
+  },
+  "9-hermit": {
+    "name": "The Hermit",
+    "meanings": {
+      "upright": "Soul searching, introspection, being alone, inner guidance",
+      "reversed": "Isolation, loneliness, withdrawal"
+    }
+  },
+  "10-wheel-of-fortune": {
+    "name": "Wheel of Fortune",
+    "meanings": {
+      "upright": "Good luck, karma, life cycles, destiny, turning point",
+      "reversed": "Bad luck, lack of control, clinging to control"
+    }
+  },
+  "11-justice": {
+    "name": "Justice",
+    "meanings": {
+      "upright": "Justice, fairness, truth, cause and effect, law",
+      "reversed": "Unfairness, lack of accountability, dishonesty"
+    }
+  },
+  "12-hanged-man": {
+    "name": "The Hanged Man",
+    "meanings": {
+      "upright": "Suspension, restriction, letting go, sacrifice",
+      "reversed": "Delays, resistance, stalling, indecision"
+    }
+  },
+  "13-death": {
+    "name": "Death",
+    "meanings": {
+      "upright": "Endings, beginnings, change, transformation, transition",
+      "reversed": "Resistance to change, personal transformation, inner purging"
+    }
+  },
+  "14-temperance": {
+    "name": "Temperance",
+    "meanings": {
+      "upright": "Balance, moderation, patience, purpose",
+      "reversed": "Imbalance, excess, self-healing, re-alignment"
+    }
+  },
+  "15-devil": {
+    "name": "The Devil",
+    "meanings": {
+      "upright": "Shadow self, attachment, addiction, restriction",
+      "reversed": "Releasing limiting beliefs, exploring dark thoughts"
+    }
+  },
+  "16-tower": {
+    "name": "The Tower",
+    "meanings": {
+      "upright": "Sudden change, upheaval, chaos, revelation, awakening",
+      "reversed": "Personal transformation, fear of change, averting disaster"
+    }
+  },
+  "17-star": {
+    "name": "The Star",
+    "meanings": {
+      "upright": "Hope, faith, purpose, renewal, spirituality",
+      "reversed": "Lack of faith, despair, self-trust, disconnection"
+    }
+  },
+  "18-moon": {
+    "name": "The Moon",
+    "meanings": {
+      "upright": "Illusion, fear, anxiety, subconscious, intuition",
+      "reversed": "Release of fear, repressed emotion, inner confusion"
+    }
+  },
+  "19-sun": {
+    "name": "The Sun",
+    "meanings": {
+      "upright": "Happiness, success, optimism, vitality, joy",
+      "reversed": "Inner child, feeling down, overly optimistic"
+    }
+  },
+  "20-judgement": {
+    "name": "Judgement",
+    "meanings": {
+      "upright": "Judgement, rebirth, inner calling, absolution",
+      "reversed": "Self-doubt, inner critic, ignoring the call"
+    }
+  },
+  "21-world": {
+    "name": "The World",
+    "meanings": {
+      "upright": "Completion, integration, accomplishment, travel",
+      "reversed": "Seeking personal closure, short-cut to success"
+    }
+  },
+  "wands-1": {
+    "name": "Ace of Wands",
+    "meanings": {
+      "upright": "Inspiration, new opportunities, growth potential",
+      "reversed": "An emerging idea, lack of direction, distractions"
+    }
+  },
+  "pentacles-14": {
+    "name": "King of Pentacles",
+    "meanings": {
+      "upright": "Financial success, business acumen, security",
+      "reversed": "Financial instability, greed, self-indulgence"
+    }
+  }
+}
