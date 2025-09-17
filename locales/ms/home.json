@@ -1,0 +1,28 @@
+{
+  "title": "Tarot Mistik",
+  "subtitle": "Buka misteri masa lalu, sekarang, dan masa depan anda",
+  "description": "Alami seni kuno membaca kad tarot dengan sebaran tiga kad mistik kami. Biarkan kad membimbing anda melalui perjalanan hidup dengan kebijaksanaan yang diwarisi selama berabad-abad.",
+  "questionTitle": "Tanya Soalan Anda",
+  "questionPlaceholder": "Apakah bimbingan yang anda cari dari kad hari ini?",
+  "questionHelper": "Fikirkan situasi tertentu, keputusan, atau bidang kehidupan yang anda ingin mendapat wawasan.",
+  "drawCards": "Cabut Kad Saya",
+  "disclaimer": "Pembacaan tarot kami dirancang untuk tujuan hiburan dan refleksi diri. Walaupun kad boleh menawarkan wawasan dan bimbingan, ingatlah bahawa anda mempunyai kuasa untuk membentuk nasib anda sendiri.",
+  "features": {
+    "deck": {
+      "title": "Dek Tarot Lengkap",
+      "desc": "Dek lengkap 78 kad dengan makna tradisional Major dan Minor Arcana"
+    },
+    "daily": {
+      "title": "Pembacaan Harian",
+      "desc": "Pembacaan tanpa had untuk membimbing perjalanan spiritual anda"
+    },
+    "detailed": {
+      "title": "Tafsiran Terperinci",
+      "desc": "Makna komprehensif untuk kedudukan kad tegak dan terbalik"
+    }
+  },
+  "nav": {
+    "home": "Laman Utama",
+    "reading": "Pembacaan"
+  }
+}

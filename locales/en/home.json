@@ -1,0 +1,28 @@
+{
+  "title": "Mystic Tarot",
+  "subtitle": "Unlock the mysteries of your past, present, and future",
+  "description": "Experience the ancient art of tarot reading with our mystical three-card spread. Let the cards guide you through life's journey with wisdom passed down through centuries.",
+  "questionTitle": "Ask Your Question",
+  "questionPlaceholder": "What guidance do you seek from the cards today?",
+  "questionHelper": "Think of a specific situation, decision, or area of your life you'd like insight into.",
+  "drawCards": "Draw My Cards",
+  "disclaimer": "Our tarot readings are designed for entertainment and self-reflection purposes. While the cards can offer insights and guidance, remember that you hold the power to shape your own destiny.",
+  "features": {
+    "deck": {
+      "title": "Complete Tarot Deck",
+      "desc": "Full 78-card deck with traditional Major and Minor Arcana meanings"
+    },
+    "daily": {
+      "title": "Daily Readings",
+      "desc": "Unlimited readings to guide your spiritual journey"
+    },
+    "detailed": {
+      "title": "Detailed Interpretations",
+      "desc": "Comprehensive meanings for both upright and reversed card positions"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "reading": "Reading"
+  }
+}

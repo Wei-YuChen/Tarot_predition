@@ -1,0 +1,28 @@
+{
+  "title": "Tarot Huyền Bí",
+  "subtitle": "Khám phá những bí ẩn về quá khứ, hiện tại và tương lai của bạn",
+  "description": "Trải nghiệm nghệ thuật đọc bài tarot cổ xưa với bộ ba lá bài huyền bí của chúng tôi. Hãy để những lá bài dẫn dắt bạn qua hành trình cuộc sống với trí tuệ được truyền qua nhiều thế kỷ.",
+  "questionTitle": "Đặt Câu Hỏi Của Bạn",
+  "questionPlaceholder": "Hôm nay bạn tìm kiếm sự hướng dẫn gì từ những lá bài?",
+  "questionHelper": "Hãy nghĩ về một tình huống cụ thể, quyết định, hoặc khía cạnh cuộc sống mà bạn muốn có cái nhìn sâu sắc.",
+  "drawCards": "Rút Bài Của Tôi",
+  "disclaimer": "Việc đọc bài tarot của chúng tôi được thiết kế cho mục đích giải trí và tự suy ngẫm. Mặc dù những lá bài có thể mang lại cái nhìn sâu sắc và hướng dẫn, hãy nhớ rằng bạn có quyền định hình số phận của chính mình.",
+  "features": {
+    "deck": {
+      "title": "Bộ Bài Tarot Hoàn Chỉnh",
+      "desc": "Bộ 78 lá bài đầy đủ với ý nghĩa truyền thống của Major và Minor Arcana"
+    },
+    "daily": {
+      "title": "Đọc Bài Hàng Ngày",
+      "desc": "Không giới hạn việc đọc bài để hướng dẫn hành trình tâm linh của bạn"
+    },
+    "detailed": {
+      "title": "Giải Thích Chi Tiết",
+      "desc": "Ý nghĩa toàn diện cho cả vị trí thuận và nghịch của lá bài"
+    }
+  },
+  "nav": {
+    "home": "Trang Chủ",
+    "reading": "Đọc Bài"
+  }
+}

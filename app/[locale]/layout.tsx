@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import ClientThemeToggle from '@/components/ClientThemeToggle';
+import { getHomeTexts } from '@/lib/localization';
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -50,6 +51,7 @@ export async function generateStaticParams() {
 
 export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const { locale } = params;
+  const t = getHomeTexts(locale);
 
   // This layout just wraps the children with locale-specific header and footer
   // The HTML/body structure is handled by the root layout
@@ -73,17 +75,13 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
                 href={`/${locale}`}
                 className="text-gray-600 dark:text-gray-300 hover:text-tarot-purple dark:hover:text-tarot-gold transition-colors"
               >
-                {locale === 'zh' ? '首页' : locale === 'tw' ? '首頁' : 'Home'}
+                {t.nav.home}
               </a>
               <a
                 href={`/${locale}/reading`}
                 className="text-gray-600 dark:text-gray-300 hover:text-tarot-purple dark:hover:text-tarot-gold transition-colors"
               >
-                {locale === 'zh'
-                  ? '抽牌'
-                  : locale === 'tw'
-                    ? '抽牌'
-                    : 'Reading'}
+                {t.nav.reading}
               </a>
               <Suspense
                 fallback={
