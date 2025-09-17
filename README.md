@@ -258,7 +258,8 @@ Create a `.env.local` file for local development:
 
 ```bash
 # Google AdSense Configuration
-# Replace with your actual AdSense publisher client ID
+# Replace with your actual AdSense publisher client ID (e.g., ca-pub-8388475297920969)
+# The script is injected in the <head> with client parameter for verification
 NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-XXXXXXXXXXXXXXXX
 
 # Optional: Add Google Analytics ID
@@ -267,6 +268,17 @@ NEXT_PUBLIC_GA_ID=your_ga_id
 # Optional: Add error tracking
 NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn
 ```
+
+#### Vercel Deployment Setup
+
+For production deployment on Vercel:
+
+1. Go to your Vercel project settings
+2. Navigate to Environment Variables
+3. Add `NEXT_PUBLIC_ADSENSE_CLIENT_ID` with your actual AdSense publisher ID (e.g., `ca-pub-8388475297920969`)
+4. Redeploy to apply changes
+
+The AdSense script will only load in production builds and will appear in the `<head>` section with the correct client query parameter for verification.
 
 ### ESLint & Prettier
 

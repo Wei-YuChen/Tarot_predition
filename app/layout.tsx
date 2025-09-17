@@ -33,20 +33,30 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Console warning for development when AdSense client ID is not set
+  if (
+    process.env.NODE_ENV === 'development' &&
+    !process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID
+  ) {
+    console.warn(
+      'AdSense: NEXT_PUBLIC_ADSENSE_CLIENT_ID is not set. AdSense script will not render in production.'
+    );
+  }
+
   return (
     <html lang="en" className="dark">
       <body className="font-sans antialiased">
-        {/* Google AdSense verification script */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          data-ad-client={
-            process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ||
-            'ca-pub-XXXXXXXXXXXXXXXX'
-          }
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-        />
+        {/* Google AdSense verification script with client parameter in URL */}
+        {process.env.NODE_ENV === 'production' &&
+        process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ? (
+          <Script
+            id="adsense-script"
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
+            strategy="beforeInteractive"
+            crossOrigin="anonymous"
+          />
+        ) : null}
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
