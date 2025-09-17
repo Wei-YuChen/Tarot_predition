@@ -11,45 +11,73 @@ interface RequestBody {
   locale: string;
   question: string;
   cards: CardData[];
+  min_tokens?: number;
 }
+
+// Default minimum tokens for Deep Analysis
+const DEFAULT_MIN_TOKENS = 350;
 
 // Demo responses for when OpenAI is not available
 const demoResponses = {
-  en: `Based on your cards, I see a powerful narrative unfolding in your life. 
+  en: `**Background & Overall Trends**
 
-The Past/Present reveals the foundation of your current situation, suggesting that past experiences have shaped your current perspective and given you valuable wisdom to draw upon.
+Based on your cards, I see a powerful narrative unfolding in your life. The energies present indicate a significant phase of transformation where past experiences, current challenges, and future possibilities are all interconnected in a meaningful way. The universe is presenting you with a clear path forward, though it requires both inner wisdom and practical action.
 
-The Obstacle/Lesson card indicates challenges that are actually opportunities for growth. What may seem like a setback is actually the universe's way of teaching you important lessons and building your inner strength.
+**Card One Analysis**
 
-The Advice/Direction card points toward a path forward that honors both your intuition and practical wisdom. Trust in your abilities while remaining open to new possibilities and perspectives.
+The Past/Present reveals the foundation of your current situation, suggesting that past experiences have shaped your current perspective and given you valuable wisdom to draw upon. This card indicates that you have already developed important skills and insights that are directly relevant to your current question. The energy here speaks to strength gained through experience and the importance of honoring what you have learned.
 
-Together, these cards suggest a time of transition and growth. Embrace the lessons from your past, face current challenges with courage, and move forward with confidence in your own power to create positive change.
+**Card Two Analysis**
 
-Remember that you have the strength and wisdom needed to navigate this situation successfully.`,
+The Obstacle/Lesson card indicates challenges that are actually opportunities for growth. What may seem like a setback is actually the universe's way of teaching you important lessons and building your inner strength. This card suggests that the difficulties you face are not permanent barriers but rather stepping stones to greater understanding and capability. Pay attention to what this challenge is trying to teach you.
 
-  zh: `根据你的牌卡，我看到了你生活中正在展开的强大叙事。
+**Card Three Analysis**
 
-过去/现在揭示了你当前状况的基础，表明过去的经历塑造了你当前的观点，并给了你宝贵的智慧可以借鉴。
+The Advice/Direction card points toward a path forward that honors both your intuition and practical wisdom. Trust in your abilities while remaining open to new possibilities and perspectives. This card indicates that you have the tools and wisdom needed to navigate your situation successfully, but you must be willing to take action based on what you know to be true.
 
-障碍/课题牌指出挑战实际上是成长的机会。看似是挫折的实际上是宇宙教导你重要课程和建立内在力量的方式。
+**Synthesis**
 
-建议/方向牌指向一条既尊重你的直觉又尊重实用智慧的前进道路。相信自己的能力，同时保持对新可能性和观点的开放。
+Together, these cards suggest a time of transition and growth where your past wisdom meets present challenges to create future opportunities. Embrace the lessons from your past, face current challenges with courage, and move forward with confidence in your own power to create positive change. The path ahead requires both inner reflection and outer action, but you have the strength and wisdom needed to navigate this situation successfully.`,
 
-这些牌卡一起表明这是一个转变和成长的时期。拥抱过去的教训，勇敢面对当前的挑战，以对自己创造积极变化能力的信心向前迈进。
+  zh: `**问题背景与整体趋势**
 
-记住，你拥有成功应对这种情况所需的力量和智慧。`,
+根据你的牌卡，我看到了你生活中正在展开的强大叙事。当前的能量表明你正处在一个重要的转变阶段，过去的经历、当前的挑战和未来的可能性都以有意义的方式相互连接。宇宙正在为你呈现一条清晰的前进道路，尽管这需要内在智慧和实际行动。
 
-  tw: `根據你的牌卡，我看到了你生活中正在展開的強大敘事。
+**卡牌一分析**
 
-過去/現在揭示了你當前狀況的基礎，表明過去的經歷塑造了你當前的觀點，並給了你寶貴的智慧可以借鑒。
+过去/现在揭示了你当前状况的基础，表明过去的经历塑造了你当前的观点，并给了你宝贵的智慧可以借鉴。这张牌表明你已经培养了与当前问题直接相关的重要技能和洞察力。这里的能量说明通过经验获得的力量以及尊重你所学到的东西的重要性。
 
-障礙/課題牌指出挑戰實際上是成長的機會。看似是挫折的實際上是宇宙教導你重要課程和建立內在力量的方式。
+**卡牌二分析**
 
-建議/方向牌指向一條既尊重你的直覺又尊重實用智慧的前進道路。相信自己的能力，同時保持對新可能性和觀點的開放。
+障碍/课题牌指出挑战实际上是成长的机会。看似是挫折的实际上是宇宙教导你重要课程和建立内在力量的方式。这张牌表明你面临的困难不是永久的障碍，而是通往更大理解和能力的垫脚石。请注意这个挑战试图教给你什么。
 
-這些牌卡一起表明這是一個轉變和成長的時期。擁抱過去的教訓，勇敢面對當前的挑戰，以對自己創造積極變化能力的信心向前邁進。
+**卡牌三分析**
 
-記住，你擁有成功應對這種情況所需的力量和智慧。`,
+建议/方向牌指向一条既尊重你的直觉又尊重实用智慧的前进道路。相信自己的能力，同时保持对新可能性和观点的开放。这张牌表明你拥有成功应对情况所需的工具和智慧，但你必须愿意基于你知道的真理采取行动。
+
+**综合解读**
+
+这些牌卡一起表明这是一个转变和成长的时期，你过去的智慧与当前的挑战相遇，创造未来的机会。拥抱过去的教训，勇敢面对当前的挑战，以对自己创造积极变化能力的信心向前迈进。前方的道路需要内在反思和外在行动，但你拥有成功应对这种情况所需的力量和智慧。`,
+
+  tw: `**問題背景與整體趨勢**
+
+根據你的牌卡，我看到了你生活中正在展開的強大敘事。當前的能量表明你正處在一個重要的轉變階段，過去的經歷、當前的挑戰和未來的可能性都以有意義的方式相互連接。宇宙正在為你呈現一條清晰的前進道路，儘管這需要內在智慧和實際行動。
+
+**卡牌一分析**
+
+過去/現在揭示了你當前狀況的基礎，表明過去的經歷塑造了你當前的觀點，並給了你寶貴的智慧可以借鑒。這張牌表明你已經培養了與當前問題直接相關的重要技能和洞察力。這裡的能量說明通過經驗獲得的力量以及尊重你所學到的東西的重要性。
+
+**卡牌二分析**
+
+障礙/課題牌指出挑戰實際上是成長的機會。看似是挫折的實際上是宇宙教導你重要課程和建立內在力量的方式。這張牌表明你面臨的困難不是永久的障礙，而是通往更大理解和能力的墊腳石。請注意這個挑戰試圖教給你什麼。
+
+**卡牌三分析**
+
+建議/方向牌指向一條既尊重你的直覺又尊重實用智慧的前進道路。相信自己的能力，同時保持對新可能性和觀點的開放。這張牌表明你擁有成功應對情況所需的工具和智慧，但你必須願意基於你知道的真理採取行動。
+
+**綜合解讀**
+
+這些牌卡一起表明這是一個轉變和成長的時期，你過去的智慧與當前的挑戰相遇，創造未來的機會。擁抱過去的教訓，勇敢面對當前的挑戰，以對自己創造積極變化能力的信心向前邁進。前方的道路需要內在反思和外在行動，但你擁有成功應對這種情況所需的力量和智慧。`,
 };
 
 async function generateOpenAIAnalysis(body: RequestBody): Promise<string> {
@@ -59,12 +87,41 @@ async function generateOpenAIAnalysis(body: RequestBody): Promise<string> {
     throw new Error('No OpenAI API key');
   }
 
+  const minTokens = body.min_tokens || DEFAULT_MIN_TOKENS;
+
   const systemPrompt =
     body.locale === 'zh'
-      ? `你是一位经验丰富的塔罗牌阅读师。基于提供的三张牌卡和它们的位置，提供一个深入、实用的综合分析。请用中文回答，语气要神秘但实用，专注于实际指导。`
+      ? `你是一位经验丰富的塔罗牌阅读师。基于提供的三张牌卡和它们的位置，提供一个深入、实用的综合分析。请用中文回答，语气要神秘但实用，专注于实际指导。
+
+必须按照以下结构提供至少${minTokens}字的分析：
+1. 问题背景与整体趋势（1-2段）
+2. 卡牌一：详细解释第一张牌的含义和在当前情境中的作用
+3. 卡牌二：详细解释第二张牌的含义和在当前情境中的作用  
+4. 卡牌三：详细解释第三张牌的含义和在当前情境中的作用
+5. 综合解读：将三张牌连接起来，提供具体可行的建议
+
+确保每个部分都详细展开，提供深入的洞察和实用的指导。`
       : body.locale === 'tw'
-        ? `你是一位經驗豐富的塔羅牌閱讀師。基於提供的三張牌卡和它們的位置，提供一個深入、實用的綜合分析。請用繁體中文回答，語氣要神秘但實用，專注於實際指導。`
-        : `You are an experienced tarot reader. Based on the three cards provided and their positions, give a deep, practical synthesis. Respond in English with a mystical yet practical tone, focusing on actionable insights.`;
+        ? `你是一位經驗豐富的塔羅牌閱讀師。基於提供的三張牌卡和它們的位置，提供一個深入、實用的綜合分析。請用繁體中文回答，語氣要神秘但實用，專注於實際指導。
+
+必須按照以下結構提供至少${minTokens}字的分析：
+1. 問題背景與整體趨勢（1-2段）
+2. 卡牌一：詳細解釋第一張牌的含義和在當前情境中的作用
+3. 卡牌二：詳細解釋第二張牌的含義和在當前情境中的作用
+4. 卡牌三：詳細解釋第三張牌的含義和在當前情境中的作用
+5. 綜合解讀：將三張牌連接起來，提供具體可行的建議
+
+確保每個部分都詳細展開，提供深入的洞察和實用的指導。`
+        : `You are an experienced tarot reader. Based on the three cards provided and their positions, give a deep, practical synthesis. Respond in English with a mystical yet practical tone, focusing on actionable insights.
+
+You must provide an analysis of at least ${minTokens} tokens following this structure:
+1. Background & Overall Trends (1-2 paragraphs)
+2. Card One: Detailed explanation of the first card's meaning and role in the current situation
+3. Card Two: Detailed explanation of the second card's meaning and role in the current situation
+4. Card Three: Detailed explanation of the third card's meaning and role in the current situation
+5. Synthesis: Connect all three cards together and provide specific, actionable advice
+
+Ensure each section is thoroughly developed with deep insights and practical guidance.`;
 
   const userPrompt =
     body.locale === 'zh'
@@ -73,20 +130,20 @@ async function generateOpenAIAnalysis(body: RequestBody): Promise<string> {
 牌卡:
 ${body.cards.map((card, i) => `${i + 1}. ${card.position}: ${card.name} (${card.isReversed ? '逆位' : '正位'}) - ${card.meaning}`).join('\n')}
 
-请提供一个综合分析，将这三张牌连接起来，回答所提出的问题。`
+请按照系统提示中的结构，提供一个全面深入的分析。每张牌都必须单独详细解释，然后提供综合解读。确保分析足够详细和实用。`
       : body.locale === 'tw'
         ? `問題: "${body.question}"
 
 牌卡:
 ${body.cards.map((card, i) => `${i + 1}. ${card.position}: ${card.name} (${card.isReversed ? '逆位' : '正位'}) - ${card.meaning}`).join('\n')}
 
-請提供一個綜合分析，將這三張牌連接起來，回答所提出的問題。`
+請按照系統提示中的結構，提供一個全面深入的分析。每張牌都必須單獨詳細解釋，然後提供綜合解讀。確保分析足夠詳細和實用。`
         : `Question: "${body.question}"
 
 Cards:
 ${body.cards.map((card, i) => `${i + 1}. ${card.position}: ${card.name} (${card.isReversed ? 'Reversed' : 'Upright'}) - ${card.meaning}`).join('\n')}
 
-Please provide a synthesis that connects these three cards to answer the question asked.`;
+Please follow the structure outlined in the system prompt to provide a comprehensive, in-depth analysis. Each card must be explained individually in detail, followed by a synthesis. Ensure the analysis is thorough and practical.`;
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -100,7 +157,7 @@ Please provide a synthesis that connects these three cards to answer the questio
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },
       ],
-      max_tokens: 500,
+      max_tokens: Math.max(800, minTokens * 2), // Ensure sufficient tokens for detailed response
       temperature: 0.7,
     }),
   });
@@ -116,7 +173,8 @@ Please provide a synthesis that connects these three cards to answer the questio
 function getDemoAnalysis(
   locale: string,
   question: string,
-  cards: CardData[]
+  cards: CardData[],
+  minTokens: number = DEFAULT_MIN_TOKENS
 ): string {
   const baseResponse =
     demoResponses[locale as keyof typeof demoResponses] || demoResponses.en;
@@ -145,6 +203,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const minTokens = body.min_tokens || DEFAULT_MIN_TOKENS;
     let analysis: string;
 
     try {
@@ -153,7 +212,12 @@ export async function POST(request: NextRequest) {
     } catch (error) {
       console.log('OpenAI not available, using demo response:', error);
       // Fall back to demo response
-      analysis = getDemoAnalysis(body.locale, body.question, body.cards);
+      analysis = getDemoAnalysis(
+        body.locale,
+        body.question,
+        body.cards,
+        minTokens
+      );
     }
 
     return NextResponse.json({ analysis });
