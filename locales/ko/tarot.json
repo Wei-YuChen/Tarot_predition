@@ -1,0 +1,548 @@
+{
+  "0-fool": {
+    "name": "바보",
+    "meanings": {
+      "upright": "새로운 시작, 순진함, 자발성, 자유로운 영혼",
+      "reversed": "무모함, 이용당함, 배려 없음"
+    }
+  },
+  "1-magician": {
+    "name": "마법사",
+    "meanings": {
+      "upright": "현실화, 기지, 힘, 영감받은 행동",
+      "reversed": "조작, 계획 부족, 미개발된 재능"
+    }
+  },
+  "2-high-priestess": {
+    "name": "여교황",
+    "meanings": {
+      "upright": "직감, 신성한 지식, 신성한 여성성, 잠재의식",
+      "reversed": "비밀, 직감과의 단절, 은둔"
+    }
+  },
+  "3-empress": {
+    "name": "여황제",
+    "meanings": {
+      "upright": "여성성, 아름다움, 자연, 양육, 풍요",
+      "reversed": "창의적 막힘, 타인 의존, 빈 둥지"
+    }
+  },
+  "4-emperor": {
+    "name": "황제",
+    "meanings": {
+      "upright": "권위, 확립, 구조, 아버지 상",
+      "reversed": "폭정, 경직성, 냉담함"
+    }
+  },
+  "5-hierophant": {
+    "name": "교황",
+    "meanings": {
+      "upright": "영적 지혜, 종교적 신념, 순응, 전통",
+      "reversed": "개인적 신념, 자유, 현상 유지에 대한 도전"
+    }
+  },
+  "6-lovers": {
+    "name": "연인",
+    "meanings": {
+      "upright": "사랑, 조화, 관계, 가치관 일치",
+      "reversed": "자기애, 부조화, 불균형, 가치관 불일치"
+    }
+  },
+  "7-chariot": {
+    "name": "전차",
+    "meanings": {
+      "upright": "통제, 의지력, 성공, 행동, 결단력",
+      "reversed": "자기 절제, 대립, 방향성 부족"
+    }
+  },
+  "8-strength": {
+    "name": "힘",
+    "meanings": {
+      "upright": "힘, 용기, 설득, 영향, 연민",
+      "reversed": "자기 의심, 낮은 에너지, 원시적 감정"
+    }
+  },
+  "9-hermit": {
+    "name": "은둔자",
+    "meanings": {
+      "upright": "영혼 탐색, 내성, 내적 인도",
+      "reversed": "고립, 외로움, 은둔"
+    }
+  },
+  "10-wheel-of-fortune": {
+    "name": "운명의 바퀴",
+    "meanings": {
+      "upright": "행운, 카르마, 인생 주기, 운명, 전환점",
+      "reversed": "불운, 통제 부족, 통제에 대한 집착"
+    }
+  },
+  "11-justice": {
+    "name": "정의",
+    "meanings": {
+      "upright": "정의, 공정함, 진실, 인과관계, 법률",
+      "reversed": "불공정, 책임감 부족, 부정직"
+    }
+  },
+  "12-hanged-man": {
+    "name": "매달린 남자",
+    "meanings": {
+      "upright": "정지, 제한, 놓아주기, 희생",
+      "reversed": "지연, 저항, 정체, 우유부단"
+    }
+  },
+  "13-death": {
+    "name": "죽음",
+    "meanings": {
+      "upright": "끝남, 변화, 변환, 전환",
+      "reversed": "변화에 대한 저항, 개인적 변환, 내적 정화"
+    }
+  },
+  "14-temperance": {
+    "name": "절제",
+    "meanings": {
+      "upright": "균형, 절제, 인내, 목적",
+      "reversed": "불균형, 과도, 자기 치유, 재정렬"
+    }
+  },
+  "15-devil": {
+    "name": "악마",
+    "meanings": {
+      "upright": "속박, 중독, 성욕, 물질주의",
+      "reversed": "제한적 믿음의 해방, 어두운 생각 탐구, 초탈"
+    }
+  },
+  "16-tower": {
+    "name": "탑",
+    "meanings": {
+      "upright": "갑작스런 변화, 격변, 혼란, 계시, 각성",
+      "reversed": "개인적 변환, 변화에 대한 두려움, 재앙 회피"
+    }
+  },
+  "17-star": {
+    "name": "별",
+    "meanings": {
+      "upright": "희망, 신앙, 목적, 재생, 영성",
+      "reversed": "신앙 부족, 절망, 자신감, 단절"
+    }
+  },
+  "18-moon": {
+    "name": "달",
+    "meanings": {
+      "upright": "환상, 두려움, 불안, 잠재의식, 직감",
+      "reversed": "두려움의 해방, 억압된 감정, 내적 혼란"
+    }
+  },
+  "19-sun": {
+    "name": "태양",
+    "meanings": {
+      "upright": "낙관주의, 온기, 성공, 긍정성, 활력",
+      "reversed": "내면의 아이, 우울함, 과도한 낙관"
+    }
+  },
+  "20-judgement": {
+    "name": "심판",
+    "meanings": {
+      "upright": "판단, 재생, 내적 부름, 사면",
+      "reversed": "자기 의심, 내적 비평가, 부름 무시"
+    }
+  },
+  "21-world": {
+    "name": "세계",
+    "meanings": {
+      "upright": "완성, 통합, 성취, 여행",
+      "reversed": "개인적 마무리 추구, 성공의 지름길"
+    }
+  },
+  "cups-1": {
+    "name": "컵 에이스",
+    "meanings": {
+      "upright": "사랑, 직감, 영적 연결, 새로운 관계",
+      "reversed": "자기애, 창의적 막힘, 공허함, 감정적 상실"
+    }
+  },
+  "cups-2": {
+    "name": "컵 2",
+    "meanings": {
+      "upright": "통합된 사랑, 파트너십, 상호 매력",
+      "reversed": "자기애, 이별, 부조화, 불신"
+    }
+  },
+  "cups-3": {
+    "name": "컵 3",
+    "meanings": {
+      "upright": "축하, 우정, 창의성, 협력",
+      "reversed": "독립, 혼자만의 시간, 과도한 파티, 셋이면 군중"
+    }
+  },
+  "cups-4": {
+    "name": "컵 4",
+    "meanings": {
+      "upright": "명상, 숙고, 무관심, 재평가",
+      "reversed": "후퇴, 은둔, 감정적 건강 체크"
+    }
+  },
+  "cups-5": {
+    "name": "컵 5",
+    "meanings": {
+      "upright": "후회, 실패, 실망, 비관주의",
+      "reversed": "개인적 좌절, 자기 용서, 앞으로 나아가기"
+    }
+  },
+  "cups-6": {
+    "name": "컵 6",
+    "meanings": {
+      "upright": "과거 재방문, 어린 시절 기억, 순진함",
+      "reversed": "과거에 살기, 용서, 놀이 정신 부족"
+    }
+  },
+  "cups-7": {
+    "name": "컵 7",
+    "meanings": {
+      "upright": "기회, 선택, 희망적 사고, 환상",
+      "reversed": "정렬, 개인적 가치관, 선택에 압도됨"
+    }
+  },
+  "cups-8": {
+    "name": "컵 8",
+    "meanings": {
+      "upright": "실망, 포기, 후퇴, 현실 도피",
+      "reversed": "한 번 더 시도, 우유부단, 목적 없는 표류"
+    }
+  },
+  "cups-9": {
+    "name": "컵 9",
+    "meanings": {
+      "upright": "만족, 만족감, 감사, 소원 성취",
+      "reversed": "내적 행복, 물질주의, 불만족"
+    }
+  },
+  "cups-10": {
+    "name": "컵 10",
+    "meanings": {
+      "upright": "신성한 사랑, 행복한 관계, 조화, 일치",
+      "reversed": "단절, 가치관 불일치, 관계 어려움"
+    }
+  },
+  "cups-11": {
+    "name": "컵 페이지",
+    "meanings": {
+      "upright": "창의적 기회, 직관적 메시지, 호기심",
+      "reversed": "새로운 아이디어, 직감 의심, 창의적 막힘"
+    }
+  },
+  "cups-12": {
+    "name": "컵 나이트",
+    "meanings": {
+      "upright": "창의성, 로맨스, 매력, 상상력, 아름다움",
+      "reversed": "과도하게 활발한 상상력, 비현실적, 질투"
+    }
+  },
+  "cups-13": {
+    "name": "컵 퀸",
+    "meanings": {
+      "upright": "동정심, 돌봄, 감정적 안정, 직감",
+      "reversed": "내적 감정, 자기 관리, 자기애"
+    }
+  },
+  "cups-14": {
+    "name": "컵 킹",
+    "meanings": {
+      "upright": "감정적 균형, 관대함, 외교",
+      "reversed": "자기 동정, 내적 감정, 기분 변화"
+    }
+  },
+  "pentacles-1": {
+    "name": "펜타클 에이스",
+    "meanings": {
+      "upright": "새로운 재정 또는 경력 기회, 현실화",
+      "reversed": "기회 상실, 계획 부족, 나쁜 재정 결정"
+    }
+  },
+  "pentacles-2": {
+    "name": "펜타클 2",
+    "meanings": {
+      "upright": "여러 우선순위, 시간 관리, 우선순위 설정",
+      "reversed": "과도한 약속, 혼란, 재우선순위 설정"
+    }
+  },
+  "pentacles-3": {
+    "name": "펜타클 3",
+    "meanings": {
+      "upright": "협력, 학습, 구현",
+      "reversed": "부조화, 불일치, 혼자 일하기"
+    }
+  },
+  "pentacles-4": {
+    "name": "펜타클 4",
+    "meanings": {
+      "upright": "돈 절약, 안전, 보수주의, 부족",
+      "reversed": "과소비, 탐욕, 자기 보호"
+    }
+  },
+  "pentacles-5": {
+    "name": "펜타클 5",
+    "meanings": {
+      "upright": "재정 손실, 빈곤, 부족 마인드셋, 고립",
+      "reversed": "재정 손실에서 회복, 영적 빈곤"
+    }
+  },
+  "pentacles-6": {
+    "name": "펜타클 6",
+    "meanings": {
+      "upright": "주기, 받기, 부의 공유, 관대함",
+      "reversed": "자기 관리, 미지급 부채, 일방적 자선"
+    }
+  },
+  "pentacles-7": {
+    "name": "펜타클 7",
+    "meanings": {
+      "upright": "인내, 투자, 노력, 장기적 관점",
+      "reversed": "보상 부족, 조급함, 투자"
+    }
+  },
+  "pentacles-8": {
+    "name": "펜타클 8",
+    "meanings": {
+      "upright": "견습 기간, 반복 작업, 숙달, 기술 개발",
+      "reversed": "자기 개발, 완벽주의, 잘못된 활동"
+    }
+  },
+  "pentacles-9": {
+    "name": "펜타클 9",
+    "meanings": {
+      "upright": "풍요, 사치, 자급자족, 재정 독립",
+      "reversed": "자기 가치, 일에 과도한 투자, 바쁨"
+    }
+  },
+  "pentacles-10": {
+    "name": "펜타클 10",
+    "meanings": {
+      "upright": "부, 재정 안정, 가족, 장기적 성공",
+      "reversed": "부의 어두운 면, 재정 실패 또는 손실"
+    }
+  },
+  "pentacles-11": {
+    "name": "펜타클 페이지",
+    "meanings": {
+      "upright": "학습, 공부, 새로운 아이디어, 재정 기회",
+      "reversed": "진전 부족, 미루기, 실패에서 배우기"
+    }
+  },
+  "pentacles-12": {
+    "name": "펜타클 나이트",
+    "meanings": {
+      "upright": "근면, 생산성, 루틴, 보수주의",
+      "reversed": "자기 절제, 지루함, 막힌 느낌, 완벽주의"
+    }
+  },
+  "pentacles-13": {
+    "name": "펜타클 퀸",
+    "meanings": {
+      "upright": "양육, 실용적, 재정적 제공, 일하는 부모",
+      "reversed": "재정 독립, 자기 관리, 일-가정 갈등"
+    }
+  },
+  "pentacles-14": {
+    "name": "펜타클 킹",
+    "meanings": {
+      "upright": "재정적 성공, 사업 감각, 안전",
+      "reversed": "재정적 좌절, 과소비, 고집"
+    }
+  },
+  "swords-1": {
+    "name": "검 에이스",
+    "meanings": {
+      "upright": "돌파구, 명확성, 날카로운 마음",
+      "reversed": "혼란, 잔혹함, 무질서"
+    }
+  },
+  "swords-2": {
+    "name": "검 2",
+    "meanings": {
+      "upright": "어려운 결정, 선택지 저울질, 교착상태",
+      "reversed": "우유부단, 혼란, 정보 과부하"
+    }
+  },
+  "swords-3": {
+    "name": "검 3",
+    "meanings": {
+      "upright": "가슴 아픔, 감정적 고통, 슬픔, 비탄, 상처",
+      "reversed": "부정적 자기 대화, 고통 해방, 낙관주의"
+    }
+  },
+  "swords-4": {
+    "name": "검 4",
+    "meanings": {
+      "upright": "휴식, 이완, 명상, 숙고",
+      "reversed": "피로, 번아웃, 깊은 숙고, 정체"
+    }
+  },
+  "swords-5": {
+    "name": "검 5",
+    "meanings": {
+      "upright": "갈등, 의견 차이, 경쟁, 패배",
+      "reversed": "화해, 보상, 과거의 원한"
+    }
+  },
+  "swords-6": {
+    "name": "검 6",
+    "meanings": {
+      "upright": "전환, 변화, 통과 의례, 짐 놓기",
+      "reversed": "개인적 전환, 변화에 대한 저항, 미완료 사업"
+    }
+  },
+  "swords-7": {
+    "name": "검 7",
+    "meanings": {
+      "upright": "배신, 속임, 무언가에서 벗어나기",
+      "reversed": "가면 증후군, 자기 기만, 비밀 지키기"
+    }
+  },
+  "swords-8": {
+    "name": "검 8",
+    "meanings": {
+      "upright": "부정적 사고, 자기 부과 제한, 감금",
+      "reversed": "자기 제한 믿음, 내적 비평가, 부정적 사고 해방"
+    }
+  },
+  "swords-9": {
+    "name": "검 9",
+    "meanings": {
+      "upright": "불안, 걱정, 두려움, 우울, 악몽",
+      "reversed": "내적 동요, 뿌리깊은 두려움, 비밀"
+    }
+  },
+  "swords-10": {
+    "name": "검 10",
+    "meanings": {
+      "upright": "고통스러운 끝, 깊은 상처, 배신, 손실",
+      "reversed": "회복, 재생, 피할 수 없는 끝에 대한 저항"
+    }
+  },
+  "swords-11": {
+    "name": "검 페이지",
+    "meanings": {
+      "upright": "새로운 아이디어, 호기심, 지식에 대한 갈증",
+      "reversed": "자기 표현, 말만 하고 행동 없음, 성급한 행동"
+    }
+  },
+  "swords-12": {
+    "name": "검 나이트",
+    "meanings": {
+      "upright": "야심적, 행동 지향적, 성공 추진",
+      "reversed": "불안함, 집중 안됨, 방향성 부족, 무력"
+    }
+  },
+  "swords-13": {
+    "name": "검 퀸",
+    "meanings": {
+      "upright": "독립적, 편견 없는 판단, 명확한 경계",
+      "reversed": "과도하게 감정적, 영향받기 쉬움, 악의적, 냉혹함"
+    }
+  },
+  "swords-14": {
+    "name": "검 킹",
+    "meanings": {
+      "upright": "정신적 명확성, 지적 힘, 권위, 진실",
+      "reversed": "조용한 힘, 내적 진실, 권력 남용, 조작"
+    }
+  },
+  "wands-1": {
+    "name": "지팡이 에이스",
+    "meanings": {
+      "upright": "영감, 창의적 불꽃, 새로운 계획",
+      "reversed": "지연, 동기 부족, 억압됨"
+    }
+  },
+  "wands-2": {
+    "name": "지팡이 2",
+    "meanings": {
+      "upright": "미래 계획, 결정 내리기, 안전지대 떠나기",
+      "reversed": "개인적 목표, 내적 정렬, 미지에 대한 두려움"
+    }
+  },
+  "wands-3": {
+    "name": "지팡이 3",
+    "meanings": {
+      "upright": "진보, 확장, 선견지명, 해외 기회",
+      "reversed": "소규모 플레이, 선견지명 부족, 예상치 못한 지연"
+    }
+  },
+  "wands-4": {
+    "name": "지팡이 4",
+    "meanings": {
+      "upright": "축하, 즐거운 재회, 조화, 휴식, 귀향",
+      "reversed": "개인적 축하, 내적 조화, 타인과의 갈등"
+    }
+  },
+  "wands-5": {
+    "name": "지팡이 5",
+    "meanings": {
+      "upright": "갈등, 의견 차이, 경쟁, 긴장",
+      "reversed": "내적 갈등, 갈등 회피, 긴장 해소"
+    }
+  },
+  "wands-6": {
+    "name": "지팡이 6",
+    "meanings": {
+      "upright": "성공, 공적 인정, 진보, 자신감",
+      "reversed": "사적 성취, 성공의 개인적 정의, 명성 실추"
+    }
+  },
+  "wands-7": {
+    "name": "지팡이 7",
+    "meanings": {
+      "upright": "도전, 경쟁, 보호, 인내",
+      "reversed": "피로, 포기, 압도됨"
+    }
+  },
+  "wands-8": {
+    "name": "지팡이 8",
+    "meanings": {
+      "upright": "움직임, 빠른 속도 변화, 행동, 정렬",
+      "reversed": "지연, 좌절, 변화에 대한 저항"
+    }
+  },
+  "wands-9": {
+    "name": "지팡이 9",
+    "meanings": {
+      "upright": "회복력, 용기, 인내, 믿음의 시험",
+      "reversed": "내적 자원, 투쟁, 압도됨"
+    }
+  },
+  "wands-10": {
+    "name": "지팡이 10",
+    "meanings": {
+      "upright": "부담, 추가 책임, 힘든 일, 스트레스",
+      "reversed": "위임 불능, 과도한 스트레스, 번아웃"
+    }
+  },
+  "wands-11": {
+    "name": "지팡이 페이지",
+    "meanings": {
+      "upright": "영감, 아이디어, 발견, 무한한 가능성",
+      "reversed": "새로 형성된 아이디어, 에너지 재방향, 자기 제한 믿음"
+    }
+  },
+  "wands-12": {
+    "name": "지팡이 나이트",
+    "meanings": {
+      "upright": "에너지, 열정, 영감받은 행동, 모험",
+      "reversed": "열정 프로젝트, 성급함, 분산된 에너지"
+    }
+  },
+  "wands-13": {
+    "name": "지팡이 퀸",
+    "meanings": {
+      "upright": "용기, 자신감, 독립성, 사교적 나비",
+      "reversed": "자존감, 자신감, 내향적"
+    }
+  },
+  "wands-14": {
+    "name": "지팡이 킹",
+    "meanings": {
+      "upright": "천성적 리더, 비전, 기업가, 명예",
+      "reversed": "충동성, 성급함, 무자비함, 높은 기대"
+    }
+  }
+}
