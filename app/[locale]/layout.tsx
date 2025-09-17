@@ -50,11 +50,7 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <a href={`/${locale}`} className="flex items-center space-x-2">
-                <span
-                  className="text-2xl"
-                  role="img"
-                  aria-label="crystal ball"
-                >
+                <span className="text-2xl" role="img" aria-label="crystal ball">
                   🔮
                 </span>
                 <span className="font-serif font-bold text-xl text-gray-900 dark:text-white">
@@ -67,17 +63,17 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
                 href={`/${locale}`}
                 className="text-gray-600 dark:text-gray-300 hover:text-tarot-purple dark:hover:text-tarot-gold transition-colors"
               >
-                {locale === 'zh'
-                  ? '首页'
-                  : locale === 'tw'
-                    ? '首頁'
-                    : 'Home'}
+                {locale === 'zh' ? '首页' : locale === 'tw' ? '首頁' : 'Home'}
               </a>
               <a
                 href={`/${locale}/reading`}
                 className="text-gray-600 dark:text-gray-300 hover:text-tarot-purple dark:hover:text-tarot-gold transition-colors"
               >
-                {locale === 'zh' ? '抽牌' : locale === 'tw' ? '抽牌' : 'Reading'}
+                {locale === 'zh'
+                  ? '抽牌'
+                  : locale === 'tw'
+                    ? '抽牌'
+                    : 'Reading'}
               </a>
               <Suspense
                 fallback={
