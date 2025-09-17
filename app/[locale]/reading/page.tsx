@@ -413,9 +413,9 @@ function ReadingContent({ locale }: { locale: string }) {
                   {t.deepAnalysisTitle}
                 </h3>
                 <div className="bg-gradient-to-r from-tarot-purple/5 to-tarot-gold/5 dark:from-tarot-purple/10 dark:to-tarot-gold/10 rounded-lg p-6">
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+                  <div className="deep-reading text-gray-700 dark:text-gray-300">
                     {deepAnalysis}
-                  </p>
+                  </div>
                 </div>
               </motion.div>
             )}
