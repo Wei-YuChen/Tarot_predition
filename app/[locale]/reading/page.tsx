@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -10,6 +10,7 @@ import {
   getCardDisplayName,
   POSITIONS,
   POSITIONS_ZH,
+  POSITIONS_TW,
 } from '@/lib/tarot';
 
 interface ReadingPageProps {
@@ -25,6 +26,7 @@ const texts = {
     loadingAnalysis: 'Analyzing your cards...',
     cardPosition: 'Position',
     cardMeaning: 'Meaning',
+    basicInterpretation: 'Basic Interpretation',
     orientation: {
       upright: 'Upright',
       reversed: 'Reversed',
@@ -43,6 +45,7 @@ const texts = {
     loadingAnalysis: '正在分析你的牌卡...',
     cardPosition: '位置',
     cardMeaning: '含义',
+    basicInterpretation: '基础解析',
     orientation: {
       upright: '正位',
       reversed: '逆位',
@@ -52,10 +55,28 @@ const texts = {
     errorAnalysis: '抱歉，获取深度分析时出现错误。请重试。',
     retryAnalysis: '重试',
   },
+  tw: {
+    title: '你的塔羅牌閱讀',
+    noQuestion: '未找到問題。請返回並提出問題。',
+    backToHome: '返回首頁',
+    deepAnalysis: '獲取深度解析',
+    loadingAnalysis: '正在解析你的牌卡...',
+    cardPosition: '位置',
+    cardMeaning: '含義',
+    basicInterpretation: '基礎解析',
+    orientation: {
+      upright: '正位',
+      reversed: '逆位',
+    },
+    positions: POSITIONS_TW,
+    deepAnalysisTitle: '深度解析',
+    errorAnalysis: '抱歉，獲取深度解析時出現錯誤。請重試。',
+    retryAnalysis: '重試',
+  },
 };
 
-export default function ReadingPage({ params }: ReadingPageProps) {
-  const { locale } = params;
+// Component that uses useSearchParams - wrapped in Suspense
+function ReadingContent({ locale }: { locale: string }) {
   const searchParams = useSearchParams();
   const question = searchParams.get('q');
   const [cards, setCards] = useState<DrawnCard[]>([]);
@@ -87,21 +108,21 @@ export default function ReadingPage({ params }: ReadingPageProps) {
         body: JSON.stringify({
           locale,
           question,
-          cards: cards.map(({ card, isReversed, position }) => ({
-            name: card.name,
-            meaning: meaningByOrientation(card, isReversed),
-            isReversed,
-            position,
+          cards: cards.map((card) => ({
+            name: card.card.name,
+            meaning: meaningByOrientation(card.card, card.isReversed),
+            isReversed: card.isReversed,
+            position: card.position,
           })),
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to get analysis');
+      if (response.ok) {
+        const data = await response.json();
+        setDeepAnalysis(data.analysis);
+      } else {
+        setAnalysisError(true);
       }
-
-      const data = await response.json();
-      setDeepAnalysis(data.analysis);
     } catch (error) {
       console.error('Deep analysis error:', error);
       setAnalysisError(true);
@@ -129,29 +150,28 @@ export default function ReadingPage({ params }: ReadingPageProps) {
     },
   };
 
+  // If no question is provided, show error message
   if (!question) {
     return (
       <motion.div
-        className="min-h-screen flex flex-col items-center justify-center text-center"
+        className="min-h-screen flex items-center justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
       >
-        <div className="max-w-2xl mx-auto">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="card-frame p-8 mb-8"
-          >
-            <div className="text-6xl mb-4">🃏</div>
-            <h1 className="text-3xl font-serif font-bold mb-4 text-gray-800 dark:text-gray-200">
-              {t.noQuestion}
-            </h1>
-            <a href={`/${locale}`} className="mystic-button inline-block">
-              {t.backToHome}
-            </a>
-          </motion.div>
-        </div>
+        <motion.div
+          className="text-center"
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-2xl font-serif font-bold mb-4 text-gray-800 dark:text-gray-200">
+            {t.noQuestion}
+          </h1>
+          <a href={`/${locale}`} className="mystic-button inline-block">
+            {t.backToHome}
+          </a>
+        </motion.div>
       </motion.div>
     );
   }
@@ -171,9 +191,7 @@ export default function ReadingPage({ params }: ReadingPageProps) {
           </h1>
           <div className="bg-tarot-purple/10 dark:bg-tarot-purple/20 rounded-lg p-4 mb-6">
             <p className="text-lg text-gray-700 dark:text-gray-300 font-medium">
-              <span className="text-tarot-purple dark:text-tarot-gold">"</span>
-              {decodeURIComponent(question)}
-              <span className="text-tarot-purple dark:text-tarot-gold">"</span>
+              "{decodeURIComponent(question)}"
             </p>
           </div>
         </motion.div>
@@ -199,18 +217,22 @@ export default function ReadingPage({ params }: ReadingPageProps) {
                   🃏
                 </div>
                 <h4 className="text-xl font-serif font-bold text-gray-800 dark:text-gray-200 mb-2">
-                  {getCardDisplayName(drawnCard.card, drawnCard.isReversed)}
+                  {drawnCard.card.name}
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                   {drawnCard.isReversed
-                    ? t.orientation.reversed
-                    : t.orientation.upright}
+                    ? locale === 'zh' || locale === 'tw'
+                      ? `（${t.orientation.reversed}）`
+                      : `(${t.orientation.reversed})`
+                    : locale === 'zh' || locale === 'tw'
+                      ? `（${t.orientation.upright}）`
+                      : `(${t.orientation.upright})`}
                 </p>
               </div>
 
               <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
                 <h5 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                  {t.cardMeaning}:
+                  {t.basicInterpretation}:
                 </h5>
                 <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                   {meaningByOrientation(drawnCard.card, drawnCard.isReversed)}
@@ -268,7 +290,7 @@ export default function ReadingPage({ params }: ReadingPageProps) {
                 <h3 className="text-2xl font-serif font-bold mb-4 text-gray-800 dark:text-gray-200">
                   {t.deepAnalysisTitle}
                 </h3>
-                <div className="prose prose-lg dark:prose-invert max-w-none text-left">
+                <div className="bg-gradient-to-r from-tarot-purple/5 to-tarot-gold/5 dark:from-tarot-purple/10 dark:to-tarot-gold/10 rounded-lg p-6">
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
                     {deepAnalysis}
                   </p>
@@ -278,16 +300,37 @@ export default function ReadingPage({ params }: ReadingPageProps) {
           </div>
         </motion.div>
 
-        {/* Navigation */}
+        {/* Back to Home */}
         <motion.div variants={itemVariants} className="text-center">
-          <a
-            href={`/${locale}`}
-            className="text-gray-600 dark:text-gray-400 hover:text-tarot-purple dark:hover:text-tarot-gold transition-colors underline"
-          >
-            ← {t.backToHome}
+          <a href={`/${locale}`} className="mystic-button inline-block">
+            {t.backToHome}
           </a>
         </motion.div>
       </div>
     </motion.div>
   );
 }
+
+export default function ReadingPage({ params }: ReadingPageProps) {
+  const { locale } = params;
+
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-4xl mb-4">🔮</div>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              Loading your reading...
+            </p>
+          </div>
+        </div>
+      }
+    >
+      <ReadingContent locale={locale} />
+    </Suspense>
+  );
+}
+
+// Force dynamic rendering for this page
+export const dynamic = 'force-dynamic';

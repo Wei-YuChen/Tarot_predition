@@ -38,6 +38,18 @@ Remember that you have the strength and wisdom needed to navigate this situation
 这些牌卡一起表明这是一个转变和成长的时期。拥抱过去的教训，勇敢面对当前的挑战，以对自己创造积极变化能力的信心向前迈进。
 
 记住，你拥有成功应对这种情况所需的力量和智慧。`,
+
+  tw: `根據你的牌卡，我看到了你生活中正在展開的強大敘事。
+
+過去/現在揭示了你當前狀況的基礎，表明過去的經歷塑造了你當前的觀點，並給了你寶貴的智慧可以借鑒。
+
+障礙/課題牌指出挑戰實際上是成長的機會。看似是挫折的實際上是宇宙教導你重要課程和建立內在力量的方式。
+
+建議/方向牌指向一條既尊重你的直覺又尊重實用智慧的前進道路。相信自己的能力，同時保持對新可能性和觀點的開放。
+
+這些牌卡一起表明這是一個轉變和成長的時期。擁抱過去的教訓，勇敢面對當前的挑戰，以對自己創造積極變化能力的信心向前邁進。
+
+記住，你擁有成功應對這種情況所需的力量和智慧。`,
 };
 
 async function generateOpenAIAnalysis(body: RequestBody): Promise<string> {
@@ -50,7 +62,9 @@ async function generateOpenAIAnalysis(body: RequestBody): Promise<string> {
   const systemPrompt =
     body.locale === 'zh'
       ? `你是一位经验丰富的塔罗牌阅读师。基于提供的三张牌卡和它们的位置，提供一个深入、实用的综合分析。请用中文回答，语气要神秘但实用，专注于实际指导。`
-      : `You are an experienced tarot reader. Based on the three cards provided and their positions, give a deep, practical synthesis. Respond in English with a mystical yet practical tone, focusing on actionable insights.`;
+      : body.locale === 'tw'
+        ? `你是一位經驗豐富的塔羅牌閱讀師。基於提供的三張牌卡和它們的位置，提供一個深入、實用的綜合分析。請用繁體中文回答，語氣要神秘但實用，專注於實際指導。`
+        : `You are an experienced tarot reader. Based on the three cards provided and their positions, give a deep, practical synthesis. Respond in English with a mystical yet practical tone, focusing on actionable insights.`;
 
   const userPrompt =
     body.locale === 'zh'
@@ -60,7 +74,14 @@ async function generateOpenAIAnalysis(body: RequestBody): Promise<string> {
 ${body.cards.map((card, i) => `${i + 1}. ${card.position}: ${card.name} (${card.isReversed ? '逆位' : '正位'}) - ${card.meaning}`).join('\n')}
 
 请提供一个综合分析，将这三张牌连接起来，回答所提出的问题。`
-      : `Question: "${body.question}"
+      : body.locale === 'tw'
+        ? `問題: "${body.question}"
+
+牌卡:
+${body.cards.map((card, i) => `${i + 1}. ${card.position}: ${card.name} (${card.isReversed ? '逆位' : '正位'}) - ${card.meaning}`).join('\n')}
+
+請提供一個綜合分析，將這三張牌連接起來，回答所提出的問題。`
+        : `Question: "${body.question}"
 
 Cards:
 ${body.cards.map((card, i) => `${i + 1}. ${card.position}: ${card.name} (${card.isReversed ? 'Reversed' : 'Upright'}) - ${card.meaning}`).join('\n')}
@@ -105,7 +126,9 @@ function getDemoAnalysis(
   const personalizedIntro =
     locale === 'zh'
       ? `关于"${question}"的问题，${cardNames}这些牌卡为你带来了深刻的洞察。\n\n`
-      : `Regarding your question about "${question}", the cards ${cardNames} bring profound insights.\n\n`;
+      : locale === 'tw'
+        ? `關於"${question}"的問題，${cardNames}這些牌卡為你帶來了深刻的洞察。\n\n`
+        : `Regarding your question about "${question}", the cards ${cardNames} bring profound insights.\n\n`;
 
   return personalizedIntro + baseResponse;
 }

@@ -62,6 +62,32 @@ const texts = {
       },
     },
   },
+  tw: {
+    title: '神秘塔羅',
+    subtitle: '揭開你過去、現在和未來的神秘面紗',
+    description:
+      '體驗古老的塔羅牌占卜藝術，用我們神秘的三牌展開。讓牌卡以世代傳承的智慧指引你的人生旅程。',
+    questionTitle: '提出你的問題',
+    questionPlaceholder: '今天你想從牌卡中尋求什麼指引？',
+    questionHelper: '想想你希望獲得洞察的具體情況、決定或生活領域。',
+    drawCards: '抽取我的牌卡',
+    disclaimer:
+      '我們的塔羅牌閱讀是為娛樂和自我反思而設計的。雖然牌卡可以提供洞察和指導，但請記住，你擁有塑造自己命運的力量。',
+    features: {
+      deck: {
+        title: '完整塔羅牌組',
+        desc: '完整的78張牌，包含傳統的大阿爾卡納和小阿爾卡納含義',
+      },
+      daily: {
+        title: '每日閱讀',
+        desc: '無限次閱讀，指引你的精神旅程',
+      },
+      detailed: {
+        title: '詳細解釋',
+        desc: '正位和逆位牌卡的全面含義',
+      },
+    },
+  },
 };
 
 export default function LocalePage({ params }: LocalePageProps) {
@@ -237,3 +263,6 @@ export default function LocalePage({ params }: LocalePageProps) {
     </motion.div>
   );
 }
+
+// Force dynamic rendering for this page since it uses useRouter
+export const dynamic = 'force-dynamic';

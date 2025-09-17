@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const locales = ['en', 'zh'];
+const locales = ['en', 'zh', 'tw'];
 const defaultLocale = 'en';
 
 // Get locale from pathname
@@ -10,6 +10,46 @@ function getLocale(pathname: string): string | undefined {
     return segments[1];
   }
   return undefined;
+}
+
+// Detect preferred locale from various sources
+function detectLocale(request: NextRequest): string {
+  // 1. Check cookie first
+  const cookieLocale = request.cookies.get('locale')?.value;
+  if (cookieLocale && locales.includes(cookieLocale)) {
+    return cookieLocale;
+  }
+
+  // 2. Check Accept-Language header
+  const acceptLanguage = request.headers.get('accept-language');
+  if (acceptLanguage) {
+    // Parse accept-language header and find best match
+    const langs = acceptLanguage
+      .split(',')
+      .map((lang) => lang.split(';')[0].trim())
+      .map((lang) => {
+        // Handle common language variations
+        if (lang.startsWith('zh-CN') || lang === 'zh-Hans') return 'zh';
+        if (
+          lang.startsWith('zh-TW') ||
+          lang.startsWith('zh-HK') ||
+          lang === 'zh-Hant'
+        )
+          return 'tw';
+        if (lang.startsWith('zh')) return 'zh'; // Default Chinese to simplified
+        if (lang.startsWith('en')) return 'en';
+        return lang;
+      });
+
+    for (const lang of langs) {
+      if (locales.includes(lang)) {
+        return lang;
+      }
+    }
+  }
+
+  // 3. Default fallback
+  return defaultLocale;
 }
 
 export function middleware(request: NextRequest) {
@@ -28,10 +68,11 @@ export function middleware(request: NextRequest) {
   // Check if pathname already has a locale
   const pathnameHasLocale = getLocale(pathname);
 
-  // If no locale in pathname, redirect to default locale
+  // If no locale in pathname, redirect to detected locale
   if (!pathnameHasLocale) {
+    const detectedLocale = detectLocale(request);
     const url = request.nextUrl.clone();
-    url.pathname = `/${defaultLocale}${pathname}`;
+    url.pathname = `/${detectedLocale}${pathname}`;
     return NextResponse.redirect(url);
   }
 
