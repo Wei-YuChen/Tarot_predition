@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { ThemeProvider } from '@/lib/theme-context';
 import '@/styles/globals.css';
 
@@ -35,6 +36,17 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="font-sans antialiased">
+        {/* Google AdSense verification script */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          data-ad-client={
+            process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ||
+            'ca-pub-XXXXXXXXXXXXXXXX'
+          }
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+        />
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
