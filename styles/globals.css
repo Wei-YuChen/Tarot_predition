@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap');
+
+:root {
+  --tarot-gold: #ffd700;
+  --tarot-purple: #8b5cf6;
+  --tarot-midnight: #1a1a2e;
+  --tarot-cosmic: #16213e;
+}
+
+body {
+  @apply bg-white dark:bg-tarot-midnight text-gray-900 dark:text-gray-100 transition-colors duration-300;
+}
+
+@layer components {
+  .card-frame {
+    @apply relative bg-gradient-to-br from-tarot-gold/20 via-tarot-purple/10 to-tarot-cosmic/20 
+           border-2 border-tarot-gold/30 dark:border-tarot-gold/50 
+           rounded-lg shadow-lg backdrop-blur-sm;
+  }
+
+  .card-back {
+    @apply bg-gradient-to-br from-tarot-midnight via-tarot-cosmic to-tarot-purple 
+           border-2 border-tarot-gold rounded-lg shadow-xl;
+  }
+
+  .mystic-button {
+    @apply bg-gradient-to-r from-tarot-purple to-indigo-600 
+           hover:from-tarot-purple/80 hover:to-indigo-600/80 
+           text-white font-semibold py-3 px-6 rounded-lg 
+           shadow-lg transition-all duration-300 
+           hover:shadow-xl hover:scale-105
+           focus:outline-none focus:ring-2 focus:ring-tarot-purple/50;
+  }
+
+  .reversed-card {
+    transform: rotate(180deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
