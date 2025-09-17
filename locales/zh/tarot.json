@@ -1,0 +1,548 @@
+{
+  "0-fool": {
+    "name": "愚者",
+    "meanings": {
+      "upright": "新的开始，天真，自发性，自由精神",
+      "reversed": "鲁莽，被利用，不体贴"
+    }
+  },
+  "1-magician": {
+    "name": "魔术师",
+    "meanings": {
+      "upright": "显化，机智，力量，启发的行动",
+      "reversed": "操纵，计划不周，未开发的才能"
+    }
+  },
+  "2-high-priestess": {
+    "name": "女祭司",
+    "meanings": {
+      "upright": "直觉，神圣知识，神圣女性，潜意识",
+      "reversed": "秘密，与直觉断开，退避"
+    }
+  },
+  "3-empress": {
+    "name": "皇后",
+    "meanings": {
+      "upright": "女性气质，美丽，自然，养育，丰富",
+      "reversed": "创意阻塞，依赖他人，空巢"
+    }
+  },
+  "4-emperor": {
+    "name": "皇帝",
+    "meanings": {
+      "upright": "权威，建立，结构，父亲形象",
+      "reversed": "暴政，僵化，冷漠"
+    }
+  },
+  "5-hierophant": {
+    "name": "教皇",
+    "meanings": {
+      "upright": "精神智慧，宗教信仰，遵从，传统",
+      "reversed": "个人信仰，自由，挑战现状"
+    }
+  },
+  "6-lovers": {
+    "name": "恋人",
+    "meanings": {
+      "upright": "爱情，和谐，关系，价值观一致",
+      "reversed": "自爱，不和谐，失衡，价值观不一致"
+    }
+  },
+  "7-chariot": {
+    "name": "战车",
+    "meanings": {
+      "upright": "控制，意志力，成功，行动，决心",
+      "reversed": "自律，对立，缺乏方向"
+    }
+  },
+  "8-strength": {
+    "name": "力量",
+    "meanings": {
+      "upright": "力量，勇气，说服，影响，同情",
+      "reversed": "自我怀疑，低能量，原始情感"
+    }
+  },
+  "9-hermit": {
+    "name": "隐士",
+    "meanings": {
+      "upright": "灵魂探索，内省，内在指导",
+      "reversed": "孤立，孤独，退避"
+    }
+  },
+  "10-wheel-of-fortune": {
+    "name": "命运之轮",
+    "meanings": {
+      "upright": "好运，业力，生命周期，命运，转折点",
+      "reversed": "厄运，缺乏控制，紧抓控制"
+    }
+  },
+  "11-justice": {
+    "name": "正义",
+    "meanings": {
+      "upright": "正义，公平，真相，因果，法律",
+      "reversed": "不公平，缺乏责任，不诚实"
+    }
+  },
+  "12-hanged-man": {
+    "name": "吊人",
+    "meanings": {
+      "upright": "悬置，限制，放手，牺牲",
+      "reversed": "延迟，抵抗，拖延，犹豫不决"
+    }
+  },
+  "13-death": {
+    "name": "死神",
+    "meanings": {
+      "upright": "结束，变化，转化，过渡",
+      "reversed": "抗拒变化，个人转化，内在清洗"
+    }
+  },
+  "14-temperance": {
+    "name": "节制",
+    "meanings": {
+      "upright": "平衡，节制，耐心，目标",
+      "reversed": "不平衡，过度，自我治愈，重新对齐"
+    }
+  },
+  "15-devil": {
+    "name": "恶魔",
+    "meanings": {
+      "upright": "束缚，成瘾，性欲，物质主义",
+      "reversed": "释放限制性信念，探索黑暗思想，超脱"
+    }
+  },
+  "16-tower": {
+    "name": "塔",
+    "meanings": {
+      "upright": "突然变化，动荡，混乱，启示，觉醒",
+      "reversed": "个人转化，害怕变化，避免灾难"
+    }
+  },
+  "17-star": {
+    "name": "星星",
+    "meanings": {
+      "upright": "希望，信仰，目标，更新，精神性",
+      "reversed": "缺乏信仰，绝望，自信，断开"
+    }
+  },
+  "18-moon": {
+    "name": "月亮",
+    "meanings": {
+      "upright": "幻象，恐惧，焦虑，潜意识，直觉",
+      "reversed": "释放恐惧，压抑情感，内在困惑"
+    }
+  },
+  "19-sun": {
+    "name": "太阳",
+    "meanings": {
+      "upright": "乐观，温暖，成功，积极，活力",
+      "reversed": "内在童心，情绪低落，过度乐观"
+    }
+  },
+  "20-judgement": {
+    "name": "审判",
+    "meanings": {
+      "upright": "审判，重生，内在召唤，赦免",
+      "reversed": "自我怀疑，内在批评，忽视召唤"
+    }
+  },
+  "21-world": {
+    "name": "世界",
+    "meanings": {
+      "upright": "完成，整合，成就，旅行",
+      "reversed": "寻求个人结束，成功捷径"
+    }
+  },
+  "cups-1": {
+    "name": "圣杯一",
+    "meanings": {
+      "upright": "爱情，直觉，精神连接，新关系",
+      "reversed": "自爱，创意阻塞，空虚，情感失落"
+    }
+  },
+  "cups-2": {
+    "name": "圣杯二",
+    "meanings": {
+      "upright": "统一的爱，伙伴关系，相互吸引",
+      "reversed": "自爱，分手，不和谐，不信任"
+    }
+  },
+  "cups-3": {
+    "name": "圣杯三",
+    "meanings": {
+      "upright": "庆祝，友谊，创造力，合作",
+      "reversed": "独立，独处时间，狂欢，三人不欢"
+    }
+  },
+  "cups-4": {
+    "name": "圣杯四",
+    "meanings": {
+      "upright": "冥想，沉思，冷漠，重新评估",
+      "reversed": "撤退，退避，情感健康检查"
+    }
+  },
+  "cups-5": {
+    "name": "圣杯五",
+    "meanings": {
+      "upright": "后悔，失败，失望，悲观",
+      "reversed": "个人挫折，自我宽恕，继续前进"
+    }
+  },
+  "cups-6": {
+    "name": "圣杯六",
+    "meanings": {
+      "upright": "重温过去，童年回忆，天真",
+      "reversed": "活在过去，宽恕，缺乏玩心"
+    }
+  },
+  "cups-7": {
+    "name": "圣杯七",
+    "meanings": {
+      "upright": "机会，选择，一厢情愿，幻象",
+      "reversed": "对齐，个人价值观，被选择压倒"
+    }
+  },
+  "cups-8": {
+    "name": "圣杯八",
+    "meanings": {
+      "upright": "失望，遗弃，退避，逃避主义",
+      "reversed": "再试一次，犹豫不决，漫无目的漂流"
+    }
+  },
+  "cups-9": {
+    "name": "圣杯九",
+    "meanings": {
+      "upright": "满足，满意，感恩，愿望成真",
+      "reversed": "内在快乐，物质主义，不满"
+    }
+  },
+  "cups-10": {
+    "name": "圣杯十",
+    "meanings": {
+      "upright": "神圣的爱，幸福关系，和谐，对齐",
+      "reversed": "断开，价值观不一致，关系困难"
+    }
+  },
+  "cups-11": {
+    "name": "圣杯侍者",
+    "meanings": {
+      "upright": "创意机会，直觉信息，好奇心",
+      "reversed": "新想法，质疑直觉，创意阻塞"
+    }
+  },
+  "cups-12": {
+    "name": "圣杯骑士",
+    "meanings": {
+      "upright": "创造力，浪漫，魅力，想象力，美",
+      "reversed": "过度活跃的想象，不现实，嫉妒"
+    }
+  },
+  "cups-13": {
+    "name": "圣杯皇后",
+    "meanings": {
+      "upright": "富有同情心，关爱，情感稳定，直觉",
+      "reversed": "内在感受，自我关怀，自爱"
+    }
+  },
+  "cups-14": {
+    "name": "圣杯国王",
+    "meanings": {
+      "upright": "情感平衡，慷慨，外交",
+      "reversed": "自我同情，内在感受，情绪化"
+    }
+  },
+  "pentacles-1": {
+    "name": "钱币一",
+    "meanings": {
+      "upright": "新的财务或职业机会，显化",
+      "reversed": "失去机会，缺乏计划，糟糕的财务决定"
+    }
+  },
+  "pentacles-2": {
+    "name": "钱币二",
+    "meanings": {
+      "upright": "多重优先级，时间管理，优先排序",
+      "reversed": "过度承诺，混乱，重新优先排序"
+    }
+  },
+  "pentacles-3": {
+    "name": "钱币三",
+    "meanings": {
+      "upright": "合作，学习，实施",
+      "reversed": "不和谐，不一致，独自工作"
+    }
+  },
+  "pentacles-4": {
+    "name": "钱币四",
+    "meanings": {
+      "upright": "存钱，安全，保守主义，稀缺",
+      "reversed": "过度消费，贪婪，自我保护"
+    }
+  },
+  "pentacles-5": {
+    "name": "钱币五",
+    "meanings": {
+      "upright": "经济损失，贫困，匮乏心态，孤立",
+      "reversed": "从经济损失中恢复，精神贫困"
+    }
+  },
+  "pentacles-6": {
+    "name": "钱币六",
+    "meanings": {
+      "upright": "给予，接受，分享财富，慷慨",
+      "reversed": "自我关怀，未付债务，单方面慈善"
+    }
+  },
+  "pentacles-7": {
+    "name": "钱币七",
+    "meanings": {
+      "upright": "坚持，投资，努力，长远眼光",
+      "reversed": "缺乏回报，不耐烦，投资"
+    }
+  },
+  "pentacles-8": {
+    "name": "钱币八",
+    "meanings": {
+      "upright": "学徒期，重复任务，掌握，技能发展",
+      "reversed": "自我发展，完美主义，误导活动"
+    }
+  },
+  "pentacles-9": {
+    "name": "钱币九",
+    "meanings": {
+      "upright": "丰富，奢华，自给自足，财务独立",
+      "reversed": "自我价值，过度投资工作，忙碌"
+    }
+  },
+  "pentacles-10": {
+    "name": "钱币十",
+    "meanings": {
+      "upright": "财富，财务安全，家庭，长期成功",
+      "reversed": "财富的阴暗面，财务失败或损失"
+    }
+  },
+  "pentacles-11": {
+    "name": "钱币侍者",
+    "meanings": {
+      "upright": "学习，研究，新想法，财务机会",
+      "reversed": "缺乏进展，拖延，从失败中学习"
+    }
+  },
+  "pentacles-12": {
+    "name": "钱币骑士",
+    "meanings": {
+      "upright": "努力工作，生产力，例行公事，保守主义",
+      "reversed": "自律，无聊，感觉'卡住'，完美主义"
+    }
+  },
+  "pentacles-13": {
+    "name": "钱币皇后",
+    "meanings": {
+      "upright": "养育，实用，提供财务支持，工作的父母",
+      "reversed": "财务独立，自我关怀，工作家庭冲突"
+    }
+  },
+  "pentacles-14": {
+    "name": "钱币国王",
+    "meanings": {
+      "upright": "财务成功，商业头脑，安全",
+      "reversed": "财务挫折，过度消费，固执"
+    }
+  },
+  "swords-1": {
+    "name": "宝剑一",
+    "meanings": {
+      "upright": "突破，清晰，敏锐头脑",
+      "reversed": "困惑，野蛮，混乱"
+    }
+  },
+  "swords-2": {
+    "name": "宝剑二",
+    "meanings": {
+      "upright": "艰难决定，权衡选择，僵局",
+      "reversed": "犹豫不决，困惑，信息过载"
+    }
+  },
+  "swords-3": {
+    "name": "宝剑三",
+    "meanings": {
+      "upright": "心碎，情感痛苦，悲伤，悲伤，伤害",
+      "reversed": "负面自我对话，释放痛苦，乐观"
+    }
+  },
+  "swords-4": {
+    "name": "宝剑四",
+    "meanings": {
+      "upright": "休息，放松，冥想，沉思",
+      "reversed": "疲惫，倦怠，深度沉思，停滞"
+    }
+  },
+  "swords-5": {
+    "name": "宝剑五",
+    "meanings": {
+      "upright": "冲突，分歧，竞争，失败",
+      "reversed": "和解，弥补，过去的怨恨"
+    }
+  },
+  "swords-6": {
+    "name": "宝剑六",
+    "meanings": {
+      "upright": "过渡，变化，通过仪式，释放包袱",
+      "reversed": "个人过渡，抗拒变化，未完成事务"
+    }
+  },
+  "swords-7": {
+    "name": "宝剑七",
+    "meanings": {
+      "upright": "背叛，欺骗，逃脱",
+      "reversed": "冒充者综合症，自我欺骗，保守秘密"
+    }
+  },
+  "swords-8": {
+    "name": "宝剑八",
+    "meanings": {
+      "upright": "负面思想，自我强加限制，监禁",
+      "reversed": "自我限制信念，内在批评，释放负面思想"
+    }
+  },
+  "swords-9": {
+    "name": "宝剑九",
+    "meanings": {
+      "upright": "焦虑，担忧，恐惧，抑郁，噩梦",
+      "reversed": "内在动荡，根深蒂固的恐惧，秘密"
+    }
+  },
+  "swords-10": {
+    "name": "宝剑十",
+    "meanings": {
+      "upright": "痛苦结局，深伤，背叛，损失",
+      "reversed": "恢复，再生，抗拒不可避免的结局"
+    }
+  },
+  "swords-11": {
+    "name": "宝剑侍者",
+    "meanings": {
+      "upright": "新想法，好奇心，求知欲",
+      "reversed": "自我表达，光说不做，鲁莽行动"
+    }
+  },
+  "swords-12": {
+    "name": "宝剑骑士",
+    "meanings": {
+      "upright": "雄心勃勃，行动导向，成功驱动",
+      "reversed": "不安，不专注，缺乏方向，蛮力"
+    }
+  },
+  "swords-13": {
+    "name": "宝剑皇后",
+    "meanings": {
+      "upright": "独立，公正判断，清晰界限",
+      "reversed": "过度情绪化，易受影响，刻薄，冷酷"
+    }
+  },
+  "swords-14": {
+    "name": "宝剑国王",
+    "meanings": {
+      "upright": "头脑清晰，智力力量，权威，真理",
+      "reversed": "安静力量，内在真理，滥用权力，操纵"
+    }
+  },
+  "wands-1": {
+    "name": "权杖一",
+    "meanings": {
+      "upright": "灵感，创意火花，新倡议",
+      "reversed": "延迟，缺乏动力，压抑"
+    }
+  },
+  "wands-2": {
+    "name": "权杖二",
+    "meanings": {
+      "upright": "未来规划，做决定，离开舒适区",
+      "reversed": "个人目标，内在对齐，对未知的恐惧"
+    }
+  },
+  "wands-3": {
+    "name": "权杖三",
+    "meanings": {
+      "upright": "进步，扩张，远见，海外机会",
+      "reversed": "小格局，缺乏远见，意外延迟"
+    }
+  },
+  "wands-4": {
+    "name": "权杖四",
+    "meanings": {
+      "upright": "庆祝，快乐团聚，和谐，放松，回家",
+      "reversed": "个人庆祝，内在和谐，与他人冲突"
+    }
+  },
+  "wands-5": {
+    "name": "权杖五",
+    "meanings": {
+      "upright": "冲突，分歧，竞争，紧张",
+      "reversed": "内在冲突，避免冲突，紧张释放"
+    }
+  },
+  "wands-6": {
+    "name": "权杖六",
+    "meanings": {
+      "upright": "成功，公众认可，进步，自信",
+      "reversed": "私人成就，成功的个人定义，声誉下降"
+    }
+  },
+  "wands-7": {
+    "name": "权杖七",
+    "meanings": {
+      "upright": "挑战，竞争，保护，坚持",
+      "reversed": "疲惫，放弃，不知所措"
+    }
+  },
+  "wands-8": {
+    "name": "权杖八",
+    "meanings": {
+      "upright": "运动，快节奏变化，行动，对齐",
+      "reversed": "延迟，挫折，抗拒变化"
+    }
+  },
+  "wands-9": {
+    "name": "权杖九",
+    "meanings": {
+      "upright": "韧性，勇气，坚持，信仰考验",
+      "reversed": "内在资源，挣扎，不知所措"
+    }
+  },
+  "wands-10": {
+    "name": "权杖十",
+    "meanings": {
+      "upright": "负担，额外责任，辛苦工作，压力",
+      "reversed": "无法委托，过度压力，倦怠"
+    }
+  },
+  "wands-11": {
+    "name": "权杖侍者",
+    "meanings": {
+      "upright": "灵感，想法，发现，无限潜力",
+      "reversed": "新形成的想法，重新定向能量，自我限制信念"
+    }
+  },
+  "wands-12": {
+    "name": "权杖骑士",
+    "meanings": {
+      "upright": "能量，激情，灵感行动，冒险",
+      "reversed": "激情项目，匆忙，分散能量"
+    }
+  },
+  "wands-13": {
+    "name": "权杖皇后",
+    "meanings": {
+      "upright": "勇气，自信，独立，社交蝴蝶",
+      "reversed": "自尊，自信，内向"
+    }
+  },
+  "wands-14": {
+    "name": "权杖国王",
+    "meanings": {
+      "upright": "天生领导者，远见，企业家，荣誉",
+      "reversed": "冲动，匆忙，无情，高期望"
+    }
+  }
+}
