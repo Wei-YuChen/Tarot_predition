@@ -35,7 +35,17 @@ export const metadata: Metadata = {
 
 // Generate static params for all supported locales
 export async function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'zh' }, { locale: 'tw' }];
+  return [
+    { locale: 'en' },
+    { locale: 'zh' },
+    { locale: 'tw' },
+    { locale: 'ja' },
+    { locale: 'ko' },
+    { locale: 'vi' },
+    { locale: 'th' },
+    { locale: 'id' },
+    { locale: 'ms' },
+  ];
 }
 
 export default function LocaleLayout({ children, params }: LocaleLayoutProps) {

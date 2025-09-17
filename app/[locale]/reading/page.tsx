@@ -12,6 +12,12 @@ import {
   POSITIONS_ZH,
   POSITIONS_TW,
 } from '@/lib/tarot';
+import {
+  cardDisplayName,
+  meaningByOrientationLocalized,
+  getOrientationLabel,
+  getOrientationParentheses,
+} from '@/lib/tarot-i18n';
 
 interface ReadingPageProps {
   params: { locale: string };
@@ -74,6 +80,88 @@ const texts = {
     retryAnalysis: '重試',
   },
 };
+
+// Component to handle localized card rendering
+function LocalizedCard({
+  drawnCard,
+  index,
+  locale,
+  t,
+}: {
+  drawnCard: DrawnCard;
+  index: number;
+  locale: string;
+  t: any;
+}) {
+  const [localizedName, setLocalizedName] = useState<string>(
+    drawnCard.card.name
+  );
+  const [localizedMeaning, setLocalizedMeaning] = useState<string>(
+    meaningByOrientation(drawnCard.card, drawnCard.isReversed)
+  );
+
+  useEffect(() => {
+    const loadLocalizedData = async () => {
+      try {
+        const name = await cardDisplayName(locale, drawnCard.card.id);
+        const meaning = await meaningByOrientationLocalized(
+          locale,
+          drawnCard.card.id,
+          drawnCard.isReversed ? 'reversed' : 'upright'
+        );
+        setLocalizedName(name);
+        setLocalizedMeaning(meaning);
+      } catch (error) {
+        console.warn('Failed to load localized card data:', error);
+        // Keep fallback values
+      }
+    };
+
+    loadLocalizedData();
+  }, [locale, drawnCard.card.id, drawnCard.isReversed]);
+
+  const [leftParen, rightParen] = getOrientationParentheses(locale);
+  const orientationLabel = getOrientationLabel(
+    locale,
+    drawnCard.isReversed ? 'reversed' : 'upright'
+  );
+
+  return (
+    <motion.div
+      key={drawnCard.card.id}
+      className="card-frame p-6"
+      initial={{ opacity: 0, rotateY: 180 }}
+      animate={{ opacity: 1, rotateY: 0 }}
+      transition={{ duration: 0.8, delay: index * 0.3 }}
+    >
+      <div className="text-center mb-4">
+        <h3 className="text-sm font-medium text-tarot-purple dark:text-tarot-gold mb-2">
+          {t.positions[index]}
+        </h3>
+        <div className="w-32 h-48 bg-gradient-to-br from-tarot-purple to-tarot-gold rounded-lg flex items-center justify-center mx-auto mb-4 text-white text-4xl">
+          🃏
+        </div>
+        <h4 className="text-xl font-serif font-bold text-gray-800 dark:text-gray-200 mb-2">
+          {localizedName}
+        </h4>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+          {leftParen}
+          {orientationLabel}
+          {rightParen}
+        </p>
+      </div>
+
+      <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
+        <h5 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          {t.basicInterpretation}:
+        </h5>
+        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+          {localizedMeaning}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
 
 // Component that uses useSearchParams - wrapped in Suspense
 function ReadingContent({ locale }: { locale: string }) {
@@ -202,43 +290,13 @@ function ReadingContent({ locale }: { locale: string }) {
           className="grid md:grid-cols-3 gap-6 mb-8"
         >
           {cards.map((drawnCard, index) => (
-            <motion.div
+            <LocalizedCard
               key={drawnCard.card.id}
-              className="card-frame p-6"
-              initial={{ opacity: 0, rotateY: 180 }}
-              animate={{ opacity: 1, rotateY: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.3 }}
-            >
-              <div className="text-center mb-4">
-                <h3 className="text-sm font-medium text-tarot-purple dark:text-tarot-gold mb-2">
-                  {t.positions[index]}
-                </h3>
-                <div className="w-32 h-48 bg-gradient-to-br from-tarot-purple to-tarot-gold rounded-lg flex items-center justify-center mx-auto mb-4 text-white text-4xl">
-                  🃏
-                </div>
-                <h4 className="text-xl font-serif font-bold text-gray-800 dark:text-gray-200 mb-2">
-                  {drawnCard.card.name}
-                </h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                  {drawnCard.isReversed
-                    ? locale === 'zh' || locale === 'tw'
-                      ? `（${t.orientation.reversed}）`
-                      : `(${t.orientation.reversed})`
-                    : locale === 'zh' || locale === 'tw'
-                      ? `（${t.orientation.upright}）`
-                      : `(${t.orientation.upright})`}
-                </p>
-              </div>
-
-              <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
-                <h5 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                  {t.basicInterpretation}:
-                </h5>
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                  {meaningByOrientation(drawnCard.card, drawnCard.isReversed)}
-                </p>
-              </div>
-            </motion.div>
+              drawnCard={drawnCard}
+              index={index}
+              locale={locale}
+              t={t}
+            />
           ))}
         </motion.div>
 

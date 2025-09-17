@@ -11,6 +11,12 @@ const languages = [
   { code: 'en', label: 'English' },
   { code: 'zh', label: '中文（简体）' },
   { code: 'tw', label: '中文（繁體）' },
+  { code: 'ja', label: '日本語' },
+  { code: 'ko', label: '한국어' },
+  { code: 'vi', label: 'Tiếng Việt' },
+  { code: 'th', label: 'ไทย' },
+  { code: 'id', label: 'Bahasa Indonesia' },
+  { code: 'ms', label: 'Bahasa Melayu' },
 ];
 
 export default function LanguageSwitcher({
