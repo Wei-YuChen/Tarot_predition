@@ -6,6 +6,7 @@ node_modules/
 
 # Testing
 coverage/
+.tmp-tests/
 
 # Next.js
 .next/

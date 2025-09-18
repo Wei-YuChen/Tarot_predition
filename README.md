@@ -41,6 +41,13 @@ A beautiful, mystical tarot card reading experience built with Next.js 14, TypeS
 - **Rewarded gating** ensures the "Deep Analysis" action only hits the API after a successful reward event.
 - **Persistent banner** keeps AdMob banner ads anchored to the reading results while gracefully falling back when no plugin is available.
 
+### 📱 Phase 3 Mobile Enhancements
+
+- **Reward unlock state is cached locally**, so once a user watches the rewarded ad the deep analysis flow stays open—even offline.
+- **Deep analysis responses are stored per spread**, allowing the app shell to surface the latest interpretation when the network is unavailable or the API fails.
+- **Offline detection with localized messaging** guides users when connectivity drops and highlights when cached insights are shown.
+- **AdMob banners resume gracefully** after backgrounding the app, ensuring consistent monetization without duplicate banners.
+
 ## 🏗️ Repository Layout (Phase 0)
 
 ```
@@ -170,7 +177,7 @@ All modules now live under `apps/web` so they can later be imported into shared 
 
 - ✅ **Phase 1 – Advertisement abstraction**: `<WebAdsense />`, `<MobileAdMob />`, and reward-gated flows are live in the reading experience.
 - ✅ **Phase 2 – Capacitor shell**: scaffold Android/iOS projects, inject AdMob permissions/manifests, and provide repeatable sync scripts.
-- 🔜 **Phase 3 – Mobile UX polish**: handle offline storage, rewarded flows, and native-only affordances.
+- ✅ **Phase 3 – Mobile UX polish**: persist rewarded unlocks offline, cache deep analysis results, and enhance banner lifecycle within the Capacitor shell.
 - 🔜 **Phase 4 – Release readiness**: document deployment, store submissions, and privacy questionnaires.
 
 Each phase builds upon the monorepo foundation established in Phase 0.
@@ -188,6 +195,7 @@ Each phase builds upon the monorepo foundation established in Phase 0.
 | `npm run lint`       | ESLint (`apps/web`)                                  |
 | `npm run format`     | Prettier formatting                                  |
 | `npm run type-check` | TypeScript project check                             |
+| `npm run test`       | Compile shared modules and run Node.js unit tests    |
 | `npm run cap:patch`  | Ensure native manifests/Podfile contain AdMob config |
 | `npm run cap:sync`   | Export + copy assets into Capacitor shells           |
 | `npm run cap:open:ios` | Open the iOS Xcode workspace                       |

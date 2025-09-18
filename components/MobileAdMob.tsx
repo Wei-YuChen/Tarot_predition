@@ -1,7 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { initAdmob, showBanner, hideBanner } from '@shared-lib/admob';
+import {
+  initAdmob,
+  showBanner,
+  hideBanner,
+  resumeBanner,
+} from '@shared-lib/admob';
 
 type MobileAdMobProps = {
   className?: string;
@@ -69,6 +74,61 @@ export default function MobileAdMob({ className, bannerId }: MobileAdMobProps) {
       hideBanner().catch((error) => {
         console.error('[admob] failed to hide banner on cleanup', error);
       });
+    };
+  }, [resolvedBannerId]);
+
+  useEffect(() => {
+    if (!isAppTarget) {
+      return;
+    }
+
+    let disposed = false;
+
+    const handleVisibility = () => {
+      if (document.visibilityState === 'hidden') {
+        hideBanner().catch((error) => {
+          console.error('[admob] failed to hide banner on background', error);
+        });
+        return;
+      }
+
+      void (async () => {
+        try {
+          const resumed = await resumeBanner();
+          if (disposed) {
+            return;
+          }
+
+          if (!resumed && resolvedBannerId) {
+            setStatus('loading');
+            const success = await showBanner(resolvedBannerId);
+            if (disposed) {
+              return;
+            }
+
+            if (success) {
+              setStatus('loaded');
+              setErrorMessage(null);
+            } else {
+              setStatus('error');
+              setErrorMessage('AdMob Banner 顯示失敗');
+            }
+          }
+        } catch (error) {
+          console.error('[admob] failed to resume banner', error);
+          if (!disposed) {
+            setStatus('error');
+            setErrorMessage('AdMob Banner 顯示失敗');
+          }
+        }
+      })();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      disposed = true;
+      document.removeEventListener('visibilitychange', handleVisibility);
     };
   }, [resolvedBannerId]);
 
