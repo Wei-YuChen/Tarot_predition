@@ -1,0 +1,19 @@
+platform :ios, '13.0'
+use_frameworks!
+
+workspace 'App'
+
+install! 'cocoapods', :disable_input_output_paths => true
+
+def capacitor_pods
+  pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
+  pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
+  if File.exist?(File.join(__dir__, '../../node_modules/@capacitor-community/admob'))
+    pod 'CapacitorCommunityAdmob', :path => '../../node_modules/@capacitor-community/admob'
+  end
+end
+
+target 'App' do
+  capacitor_pods
+  pod 'Google-Mobile-Ads-SDK'
+end

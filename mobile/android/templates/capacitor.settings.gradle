@@ -1,0 +1,11 @@
+include ':capacitor-android'
+project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')
+
+include ':capacitor-cordova-android-plugins'
+project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins')
+
+// Optional AdMob community plugin; falls back to stub if dependency unavailable.
+if (file('../node_modules/@capacitor-community/admob').exists()) {
+    include ':capacitor-admob'
+    project(':capacitor-admob').projectDir = new File('../node_modules/@capacitor-community/admob/android')
+}
