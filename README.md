@@ -1,6 +1,6 @@
-# 🔮 Mystic Tarot - Free Online Tarot Card Readings
+# 🔮 Mystic Tarot - Web & Mobile Monorepo
 
-A beautiful, mystical tarot card reading web application built with Next.js 14, TypeScript, and Tailwind CSS. Experience the ancient art of tarot reading with our three-card Past, Present, Future spread.
+A beautiful, mystical tarot card reading experience built with Next.js 14, TypeScript, and Tailwind CSS. The project is now structured as a single repository that powers both the original web app and the upcoming Capacitor-based Android/iOS wrappers.
 
 ![Mystic Tarot](https://img.shields.io/badge/Tarot-Mystical-purple?style=for-the-badge&logo=crystal&logoColor=gold)
 ![Next.js](https://img.shields.io/badge/Next.js-14+-black?style=for-the-badge&logo=next.js&logoColor=white)
@@ -10,305 +10,149 @@ A beautiful, mystical tarot card reading web application built with Next.js 14, 
 ## ✨ Features
 
 ### 🎴 Complete Tarot Experience
-
-- **Full 78-card deck** - All Major Arcana (22 cards) and Minor Arcana (56 cards)
-- **Traditional meanings** - Both upright and reversed interpretations
-- **Three-card spread** - Past, Present, Future divination
-- **Random orientation** - Cards can appear upright or reversed
+- **Full 78-card deck** covering both Major and Minor Arcana
+- **Traditional meanings** for upright and reversed orientations
+- **Three-card spread** for Past, Present, Future insights
+- **Deterministic draws** powered by a seeded RNG for reproducibility
 
 ### 🌙 Mystical Interface
-
-- **Dark mode by default** - Optimized for mystical atmosphere
-- **Light/Dark toggle** - Switch themes with smooth animations
-- **Framer Motion animations** - Smooth, magical transitions
-- **Responsive design** - Works beautifully on all devices
+- **Dark mode by default** with a delightful theme toggle
+- **Framer Motion animations** for smooth, magical transitions
+- **Responsive design** that adapts to mobile, tablet, and desktop
 
 ### 📅 Daily Reading System
-
-- **3 free readings per day** - Respects traditional tarot practice
-- **LocalStorage tracking** - Readings persist between sessions
-- **Daily limit enforcement** - Encourages mindful reading
+- **3 free readings per day** respecting tarot tradition
+- **LocalStorage tracking** that persists between sessions
+- **Daily limit enforcement** with a friendly UX
 
 ### ♿ Accessibility & UX
+- **Keyboard navigation** and **screen reader friendly** markup
+- **Reduced motion support** honoring user preferences
+- **Focus management** with clear visual indicators
 
-- **Keyboard navigation** - Full keyboard support
-- **Screen reader friendly** - Proper ARIA labels and semantics
-- **Reduced motion support** - Respects user preferences
-- **Focus management** - Clear visual focus indicators
+## 🏗️ Repository Layout (Phase 0)
+
+```
+tarot-app/
+├── apps/
+│   └── web/                 # Original Next.js 14 application
+│       ├── app/             # App Router pages & API routes
+│       ├── components/      # Web-specific UI building blocks
+│       ├── lib/             # Tarot logic, localization, utilities
+│       ├── locales/         # i18n JSON bundles
+│       ├── public/          # Static assets
+│       ├── styles/          # Tailwind and global CSS
+│       ├── next.config.js   # Next.js project configuration
+│       ├── tailwind.config.js
+│       ├── postcss.config.js
+│       ├── middleware.ts
+│       └── tsconfig.json
+├── components/              # Cross-target React helpers
+│   └── AdsSwitch.tsx        # Environment-aware ad renderer
+├── lib/
+│   └── admob.ts             # Capacitor AdMob placeholder wrappers
+├── mobile/
+│   ├── capacitor.config.ts  # Capacitor shell configuration
+│   ├── ios/                 # iOS platform assets (placeholder)
+│   └── android/             # Android platform assets (placeholder)
+├── .env.web.local           # Sample env vars for web builds
+├── .env.app.local           # Sample env vars for app builds
+├── .env.example             # Shared env template
+├── package.json             # Shared scripts & dependencies
+├── tsconfig.json            # Monorepo TypeScript project references
+└── README.md
+```
+
+This Phase 0 refactor keeps the original web experience intact while preparing the codebase for Capacitor packaging and mobile-specific logic in subsequent phases.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-
 - Node.js 18+
-- npm, yarn, or pnpm
+- npm (default). Yarn/pnpm will also work if you update lockfiles accordingly.
 
-### Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/your-username/tarot-prediction.git
-   cd tarot-prediction
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
-
-3. **Run the development server**
-
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   ```
-
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-### Build for Production
-
+### Install dependencies
 ```bash
-npm run build
-npm start
+npm install
 ```
 
-## 🏗️ Project Structure
+### Local development
 
-```
-├── app/                    # Next.js 14 App Router
-│   ├── layout.tsx         # Root layout with theme provider
-│   ├── page.tsx          # Landing page
-│   ├── draw/             # Card drawing page
-│   │   └── page.tsx
-│   └── result/           # Reading results page
-│       └── page.tsx
-├── components/            # Reusable React components
-│   ├── TarotCard.tsx     # Individual card component
-│   ├── Deck.tsx          # Deck shuffling and drawing
-│   ├── Interpretation.tsx # Reading interpretation
-│   ├── ShareButton.tsx   # Social sharing
-│   ├── AdBanner.tsx      # Monetization placeholder
-│   └── ThemeToggle.tsx   # Dark/light mode toggle
-├── lib/                  # Utilities and data
-│   ├── cards.ts          # Complete 78-card tarot deck
-│   ├── spreads.ts        # Spread definitions
-│   ├── storage.ts        # LocalStorage management
-│   ├── interpret.ts      # Card interpretation logic
-│   ├── types.ts          # TypeScript definitions
-│   └── theme-context.tsx # Theme management
-├── styles/               # Global styles
-│   └── globals.css       # Tailwind + custom CSS
-└── public/               # Static assets
-    └── cards/            # Card image placeholders
-```
-
-## 🎯 Core Functionality
-
-### Card Drawing Flow
-
-1. **Landing Page** → Brief intro + "Begin Reading" CTA
-2. **Draw Page** → Shuffle deck → Draw 3 cards → Assign to Past/Present/Future
-3. **Result Page** → Display cards + interpretations + sharing options
-
-### Reading Interpretation
-
-- **Individual card meanings** - Based on upright/reversed orientation
-- **Spread-level interpretation** - Contextual analysis across all three cards
-- **Overall theme analysis** - Considers Major/Minor Arcana distribution
-
-### Daily Limit System
-
-- **3 readings per calendar day** - Stored in localStorage
-- **Graceful limit handling** - Clear messaging when limit reached
-- **Automatic reset** - Fresh readings available each new day
-
-## 🛠️ Development Scripts
-
+Web target (default):
 ```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
-npm run format       # Format code with Prettier
-npm run type-check   # TypeScript type checking
+npm run dev           # alias for npm run dev:web
 ```
 
-## 🎨 Customization
-
-### Theme Colors
-
-Customize the mystical color palette in `tailwind.config.js`:
-
-```javascript
-colors: {
-  tarot: {
-    gold: '#ffd700',
-    purple: '#8b5cf6',
-    midnight: '#1a1a2e',
-    cosmic: '#16213e',
-  }
-}
-```
-
-### Card Data
-
-Add or modify card interpretations in `lib/cards.ts`. Each card includes:
-
-- Traditional name and arcana type
-- Upright and reversed meanings
-- Suit and number for Minor Arcana
-- Image path for custom artwork
-
-### Spreads
-
-Create new reading spreads in `lib/spreads.ts`:
-
-```typescript
-export const CELTIC_CROSS: Spread = {
-  id: 'celtic-cross',
-  name: 'Celtic Cross',
-  positions: [
-    { id: 'present', name: 'Present Situation', description: '...' },
-    // ... more positions
-  ],
-};
-```
-
-## 🔮 Roadmap
-
-### Phase 1: Core Features ✅
-
-- [x] Complete tarot deck with meanings
-- [x] Three-card Past/Present/Future spread
-- [x] Card shuffling and drawing mechanics
-- [x] Basic interpretation system
-- [x] Daily reading limits
-- [x] Dark/light theme toggle
-- [x] Responsive design
-- [x] Accessibility features
-
-### Phase 2: Enhanced Experience
-
-- [ ] **AI-powered interpretations** - GPT integration for personalized readings
-- [ ] **Multiple spread types** - Celtic Cross, One Card, Love spreads
-- [ ] **Reading history** - View past readings and patterns
-- [ ] **Custom card artwork** - Professional tarot card illustrations
-- [ ] **Sound effects** - Ambient mystical audio
-
-### Phase 3: Community & Monetization
-
-- [ ] **User accounts** - Save readings, preferences, and history
-- [ ] **Reading journal** - Personal notes and reflections
-- [ ] **Premium features** - Unlimited readings, advanced spreads
-- [ ] **Ad integration** - Respectful monetization strategy
-- [ ] **Social sharing** - Enhanced sharing with card images
-
-### Phase 4: Advanced Features
-
-- [ ] **Multi-language support** - i18n for global audience
-- [ ] **Backend integration** - User data persistence
-- [ ] **Push notifications** - Daily reading reminders
-- [ ] **Tarot learning** - Educational content about card meanings
-- [ ] **Community features** - Share and discuss readings
-
-## 🧪 Testing
-
-### Manual Testing Checklist
-
-- [ ] Landing page loads and displays correctly
-- [ ] Theme toggle works across all pages
-- [ ] Card drawing flow completes successfully
-- [ ] Daily limit enforcement works
-- [ ] Readings save and display correctly
-- [ ] Share functionality works
-- [ ] Responsive design on mobile/tablet
-- [ ] Keyboard navigation accessible
-- [ ] Screen reader compatibility
-
-### Test Data Management
-
-```javascript
-// Clear all readings for testing
-import { clearAllReadings } from '@/lib/storage';
-clearAllReadings();
-```
-
-## 📱 Browser Support
-
-- **Modern browsers** - Chrome 88+, Firefox 85+, Safari 14+, Edge 88+
-- **Mobile browsers** - iOS Safari 14+, Chrome Mobile 88+
-- **Accessibility** - WCAG 2.1 AA compliant
-- **Performance** - Optimized for Core Web Vitals
-
-## 🔧 Configuration
-
-### Environment Variables
-
-Create a `.env.local` file for local development:
-
+Capacitor target preview (environment flag only):
 ```bash
-# Google AdSense Configuration
-# Replace with your actual AdSense publisher client ID
-NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-XXXXXXXXXXXXXXXX
-
-# Optional: Add Google Analytics ID
-NEXT_PUBLIC_GA_ID=your_ga_id
-
-# Optional: Add error tracking
-NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn
+npm run dev:app
 ```
 
-### ESLint & Prettier
+> ℹ️ The `NEXT_PUBLIC_BUILD_TARGET` flag is baked into the scripts. On Windows PowerShell you may need to set the variable manually (`$env:NEXT_PUBLIC_BUILD_TARGET='web'`) before invoking `next dev`.
 
-The project includes pre-configured linting and formatting:
+### Production builds
 
-- **ESLint** - Next.js recommended rules + Prettier integration
-- **Prettier** - Consistent code formatting
-- **TypeScript** - Strict type checking
+Web deployment bundle:
+```bash
+npm run build:web
+npm run start         # serve the production build locally
+```
 
-## 🤝 Contributing
+Mobile packaging bundle (static export consumed by Capacitor):
+```bash
+npm run build:app
+npm run export        # outputs to apps/web/out
+```
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+After exporting, continue with Capacitor tooling (to be completed in later phases):
+```bash
+npx cap copy
+npx cap open ios
+npx cap open android
+```
 
-### Development Setup
+### Environment configuration
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- `.env.web.local` – prefilled with `NEXT_PUBLIC_BUILD_TARGET=web` and an AdSense placeholder.
+- `.env.app.local` – prefilled with `NEXT_PUBLIC_BUILD_TARGET=app` and Google-provided AdMob **test IDs**.
+- `.env.example` – consolidated template for CI/onboarding. Copy it when provisioning new environments.
+
+Load the appropriate file before building or deploy via your hosting provider's dashboard.
+
+## 🎯 Core Functionality Overview
+
+The core tarot experience remains unchanged from the original implementation:
+
+1. **Localized landing page** invites users to start a reading.
+2. **Seeded deck shuffle** produces a reproducible three-card spread.
+3. **Interpretation engine** merges localized card meanings, orientations, and contextual copy.
+4. **Deep analysis endpoint** (`/api/deep-analysis`) integrates with OpenAI and gracefully falls back to demo text when no API key is configured.
+
+All modules now live under `apps/web` so they can later be imported into shared utilities or mobile facades without conflicting with Capacitor scaffolding.
+
+## 🧭 Next Steps (Beyond Phase 0)
+
+1. **Phase 1 – Advertisement abstraction**: introduce `<WebAdsense />`, `<MobileAdMob />`, and wire `AdsSwitch` into the reading flow with proper Rewarded gating.
+2. **Phase 2 – Capacitor shell**: initialize native projects, configure permissions, and sync exported assets.
+3. **Phase 3 – Mobile UX polish**: handle offline storage, rewarded flows, and native-only affordances.
+4. **Phase 4 – Release readiness**: document deployment, store submissions, and privacy questionnaires.
+
+Each phase will build upon the monorepo foundation established here.
+
+## 📝 Scripts Reference
+
+| Script | Description |
+| --- | --- |
+| `npm run dev:web` | Start Next.js dev server for the web target |
+| `npm run dev:app` | Start dev server with `NEXT_PUBLIC_BUILD_TARGET=app` |
+| `npm run build:web` | Production build for web deployments |
+| `npm run build:app` | Production build for Capacitor export |
+| `npm run start` | Run the built web bundle locally |
+| `npm run export` | Static export to `apps/web/out` for Capacitor |
+| `npm run lint` | ESLint (`apps/web`) |
+| `npm run format` | Prettier formatting |
+| `npm run type-check` | TypeScript project check |
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Tarot tradition** - Centuries of mystical wisdom
-- **Open source community** - Amazing tools and libraries
-- **Rider-Waite-Smith** - Traditional tarot card meanings
-- **Framer Motion** - Beautiful animations
-- **Tailwind CSS** - Utility-first styling
-- **Next.js team** - Excellent React framework
-
-## 📧 Support
-
-If you have questions or need help:
-
-- 📧 Email: support@mystictarot.com
-- 🐛 Issues: [GitHub Issues](https://github.com/your-username/tarot-prediction/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/your-username/tarot-prediction/discussions)
-
----
-
-_"The cards are a mirror reflecting the wisdom that already exists within you."_ 🔮✨
+[MIT](LICENSE)

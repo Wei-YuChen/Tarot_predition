@@ -9,7 +9,9 @@ coverage/
 
 # Next.js
 .next/
+apps/web/.next/
 out/
+apps/web/out/
 build/
 
 # Misc
@@ -34,6 +36,7 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+apps/web/next-env.d.ts
 
 # IDE
 .vscode/
