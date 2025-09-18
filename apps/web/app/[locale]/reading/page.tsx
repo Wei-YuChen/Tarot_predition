@@ -3,6 +3,9 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
+import AdsSwitch, { isAppBuildTarget } from '@shared/AdsSwitch';
+import WebAdsense from '@shared/WebAdsense';
+import MobileAdMob from '@shared/MobileAdMob';
 import {
   drawCards,
   DrawnCard,
@@ -23,10 +26,15 @@ import {
   meaningByOrientationLocalized,
   getOrientationLabels,
 } from '@/lib/tarot-i18n';
+import { initAdmob, showInterstitial, showRewarded } from '@shared-lib/admob';
 
 interface ReadingPageProps {
   params: { locale: string };
 }
+
+const INTERSTITIAL_AD_ID = process.env.NEXT_PUBLIC_ADMOB_INTERSTITIAL_ID;
+const REWARDED_AD_ID = process.env.NEXT_PUBLIC_ADMOB_REWARDED_ID;
+const isAppTarget = isAppBuildTarget();
 
 const texts = {
   en: {
@@ -43,6 +51,7 @@ const texts = {
     errorAnalysis:
       'Sorry, there was an error getting your deep analysis. Please try again.',
     retryAnalysis: 'Try Again',
+    rewardRequired: 'Please finish the rewarded ad to unlock deep analysis.',
   },
   zh: {
     title: '你的塔罗牌阅读',
@@ -57,6 +66,7 @@ const texts = {
     deepAnalysisTitle: '深度分析',
     errorAnalysis: '抱歉，获取深度分析时出现错误。请重试。',
     retryAnalysis: '重试',
+    rewardRequired: '請先完整觀看獎勵廣告，才能解鎖深度解析。',
   },
   tw: {
     title: '你的塔羅牌閱讀',
@@ -71,6 +81,7 @@ const texts = {
     deepAnalysisTitle: '深度解析',
     errorAnalysis: '抱歉，獲取深度解析時出現錯誤。請重試。',
     retryAnalysis: '重試',
+    rewardRequired: '請先完整觀看獎勵廣告，才能解鎖深度解析。',
   },
   ja: {
     title: 'あなたのタロット占い',
@@ -86,6 +97,8 @@ const texts = {
     errorAnalysis:
       '申し訳ありませんが、深い分析の取得中にエラーが発生しました。もう一度お試しください。',
     retryAnalysis: '再試行',
+    rewardRequired:
+      'リワード広告を最後まで視聴すると、深い分析が解放されます。',
   },
   ko: {
     title: '당신의 타로 리딩',
@@ -101,6 +114,8 @@ const texts = {
     errorAnalysis:
       '죄송합니다. 심층 분석을 가져오는 중 오류가 발생했습니다. 다시 시도해주세요.',
     retryAnalysis: '다시 시도',
+    rewardRequired:
+      '보상형 광고를 끝까지 시청해야 심층 분석을 이용할 수 있습니다.',
   },
   vi: {
     title: 'Bài Tarot Của Bạn',
@@ -116,6 +131,8 @@ const texts = {
     errorAnalysis:
       'Xin lỗi, đã có lỗi xảy ra khi lấy phân tích sâu. Vui lòng thử lại.',
     retryAnalysis: 'Thử Lại',
+    rewardRequired:
+      'Vui lòng xem hết quảng cáo thưởng để mở khóa phân tích sâu.',
   },
   th: {
     title: 'การอ่านไพ่ทาโรต์ของคุณ',
@@ -131,6 +148,8 @@ const texts = {
     errorAnalysis:
       'ขออภัย เกิดข้อผิดพลาดในการรับการวิเคราะห์เชิงลึก กรุณาลองใหม่',
     retryAnalysis: 'ลองใหม่',
+    rewardRequired:
+      'โปรดดูโฆษณาแบบรับรางวัลให้จบก่อนเพื่อปลดล็อกการวิเคราะห์เชิงลึก',
   },
   id: {
     title: 'Pembacaan Tarot Anda',
@@ -147,6 +166,8 @@ const texts = {
     errorAnalysis:
       'Maaf, terjadi kesalahan saat mendapatkan analisis mendalam. Silakan coba lagi.',
     retryAnalysis: 'Coba Lagi',
+    rewardRequired:
+      'Tonton iklan reward sampai selesai untuk membuka analisis mendalam.',
   },
   ms: {
     title: 'Bacaan Tarot Anda',
@@ -162,6 +183,8 @@ const texts = {
     errorAnalysis:
       'Maaf, terdapat ralat semasa mendapatkan analisis mendalam. Sila cuba lagi.',
     retryAnalysis: 'Cuba Lagi',
+    rewardRequired:
+      'Sila tonton iklan ganjaran sehingga tamat untuk membuka kunci analisis mendalam.',
   },
 };
 
@@ -175,10 +198,38 @@ function ReadingContent({ locale }: { locale: string }) {
   >([]);
   const [deepAnalysis, setDeepAnalysis] = useState<string>('');
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
-  const [analysisError, setAnalysisError] = useState(false);
+  const [analysisErrorMessage, setAnalysisErrorMessage] = useState<
+    string | null
+  >(null);
+  const [hasShownInterstitial, setHasShownInterstitial] = useState(false);
+  const [hasUnlockedDeepAnalysis, setHasUnlockedDeepAnalysis] = useState(false);
 
   const t = texts[locale as keyof typeof texts] || texts.en;
   const orientationLabels = getOrientationLabels(locale);
+
+  useEffect(() => {
+    if (!isAppTarget) {
+      return;
+    }
+
+    void initAdmob();
+  }, []);
+
+  useEffect(() => {
+    setHasShownInterstitial(false);
+    setHasUnlockedDeepAnalysis(false);
+    setDeepAnalysis('');
+    setAnalysisErrorMessage(null);
+  }, [question]);
+
+  useEffect(() => {
+    if (!isAppTarget || hasShownInterstitial || cards.length === 0) {
+      return;
+    }
+
+    setHasShownInterstitial(true);
+    void showInterstitial(INTERSTITIAL_AD_ID);
+  }, [cards, hasShownInterstitial, locale]);
 
   useEffect(() => {
     const loadCardData = async () => {
@@ -208,7 +259,34 @@ function ReadingContent({ locale }: { locale: string }) {
     if (!question || cards.length === 0) return;
 
     setIsLoadingAnalysis(true);
-    setAnalysisError(false);
+    setAnalysisErrorMessage(null);
+    setDeepAnalysis('');
+
+    if (isAppTarget && !hasUnlockedDeepAnalysis) {
+      if (REWARDED_AD_ID) {
+        try {
+          const reward = await showRewarded(REWARDED_AD_ID);
+
+          if (!reward || typeof reward.amount === 'undefined') {
+            setAnalysisErrorMessage(t.rewardRequired);
+            setIsLoadingAnalysis(false);
+            return;
+          }
+
+          setHasUnlockedDeepAnalysis(true);
+        } catch (error) {
+          console.error('Rewarded ad error:', error);
+          setAnalysisErrorMessage(t.rewardRequired);
+          setIsLoadingAnalysis(false);
+          return;
+        }
+      } else {
+        console.warn(
+          '[admob] Missing rewarded ad id, skipping deep analysis gate.'
+        );
+        setHasUnlockedDeepAnalysis(true);
+      }
+    }
 
     try {
       const response = await fetch('/api/deep-analysis', {
@@ -242,11 +320,11 @@ function ReadingContent({ locale }: { locale: string }) {
         const data = await response.json();
         setDeepAnalysis(data.analysis);
       } else {
-        setAnalysisError(true);
+        setAnalysisErrorMessage(t.errorAnalysis);
       }
     } catch (error) {
       console.error('Deep analysis error:', error);
-      setAnalysisError(true);
+      setAnalysisErrorMessage(t.errorAnalysis);
     } finally {
       setIsLoadingAnalysis(false);
     }
@@ -392,10 +470,10 @@ function ReadingContent({ locale }: { locale: string }) {
               </div>
             )}
 
-            {analysisError && (
+            {analysisErrorMessage && (
               <div className="text-center py-4">
                 <p className="text-red-600 dark:text-red-400 mb-4">
-                  {t.errorAnalysis}
+                  {analysisErrorMessage}
                 </p>
                 <button onClick={handleDeepAnalysis} className="mystic-button">
                   {t.retryAnalysis}
@@ -420,6 +498,14 @@ function ReadingContent({ locale }: { locale: string }) {
               </motion.div>
             )}
           </div>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="mb-8">
+          <AdsSwitch
+            web={<WebAdsense className="flex justify-center" />}
+            app={<MobileAdMob />}
+            fallback={null}
+          />
         </motion.div>
 
         {/* Back to Home */}

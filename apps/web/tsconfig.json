@@ -21,10 +21,18 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@shared/*": ["../components/*"],
-      "@shared-lib/*": ["../lib/*"]
+      "@shared/*": ["../../components/*"],
+      "@shared-lib/*": ["../../lib/*"],
+      "@capacitor-community/admob": ["../../lib/stubs/capacitor-admob"],
+      "@capacitor-community/admob/*": ["../../lib/stubs/capacitor-admob"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../../.next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "../../.next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }

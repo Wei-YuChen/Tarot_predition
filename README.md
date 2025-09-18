@@ -10,25 +10,36 @@ A beautiful, mystical tarot card reading experience built with Next.js 14, TypeS
 ## ✨ Features
 
 ### 🎴 Complete Tarot Experience
+
 - **Full 78-card deck** covering both Major and Minor Arcana
 - **Traditional meanings** for upright and reversed orientations
 - **Three-card spread** for Past, Present, Future insights
 - **Deterministic draws** powered by a seeded RNG for reproducibility
 
 ### 🌙 Mystical Interface
+
 - **Dark mode by default** with a delightful theme toggle
 - **Framer Motion animations** for smooth, magical transitions
 - **Responsive design** that adapts to mobile, tablet, and desktop
 
 ### 📅 Daily Reading System
+
 - **3 free readings per day** respecting tarot tradition
 - **LocalStorage tracking** that persists between sessions
 - **Daily limit enforcement** with a friendly UX
 
 ### ♿ Accessibility & UX
+
 - **Keyboard navigation** and **screen reader friendly** markup
 - **Reduced motion support** honoring user preferences
 - **Focus management** with clear visual indicators
+
+### 💰 Phase 1 Advertisement Flow
+
+- **Environment-aware rendering** via `AdsSwitch`, exposing `<WebAdsense />` for web and `<MobileAdMob />` for Capacitor builds.
+- **Interstitial trigger** automatically fires once a card spread is revealed on app targets.
+- **Rewarded gating** ensures the "Deep Analysis" action only hits the API after a successful reward event.
+- **Persistent banner** keeps AdMob banner ads anchored to the reading results while gracefully falling back when no plugin is available.
 
 ## 🏗️ Repository Layout (Phase 0)
 
@@ -48,9 +59,13 @@ tarot-app/
 │       ├── middleware.ts
 │       └── tsconfig.json
 ├── components/              # Cross-target React helpers
-│   └── AdsSwitch.tsx        # Environment-aware ad renderer
+│   ├── AdsSwitch.tsx        # Environment-aware ad renderer
+│   ├── MobileAdMob.tsx      # Capacitor AdMob banner bridge
+│   └── WebAdsense.tsx       # Google AdSense slot renderer
 ├── lib/
-│   └── admob.ts             # Capacitor AdMob placeholder wrappers
+│   ├── admob.ts             # AdMob wrapper (delegates to native plugin or stub)
+│   └── stubs/
+│       └── capacitor-admob.ts  # Local fallback when optional dependency is missing
 ├── mobile/
 │   ├── capacitor.config.ts  # Capacitor shell configuration
 │   ├── ios/                 # iOS platform assets (placeholder)
@@ -63,15 +78,17 @@ tarot-app/
 └── README.md
 ```
 
-This Phase 0 refactor keeps the original web experience intact while preparing the codebase for Capacitor packaging and mobile-specific logic in subsequent phases.
+Phase 0 established the monorepo foundation, and Phase 1 layers in the cross-target advertisement abstraction while keeping the original web experience intact for upcoming Capacitor packaging work.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - npm (default). Yarn/pnpm will also work if you update lockfiles accordingly.
 
 ### Install dependencies
+
 ```bash
 npm install
 ```
@@ -79,11 +96,13 @@ npm install
 ### Local development
 
 Web target (default):
+
 ```bash
 npm run dev           # alias for npm run dev:web
 ```
 
 Capacitor target preview (environment flag only):
+
 ```bash
 npm run dev:app
 ```
@@ -93,18 +112,21 @@ npm run dev:app
 ### Production builds
 
 Web deployment bundle:
+
 ```bash
 npm run build:web
 npm run start         # serve the production build locally
 ```
 
 Mobile packaging bundle (static export consumed by Capacitor):
+
 ```bash
 npm run build:app
 npm run export        # outputs to apps/web/out
 ```
 
 After exporting, continue with Capacitor tooling (to be completed in later phases):
+
 ```bash
 npx cap copy
 npx cap open ios
@@ -113,11 +135,13 @@ npx cap open android
 
 ### Environment configuration
 
-- `.env.web.local` – prefilled with `NEXT_PUBLIC_BUILD_TARGET=web` and an AdSense placeholder.
+- `.env.web.local` – prefilled with `NEXT_PUBLIC_BUILD_TARGET=web`, AdSense client ID, and slot placeholders.
 - `.env.app.local` – prefilled with `NEXT_PUBLIC_BUILD_TARGET=app` and Google-provided AdMob **test IDs**.
 - `.env.example` – consolidated template for CI/onboarding. Copy it when provisioning new environments.
 
 Load the appropriate file before building or deploy via your hosting provider's dashboard.
+
+> ℹ️ `@capacitor-community/admob` and `@capacitor/core` are marked as optional dependencies. When they are unavailable (CI, preview builds, or network-restricted environments), the tooling falls back to `lib/stubs/capacitor-admob.ts` so web builds continue to succeed. Install the official packages before shipping native apps.
 
 ## 🎯 Core Functionality Overview
 
@@ -130,28 +154,28 @@ The core tarot experience remains unchanged from the original implementation:
 
 All modules now live under `apps/web` so they can later be imported into shared utilities or mobile facades without conflicting with Capacitor scaffolding.
 
-## 🧭 Next Steps (Beyond Phase 0)
+## 🧭 Roadmap
 
-1. **Phase 1 – Advertisement abstraction**: introduce `<WebAdsense />`, `<MobileAdMob />`, and wire `AdsSwitch` into the reading flow with proper Rewarded gating.
-2. **Phase 2 – Capacitor shell**: initialize native projects, configure permissions, and sync exported assets.
-3. **Phase 3 – Mobile UX polish**: handle offline storage, rewarded flows, and native-only affordances.
-4. **Phase 4 – Release readiness**: document deployment, store submissions, and privacy questionnaires.
+- ✅ **Phase 1 – Advertisement abstraction**: `<WebAdsense />`, `<MobileAdMob />`, and reward-gated flows are live in the reading experience.
+- 🔜 **Phase 2 – Capacitor shell**: initialize native projects, configure permissions, and sync exported assets.
+- 🔜 **Phase 3 – Mobile UX polish**: handle offline storage, rewarded flows, and native-only affordances.
+- 🔜 **Phase 4 – Release readiness**: document deployment, store submissions, and privacy questionnaires.
 
-Each phase will build upon the monorepo foundation established here.
+Each phase builds upon the monorepo foundation established in Phase 0.
 
 ## 📝 Scripts Reference
 
-| Script | Description |
-| --- | --- |
-| `npm run dev:web` | Start Next.js dev server for the web target |
-| `npm run dev:app` | Start dev server with `NEXT_PUBLIC_BUILD_TARGET=app` |
-| `npm run build:web` | Production build for web deployments |
-| `npm run build:app` | Production build for Capacitor export |
-| `npm run start` | Run the built web bundle locally |
-| `npm run export` | Static export to `apps/web/out` for Capacitor |
-| `npm run lint` | ESLint (`apps/web`) |
-| `npm run format` | Prettier formatting |
-| `npm run type-check` | TypeScript project check |
+| Script               | Description                                          |
+| -------------------- | ---------------------------------------------------- |
+| `npm run dev:web`    | Start Next.js dev server for the web target          |
+| `npm run dev:app`    | Start dev server with `NEXT_PUBLIC_BUILD_TARGET=app` |
+| `npm run build:web`  | Production build for web deployments                 |
+| `npm run build:app`  | Production build for Capacitor export                |
+| `npm run start`      | Run the built web bundle locally                     |
+| `npm run export`     | Static export to `apps/web/out` for Capacitor        |
+| `npm run lint`       | ESLint (`apps/web`)                                  |
+| `npm run format`     | Prettier formatting                                  |
+| `npm run type-check` | TypeScript project check                             |
 
 ## 📄 License
 
