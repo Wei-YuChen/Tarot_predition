@@ -1,309 +1,249 @@
-# 🔮 Mystic Tarot - Free Online Tarot Card Readings
+# 🔮 Mystic Tarot – Web 與 Capacitor 行動 App Monorepo
 
-A beautiful, mystical tarot card reading web application built with Next.js 14, TypeScript, and Tailwind CSS. Experience the ancient art of tarot reading with our three-card Past, Present, Future spread.
+Mystic Tarot 提供完整的三張牌塔羅占卜體驗，採用 Next.js 14、TypeScript 與 Tailwind CSS 打造。此倉庫已擴充為單一 Monorepo，同時支援：
+
+Mystic Tarot delivers a three-card tarot reading journey powered by Next.js 14, TypeScript, and Tailwind CSS. The monorepo hosts both web and Capacitor app targets in a single codebase so teams can ship consistently across platforms.
+
+- **Web 版本 / Web target**：部署到 Vercel 或 Cloudflare，透過 Google AdSense 與 Taboola 提供展示型廣告。
+- **行動 App 版本 / Capacitor apps**：以 Capacitor 打包 Android 與 iOS，整合 AdMob Banner、Interstitial 與 Rewarded。
+- **一致體驗 / Unified experience**：同一份程式碼處理問題輸入、抽牌、基礎解析與 Rewarded 解鎖的 AI 深度解析。
 
 ![Mystic Tarot](https://img.shields.io/badge/Tarot-Mystical-purple?style=for-the-badge&logo=crystal&logoColor=gold)
 ![Next.js](https://img.shields.io/badge/Next.js-14+-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-blue?style=for-the-badge&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-## ✨ Features
+---
 
-### 🎴 Complete Tarot Experience
+## ✨ 核心功能 / Key Features
 
-- **Full 78-card deck** - All Major Arcana (22 cards) and Minor Arcana (56 cards)
-- **Traditional meanings** - Both upright and reversed interpretations
-- **Three-card spread** - Past, Present, Future divination
-- **Random orientation** - Cards can appear upright or reversed
+### 🎴 塔羅占卜體驗 Tarot Reading Experience
+- **完整 78 張牌組**：涵蓋大阿爾克那與小阿爾克那，支援九種語系。  _Complete 78-card deck with localized titles across nine locales._
+- **正逆位與位置解釋**：Past / Present / Future 三張牌搭配在地化含義。  _Past, Present, and Future placements include upright and reversed meanings per locale._
+- **決定性隨機**：以 Seeded RNG 決定抽牌順序與正逆位，問題相同即可重現。  _Seeded RNG guarantees reproducible draws for the same question._
+- **每日閱讀限制**：在地儲存每日三次的免費閱讀紀錄。  _Daily quota of three readings is enforced via local storage._
 
-### 🌙 Mystical Interface
+### 🌐 多平台廣告策略 Cross-platform Monetization
+- `NEXT_PUBLIC_BUILD_TARGET=web`：渲染 `<WebAdsense />`，在結果頁注入 AdSense/Taboola 版位。  _Web builds show `<WebAdsense />` placements for AdSense/Taboola._
+- `NEXT_PUBLIC_BUILD_TARGET=app`：渲染 `<MobileAdMob />` 並使用 `lib/admob.ts` 觸發 Interstitial 與 Rewarded。  _App builds use `<MobileAdMob />` with the AdMob plugin for interstitial and rewarded ads._
+- **翻牌後插頁廣告**：行動版在完成抽牌動畫後顯示一次 Interstitial。  _An interstitial is displayed right after the reveal animation in mobile builds._
+- **深度解析 Rewarded 門檻**：僅在 `showRewarded` 回傳成功後才呼叫 AI API。  _The deep analysis API is unlocked only after a rewarded ad grants a reward._
+- **Banner 常駐頁底**：在結果頁底部維持 AdMob Banner，並於失敗時顯示本地化提示。  _A persistent AdMob banner anchors the bottom of the reading screen with localized fallbacks._
 
-- **Dark mode by default** - Optimized for mystical atmosphere
-- **Light/Dark toggle** - Switch themes with smooth animations
-- **Framer Motion animations** - Smooth, magical transitions
-- **Responsive design** - Works beautifully on all devices
+### 📱 Phase 3 行動強化 Mobile Enhancements
+- **獎勵解鎖快取**：`lib/app-reading-storage.ts` 會儲存 Rewarded 成功狀態，離線也能存取深度解析。  _Reward completions are cached so offline users can reopen AI insights._
+- **離線提示與快取顯示**：偵測 `navigator.onLine`，離線時顯示最近一次快取結果。  _Offline detection surfaces cached insights with clear messaging._
+- **Banner 生命週期管理**：App 進入背景時隱藏 Banner，回到前景時重新顯示，避免殘留。  _Banner lifecycle gracefully handles background/foreground transitions._
 
-### 📅 Daily Reading System
+---
 
-- **3 free readings per day** - Respects traditional tarot practice
-- **LocalStorage tracking** - Readings persist between sessions
-- **Daily limit enforcement** - Encourages mindful reading
+## 🏗️ 專案結構 / Repository Layout
 
-### ♿ Accessibility & UX
+```
+tarot-app/
+├── apps/
+│   └── web/                     # Next.js 14 App Router 專案 / Next.js app
+│       ├── app/                 # 頁面、API Routes 與語系路徑 / Pages, API routes, i18n routes
+│       ├── components/          # Web 專用元件 / Web-specific components
+│       ├── lib/                 # 塔羅邏輯、i18n、儲存工具 / Tarot logic, i18n, storage helpers
+│       ├── locales/             # JSON 語系資料 / Localized card data
+│       ├── public/              # 靜態資源與 ads.txt / Static assets and ads.txt
+│       ├── styles/              # Tailwind 與全域樣式 / Tailwind and global styles
+│       ├── next.config.js
+│       ├── tailwind.config.js
+│       ├── postcss.config.js
+│       └── tsconfig.json
+├── components/                  # Web/App 共用 React 元件 / Shared React components
+│   ├── AdsSwitch.tsx            # 依 build target 切換廣告 / Target-aware ad switch
+│   ├── MobileAdMob.tsx          # AdMob Banner 管理 / Banner lifecycle manager
+│   └── WebAdsense.tsx           # AdSense 版位 / AdSense placement wrapper
+├── lib/
+│   ├── admob.ts                 # AdMob 插件封裝或 stub / AdMob bridge & stub fallback
+│   ├── app-reading-storage.ts   # 行動端 Rewarded/解析快取工具 / Mobile reading cache helper
+│   └── stubs/                   # 缺少原生套件時的替身實作 / Stubs when native plugin missing
+├── mobile/                      # Capacitor 原生包殼 / Capacitor shell
+│   ├── capacitor.config.ts
+│   ├── ios/                     # Xcode 專案與樣板 / iOS project & templates
+│   └── android/                 # Gradle 專案與樣板 / Android project & templates
+├── scripts/apply-capacitor-platform-config.mjs
+├── .env.web.local               # Web 目標環境變數範例 / Web env sample
+├── .env.app.local               # App 目標環境變數範例 / App env sample
+├── .env.example                 # 共用環境變數樣板 / Shared env template
+└── package.json                 # 共用 scripts 與依賴 / Root scripts & deps
+```
 
-- **Keyboard navigation** - Full keyboard support
-- **Screen reader friendly** - Proper ARIA labels and semantics
-- **Reduced motion support** - Respects user preferences
-- **Focus management** - Clear visual focus indicators
+---
 
-## 🚀 Getting Started
+## 🚀 快速開始 / Getting Started
 
-### Prerequisites
+### 1. 安裝相依套件 Install Dependencies
+```bash
+npm install
+```
 
-- Node.js 18+
-- npm, yarn, or pnpm
+### 2. Web 開發流程 Web Development
+```bash
+npm run dev            # 啟動 web 版開發伺服器 / start web dev server
+npm run lint           # 執行 ESLint / lint
+npm run type-check     # TypeScript 型別檢查 / type check
+npm run build          # next build (web 版) / production build
+npm run start          # next start (web 版) / production server
+```
 
-### Installation
-
-1. **Clone the repository**
-
+### 3. App 目標（Capacitor） App Target (Capacitor)
+1. 建立 `.env.app.local` 並填入通用與 iOS/Android 的 AdMob 測試 ID。 _Create `.env.app.local` with shared + iOS/Android AdMob test IDs._
+2. 建置與匯出靜態資源（`build:app` 會自動輸出 `apps/web/out`）： _Build and export static files for Capacitor._
    ```bash
-   git clone https://github.com/your-username/tarot-prediction.git
-   cd tarot-prediction
+   npm run build:app
+   # npm run export 亦為別名，可於需要時重複執行 / alias for repeated exports
+   ```
+3. 套用原生設定並同步資源： _Patch native projects and copy assets._
+   ```bash
+   npm run cap:patch
+   npm run cap:copy
+   ```
+4. 開啟原生專案進一步編譯： _Open native workspaces._
+   ```bash
+   npm run cap:open:ios
+   npm run cap:open:android
    ```
 
-2. **Install dependencies**
+> 初次開發請先執行 `npm run cap:patch`，確保 iOS/Android 皆寫入 AdMob App ID、ATT 說明與網路權限。  
+> Run `npm run cap:patch` once before committing native projects so AdMob identifiers and permissions are injected idempotently.
 
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
+---
 
-3. **Run the development server**
+## ⚙️ 環境變數 / Environment Variables
 
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   ```
+| 變數 | 說明 | Description |
+| ---- | ---- | ----------- |
+| `NEXT_PUBLIC_BUILD_TARGET` | `web` 或 `app`，控制 `<AdsSwitch />` 載入哪個廣告元件 | Selects `<WebAdsense />` or `<MobileAdMob />` |
+| `NEXT_PUBLIC_ADSENSE_CLIENT_ID` | （選填）Web 版 AdSense client ID | Optional AdSense client for the web build |
+| `NEXT_PUBLIC_ADSENSE_SLOT_ID` | （選填）Web 版 AdSense slot | Optional AdSense slot for the web build |
+| `NEXT_PUBLIC_TABOOLA_PUBLISHER_ID` | （選填）Taboola Publisher ID | Optional Taboola publisher identifier |
+| `NEXT_PUBLIC_ADMOB_BANNER_ID` | 通用 AdMob Banner 測試/正式 ID，亦作為平台專用 ID 的後備值 | Shared banner ad unit (fallback when platform-specific IDs are missing) |
+| `NEXT_PUBLIC_ADMOB_INTERSTITIAL_ID` | 通用 AdMob Interstitial 測試/正式 ID | Shared interstitial ad unit |
+| `NEXT_PUBLIC_ADMOB_REWARDED_ID` | 通用 AdMob Rewarded 測試/正式 ID | Shared rewarded ad unit |
+| `NEXT_PUBLIC_ADMOB_IOS_BANNER_ID` | iOS 專用 Banner 測試/正式 ID | iOS banner ad unit |
+| `NEXT_PUBLIC_ADMOB_IOS_INTERSTITIAL_ID` | iOS 專用 Interstitial 測試/正式 ID | iOS interstitial ad unit |
+| `NEXT_PUBLIC_ADMOB_IOS_REWARDED_ID` | iOS 專用 Rewarded 測試/正式 ID | iOS rewarded ad unit |
+| `NEXT_PUBLIC_ADMOB_ANDROID_BANNER_ID` | Android 專用 Banner 測試/正式 ID | Android banner ad unit |
+| `NEXT_PUBLIC_ADMOB_ANDROID_INTERSTITIAL_ID` | Android 專用 Interstitial 測試/正式 ID | Android interstitial ad unit |
+| `NEXT_PUBLIC_ADMOB_ANDROID_REWARDED_ID` | Android 專用 Rewarded 測試/正式 ID | Android rewarded ad unit |
+| `NEXT_PUBLIC_ADMOB_PLATFORM` | （選填）強制指定 app 廣告平台 `ios`/`android`，用於測試或模擬 | Optional override for ad platform detection (`ios`/`android`) |
+| `OPENAI_API_KEY` | 深度解析使用的 OpenAI API 金鑰（無金鑰時會回退 demo 回覆） | OpenAI key for deep analysis (falls back to demo text) |
 
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+請將敏感值寫入 `.env.web.local` 或 `.env.app.local`，並保留 `.env.example` 作為文件樣板。  
+Store secrets in target-specific env files; keep `.env.example` as documentation only.
 
-### Build for Production
+---
 
-```bash
-npm run build
-npm start
-```
+## 📦 NPM Scripts / Tooling
 
-## 🏗️ Project Structure
+| 指令 | 功能 | Description |
+| ---- | ---- | ----------- |
+| `npm run dev:web` / `npm run dev:app` | 以不同 build target 啟動開發伺服器 | Launch dev server with a chosen build target |
+| `npm run build:web` / `npm run build:app` | 針對 Web/App 目標建置 Next.js 產物 | Build production bundles for web or app |
+| `npm run export` | `build:app` 的別名，可重複產出 `apps/web/out` 靜態檔案 | Alias to regenerate static exports |
+| `npm run lint` | 執行 ESLint | Run ESLint via `next lint` |
+| `npm run format` | 使用 Prettier 格式化 | Format with Prettier |
+| `npm run type-check` | TypeScript 型別檢查 | Run `tsc --noEmit` |
+| `npm run test` | 編譯並執行 Node.js 單元測試 | Compile and execute Node.js unit tests |
+| `npm run cap:patch` | 更新 iOS/Android 專案中的 AdMob/權限設定 | Apply native configuration patches |
+| `npm run cap:copy` | 將 `apps/web/out` 靜態檔案複製到原生平台 | Copy static export into native projects |
+| `npm run cap:open:ios` / `npm run cap:open:android` | 開啟 Xcode / Android Studio | Open native workspaces |
+| `npm run release:verify` | 一次執行 lint、型別檢查、測試、Web/App 建置與靜態匯出 | Full CI pipeline before releases |
 
-```
-├── app/                    # Next.js 14 App Router
-│   ├── layout.tsx         # Root layout with theme provider
-│   ├── page.tsx          # Landing page
-│   ├── draw/             # Card drawing page
-│   │   └── page.tsx
-│   └── result/           # Reading results page
-│       └── page.tsx
-├── components/            # Reusable React components
-│   ├── TarotCard.tsx     # Individual card component
-│   ├── Deck.tsx          # Deck shuffling and drawing
-│   ├── Interpretation.tsx # Reading interpretation
-│   ├── ShareButton.tsx   # Social sharing
-│   ├── AdBanner.tsx      # Monetization placeholder
-│   └── ThemeToggle.tsx   # Dark/light mode toggle
-├── lib/                  # Utilities and data
-│   ├── cards.ts          # Complete 78-card tarot deck
-│   ├── spreads.ts        # Spread definitions
-│   ├── storage.ts        # LocalStorage management
-│   ├── interpret.ts      # Card interpretation logic
-│   ├── types.ts          # TypeScript definitions
-│   └── theme-context.tsx # Theme management
-├── styles/               # Global styles
-│   └── globals.css       # Tailwind + custom CSS
-└── public/               # Static assets
-    └── cards/            # Card image placeholders
-```
+---
 
-## 🎯 Core Functionality
+## 🧪 測試與品質 / Quality Gates
 
-### Card Drawing Flow
+- `npm run lint`：確保程式碼符合 ESLint 規範。  _Enforces the Next.js ESLint profile._
+- `npm run type-check`：強制 TypeScript 嚴格模式通過。  _Runs strict TypeScript checks._
+- `npm run test`：驗證 `app-reading-storage` 在 Rewarded 解鎖、過期清理等情境的行為。  _Covers rewarded caching edge cases via Node test runner._
+- `npm run release:verify`：整合所有檢查與建置流程，亦為 GitHub Actions CI 所採用的驗證腳本。  _Single command pipeline mirroring CI._
 
-1. **Landing Page** → Brief intro + "Begin Reading" CTA
-2. **Draw Page** → Shuffle deck → Draw 3 cards → Assign to Past/Present/Future
-3. **Result Page** → Display cards + interpretations + sharing options
+建議在送審或發版前皆執行上述檢查，並以 `release:verify` 作為最終把關。  
+Always run `release:verify` before store submissions or production deploys.
 
-### Reading Interpretation
+---
 
-- **Individual card meanings** - Based on upright/reversed orientation
-- **Spread-level interpretation** - Contextual analysis across all three cards
-- **Overall theme analysis** - Considers Major/Minor Arcana distribution
+## 🗺️ Roadmap（Phase 回顧） / Phase Recap
 
-### Daily Limit System
+| Phase | 內容摘要 | Summary |
+| ----- | -------- | ------- |
+| Phase 0 | 調整為 Monorepo 結構 (`apps/web`)、新增 build target 旗標與環境檔樣板。 | Monorepo transition with build target flag & env templates. |
+| Phase 1 | 建立 `<AdsSwitch>`、`<WebAdsense>`、`<MobileAdMob>`，串接 Interstitial/Rewarded 流程。 | Cross-platform ad abstraction and AdMob flow. |
+| Phase 2 | 建立 `mobile/` Capacitor 原生包殼，提供 `scripts/apply-capacitor-platform-config.mjs` 自動補丁。 | Capacitor shell with automated native patches. |
+| Phase 3 | App 離線快取、Rewarded 解鎖持久化、AdMob Banner 生命週期強化與測試覆蓋。 | Mobile offline cache & ad lifecycle hardening. |
+| Phase 4 | 發布檢查表、`release:verify` 腳本與 GitHub Actions CI，自動化部署前驗證並整理 Web/Android/iOS 上架流程。 | Release checklist, unified verification script, and CI automation. |
 
-- **3 readings per calendar day** - Stored in localStorage
-- **Graceful limit handling** - Clear messaging when limit reached
-- **Automatic reset** - Fresh readings available each new day
+---
 
-## 🛠️ Development Scripts
+## 📦 Phase 4 – 發布與營運準備 / Release & Operations
 
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
-npm run format       # Format code with Prettier
-npm run type-check   # TypeScript type checking
-```
+- `docs/RELEASE_CHECKLIST.md` 提供 Web、Android 與 iOS 的詳細上架步驟。  _Detailed launch checklist for all targets._
+- `npm run release:verify` 串連 lint、型別檢查、單元測試、Web/App 建置與 `next export`。  _One-stop validation pipeline._
+- `.github/workflows/ci.yml` 會在 Pull Request 與 `main` 分支自動執行上述驗證，並附帶產物供排錯。  _CI runs the same pipeline and uploads build artifacts for debugging._
 
-## 🎨 Customization
+---
 
-### Theme Colors
+## 📱 原生設定摘要 / Native Configuration
 
-Customize the mystical color palette in `tailwind.config.js`:
+### iOS
+- `mobile/ios/App/App/Info.plist` 已加入 `GADApplicationIdentifier` 與 `NSUserTrackingUsageDescription`。  _Info.plist ships with AdMob App ID and ATT prompt copy._
+- `PrivacyInfo.xcprivacy` 預填廣告資料存取資訊。  _Privacy manifest answers App Store privacy questionnaire._
+- 透過 `npm run cap:patch` 可維持 Info.plist 與 Podfile 的冪等更新。  _`cap:patch` keeps Info.plist and Podfile synchronized._
 
-```javascript
-colors: {
-  tarot: {
-    gold: '#ffd700',
-    purple: '#8b5cf6',
-    midnight: '#1a1a2e',
-    cosmic: '#16213e',
-  }
-}
-```
+### Android
+- `mobile/android/app/src/main/AndroidManifest.xml` 宣告網路權限與 AdMob App ID meta-data。  _Manifest declares internet permission and AdMob App ID._
+- `strings.xml` 預設寫入 Google 測試 App ID，可於發佈前改成正式值。  _Strings file stores the AdMob App ID (Google test value by default)._ 
+- 所有修改均透過 `scripts/apply-capacitor-platform-config.mjs` 自動套用。  _Automated patch script prevents manual drift._
 
-### Card Data
+---
 
-Add or modify card interpretations in `lib/cards.ts`. Each card includes:
+## 🚀 部署與發佈 / Deployment Checklist
 
-- Traditional name and arcana type
-- Upright and reversed meanings
-- Suit and number for Minor Arcana
-- Image path for custom artwork
+- **Web**：
+  - `NEXT_PUBLIC_BUILD_TARGET=web npm run build`
+  - 部署 `.next` 產物至 Vercel/Cloudflare，並確保 `.env.web.local` 中的廣告設定已轉換為正式 ID。  _Deploy to Vercel/Cloudflare with production ad slots._
 
-### Spreads
+- **Android**：
+  - `npm run build:app`
+  - `npm run cap:patch && npm run cap:copy`
+  - 使用 `npm run cap:open:android` 打開 Android Studio，產出 AAB 檔後上傳 Google Play Console，並填寫 Data safety 表單。  _Generate an AAB and complete Data Safety._
 
-Create new reading spreads in `lib/spreads.ts`:
+- **iOS**：
+  - 同步步驟與 Android 相同，最後透過 `npm run cap:open:ios` 開啟 Xcode、建立 Archive，於 App Store Connect 送審，並完成 App Privacy 問卷。  _Archive in Xcode and submit via App Store Connect, completing privacy questionnaires._
 
-```typescript
-export const CELTIC_CROSS: Spread = {
-  id: 'celtic-cross',
-  name: 'Celtic Cross',
-  positions: [
-    { id: 'present', name: 'Present Situation', description: '...' },
-    // ... more positions
-  ],
-};
-```
+上架前請改用正式的廣告 ID 並再次執行所有測試與建置指令，確認 Rewarded 流程與離線快取皆正常。  
+Before shipping, swap in production ad IDs and rerun the full verification pipeline.
 
-## 🔮 Roadmap
+---
 
-### Phase 1: Core Features ✅
+## 🎨 自訂與延伸 / Customization & Extensibility
 
-- [x] Complete tarot deck with meanings
-- [x] Three-card Past/Present/Future spread
-- [x] Card shuffling and drawing mechanics
-- [x] Basic interpretation system
-- [x] Daily reading limits
-- [x] Dark/light theme toggle
-- [x] Responsive design
-- [x] Accessibility features
+- **主題顏色 Theme Colors**：於 `apps/web/tailwind.config.js` 調整品牌色彩，打造專屬神秘感。  _Tweak the Tailwind palette for bespoke branding._
+- **牌義資料 Card Data**：在 `apps/web/lib/tarot-i18n.ts` 與 `apps/web/locales/` 更新在地化描述或新增語系。  _Extend localized meanings or add locales._
+- **Spread 與流程 Spreads & Flow**：`apps/web/app/[locale]/reading/page.tsx` 控制抽牌及解析流程，可加入更多關卡或動畫。  _Enhance reading logic with additional spreads or motions._
 
-### Phase 2: Enhanced Experience
+---
 
-- [ ] **AI-powered interpretations** - GPT integration for personalized readings
-- [ ] **Multiple spread types** - Celtic Cross, One Card, Love spreads
-- [ ] **Reading history** - View past readings and patterns
-- [ ] **Custom card artwork** - Professional tarot card illustrations
-- [ ] **Sound effects** - Ambient mystical audio
+## 🤝 貢獻指南 / Contributing
 
-### Phase 3: Community & Monetization
+1. Fork 本倉庫，建立功能分支並以 Conventional Commits 命名。  _Fork the repo and create feature branches with Conventional Commits._
+2. 開發過程請執行 `npm run lint`、`npm run type-check` 與 `npm run test`。  _Keep lint, type checks, and tests green before pushing._
+3. 送出 PR 時附上測試結果截圖或日誌，並參考 `.github/PR_TEMPLATE.md`。  _Follow the PR template with verification evidence._
 
-- [ ] **User accounts** - Save readings, preferences, and history
-- [ ] **Reading journal** - Personal notes and reflections
-- [ ] **Premium features** - Unlimited readings, advanced spreads
-- [ ] **Ad integration** - Respectful monetization strategy
-- [ ] **Social sharing** - Enhanced sharing with card images
+---
 
-### Phase 4: Advanced Features
+## 📄 授權 / License
 
-- [ ] **Multi-language support** - i18n for global audience
-- [ ] **Backend integration** - User data persistence
-- [ ] **Push notifications** - Daily reading reminders
-- [ ] **Tarot learning** - Educational content about card meanings
-- [ ] **Community features** - Share and discuss readings
+本專案依據 [MIT License](LICENSE) 授權。  _Licensed under the MIT License._
 
-## 🧪 Testing
+---
 
-### Manual Testing Checklist
-
-- [ ] Landing page loads and displays correctly
-- [ ] Theme toggle works across all pages
-- [ ] Card drawing flow completes successfully
-- [ ] Daily limit enforcement works
-- [ ] Readings save and display correctly
-- [ ] Share functionality works
-- [ ] Responsive design on mobile/tablet
-- [ ] Keyboard navigation accessible
-- [ ] Screen reader compatibility
-
-### Test Data Management
-
-```javascript
-// Clear all readings for testing
-import { clearAllReadings } from '@/lib/storage';
-clearAllReadings();
-```
-
-## 📱 Browser Support
-
-- **Modern browsers** - Chrome 88+, Firefox 85+, Safari 14+, Edge 88+
-- **Mobile browsers** - iOS Safari 14+, Chrome Mobile 88+
-- **Accessibility** - WCAG 2.1 AA compliant
-- **Performance** - Optimized for Core Web Vitals
-
-## 🔧 Configuration
-
-### Environment Variables
-
-Create a `.env.local` file for local development:
-
-```bash
-# Google AdSense Configuration
-# Replace with your actual AdSense publisher client ID
-NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-XXXXXXXXXXXXXXXX
-
-# Optional: Add Google Analytics ID
-NEXT_PUBLIC_GA_ID=your_ga_id
-
-# Optional: Add error tracking
-NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn
-```
-
-### ESLint & Prettier
-
-The project includes pre-configured linting and formatting:
-
-- **ESLint** - Next.js recommended rules + Prettier integration
-- **Prettier** - Consistent code formatting
-- **TypeScript** - Strict type checking
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
-### Development Setup
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Tarot tradition** - Centuries of mystical wisdom
-- **Open source community** - Amazing tools and libraries
-- **Rider-Waite-Smith** - Traditional tarot card meanings
-- **Framer Motion** - Beautiful animations
-- **Tailwind CSS** - Utility-first styling
-- **Next.js team** - Excellent React framework
-
-## 📧 Support
-
-If you have questions or need help:
+## 📧 支援 / Support
 
 - 📧 Email: support@mystictarot.com
 - 🐛 Issues: [GitHub Issues](https://github.com/your-username/tarot-prediction/issues)
