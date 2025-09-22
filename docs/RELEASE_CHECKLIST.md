@@ -17,7 +17,7 @@
 
 ## 2. Web（Vercel／Cloudflare）
 
-1. `NEXT_PUBLIC_BUILD_TARGET=web npm run build` → 確保 `.next` 產物生成成功。
+1. `npm run build:web` → 確保 `.next` 產物生成成功。
 2. `npm run start` 於本機驗證主要互動：抽牌動畫、Rewarded 前導提示、深度解析 API。
 3. 於 staging（或 preview URL）確認：
    - AdSense / Taboola slot 掛載成功（需使用測試 ID）。

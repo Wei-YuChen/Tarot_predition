@@ -215,7 +215,7 @@ Always run `release:verify` before store submissions or production deploys.
 ## 🚀 部署與發佈 / Deployment Checklist
 
 - **Web**：
-  - `NEXT_PUBLIC_BUILD_TARGET=web npm run build`
+  - `npm run build:web`
   - 部署 `.next` 產物至 Vercel/Cloudflare，並確保 `.env.web.local` 中的廣告設定已轉換為正式 ID。  _Deploy to Vercel/Cloudflare with production ad slots._
 
 - **Android**：
