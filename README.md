@@ -180,6 +180,12 @@ Each phase builds upon the monorepo foundation established in Phase 0.
 | `npm run format`     | Prettier formatting                                  |
 | `npm run type-check` | TypeScript project check                             |
 
+## 🤖 Codemagic CI
+
+- Codemagic looks for [`codemagic.yaml`](codemagic.yaml) in the repository root. Pushes to `main` (or manual runs) will trigger the `mystic_tarot_static_export` workflow to lint, type-check, and generate the Capacitor static export via `npm run build:app`.
+- Configure the `CM_EMAIL` environment variable in Codemagic to receive build notifications when the workflow finishes.
+- After committing the file, press **Check for configuration file** in the Codemagic UI to validate the setup and start your next build (including automated screenshot generation).
+
 ## 📄 License
 
 [MIT](LICENSE)

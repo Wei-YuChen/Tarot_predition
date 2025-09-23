@@ -1,0 +1,37 @@
+workflows:
+  mystic_tarot_static_export:
+    name: Mystic Tarot Static Export
+    max_build_duration: 60
+    environment:
+      node: 18
+      npm: latest
+      vars:
+        CI: "true"
+    cache:
+      cache_default_paths: true
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm ci
+      - name: Lint
+        script: |
+          npm run lint
+      - name: Type check
+        script: |
+          npm run type-check
+      - name: Build static export for Capacitor shells
+        script: |
+          npm run build:app
+      - name: Archive static export for download
+        script: |
+          tar -czf apps-web-out.tar.gz -C apps/web/out .
+    artifacts:
+      - apps-web-out.tar.gz
+      - apps/web/out/**
+    publishing:
+      email:
+        recipients:
+          - ${CM_EMAIL}
+        notify:
+          success: true
+          failure: true
