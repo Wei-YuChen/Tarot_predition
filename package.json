@@ -11,7 +11,7 @@
     "build:app": "NEXT_PUBLIC_BUILD_TARGET=app next build apps/web && npm run export",
     "start": "NEXT_PUBLIC_BUILD_TARGET=web next start apps/web",
     "start:app": "NEXT_PUBLIC_BUILD_TARGET=app next start apps/web",
-    "export": "NEXT_PUBLIC_BUILD_TARGET=app next export apps/web --outdir apps/web/out",
+    "export": "NEXT_PUBLIC_BUILD_TARGET=app next export apps/web --output apps/web/out",
     "postexport": "node scripts/sync-static-export.mjs",
     "sync:static": "node scripts/sync-static-export.mjs",
     "lint": "next lint apps/web",
