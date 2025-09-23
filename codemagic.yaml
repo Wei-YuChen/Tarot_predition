@@ -12,18 +12,23 @@ workflows:
     scripts:
       - name: Install dependencies
         script: |
+          set -euo pipefail
           npm install --no-progress
       - name: Lint
         script: |
+          set -euo pipefail
           npm run lint
       - name: Type check
         script: |
+          set -euo pipefail
           npm run type-check
       - name: Build static export for Capacitor shells
         script: |
+          set -euo pipefail
           npm run build:app
       - name: Archive static export for download
         script: |
+          set -euo pipefail
           tar -czf apps-web-out.tar.gz -C apps/web/out .
     artifacts:
       - apps-web-out.tar.gz

@@ -168,24 +168,25 @@ Each phase builds upon the monorepo foundation established in Phase 0.
 
 ## 📝 Scripts Reference
 
-| Script               | Description                                          |
-| -------------------- | ---------------------------------------------------- |
-| `npm run dev:web`    | Start Next.js dev server for the web target          |
-| `npm run dev:app`    | Start dev server with `NEXT_PUBLIC_BUILD_TARGET=app` |
-| `npm run build:web`  | Production build for web deployments                 |
-| `npm run build:app`  | Production build for Capacitor export                |
-| `npm run start`      | Run the built web bundle locally                     |
-| `npm run export`     | Static export to `apps/web/out` for Capacitor        |
-| `npm run lint`       | ESLint (`apps/web`)                                  |
-| `npm run format`     | Prettier formatting                                  |
-| `npm run type-check` | TypeScript project check                             |
+| Script               | 說明                                                                 |
+| -------------------- | -------------------------------------------------------------------- |
+| `npm run dev:web`    | 啟動以網頁為目標的 Next.js 開發伺服器                                  |
+| `npm run dev:app`    | 以 `NEXT_PUBLIC_BUILD_TARGET=app` 啟動 Next.js 開發伺服器             |
+| `npm run build:web`  | 產出網頁佈署用的 production bundle                                    |
+| `npm run build:app`  | 建置並匯出 `apps/web/out`，完成後自動呼叫同步腳本複製到 Capacitor 殼層 |
+| `npm run start`      | 在本機啟動已建置的網頁版 bundle                                       |
+| `npm run export`     | 單獨執行 `next export` 產出靜態檔                                     |
+| `npm run sync:static`| 將既有 `apps/web/out` 靜態資產再次複製到已存在的 Capacitor 平台        |
+| `npm run lint`       | 執行 ESLint（範圍為 `apps/web`）                                      |
+| `npm run format`     | 使用 Prettier 進行程式碼排版                                          |
+| `npm run type-check` | 執行 TypeScript 型別檢查（`apps/web` 專案）                            |
 
 ## 🤖 Codemagic CI
 
-- Codemagic looks for [`codemagic.yaml`](codemagic.yaml) in the repository root. Pushes to `main` (or manual runs) will trigger the `mystic_tarot_static_export` workflow to lint, type-check, and generate the Capacitor static export via `npm run build:app`.
-- Build notifications are sent to `highandhigh96@hotmail.com` and `fish760217@gmail.com`; update [`codemagic.yaml`](codemagic.yaml) if you need to notify additional recipients.
-- The workflow installs dependencies with `npm install` (instead of `npm ci`) so optional packages like `@capacitor-community/admob` can be resolved automatically when the registry is reachable.
-- After committing the file, press **Check for configuration file** in the Codemagic UI to validate the setup and start your next build (including automated screenshot generation).
+- Codemagic 會在儲存庫根目錄尋找 [`codemagic.yaml`](codemagic.yaml)。推送到 `main` 或手動觸發時，`mystic_tarot_static_export` 流程會自動安裝依賴、執行 Lint 與型別檢查，最後透過 `npm run build:app` 匯出靜態資產。
+- 目前採用 `npm install`（非 `npm ci`）安裝依賴，方便在可連網環境解析 `@capacitor-community/admob` 等可選套件。
+- 建置成功或失敗時會寄信通知 `highandhigh96@hotmail.com` 與 `fish760217@gmail.com`，可依需求修改 [`codemagic.yaml`](codemagic.yaml) 的 `publishing.email.recipients` 陣列。
+- 新增或更新設定檔後，記得在 Codemagic 後台點選 **Check for configuration file** 重新載入設定，接著即可啟動建置與自動截圖流程。
 
 ## 📄 License
 
