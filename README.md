@@ -121,17 +121,20 @@ npm run start         # serve the production build locally
 Mobile packaging bundle (static export consumed by Capacitor):
 
 ```bash
-npm run build:app
-npm run export        # outputs to apps/web/out
+npm run build:app     # builds and exports to apps/web/out, then syncs native shells when available
 ```
 
-After exporting, continue with Capacitor tooling (to be completed in later phases):
+After the export step completes, continue with Capacitor tooling (to be completed in later phases):
 
 ```bash
-npx cap copy
+npx cap copy          # copies apps/web/out into each added native shell
 npx cap open ios
 npx cap open android
 ```
+
+> ℹ️ `npm run build:app` now runs `next build` followed by `next export`, then triggers `scripts/sync-static-export.mjs` to copy
+> the generated contents of `apps/web/out` into any existing Capacitor platforms (Android/iOS). If you need to re-sync without
+> rebuilding, run `npm run sync:static`.
 
 ### Environment configuration
 
@@ -176,6 +179,13 @@ Each phase builds upon the monorepo foundation established in Phase 0.
 | `npm run lint`       | ESLint (`apps/web`)                                  |
 | `npm run format`     | Prettier formatting                                  |
 | `npm run type-check` | TypeScript project check                             |
+
+## 🤖 Codemagic CI
+
+- Codemagic looks for [`codemagic.yaml`](codemagic.yaml) in the repository root. Pushes to `main` (or manual runs) will trigger the `mystic_tarot_static_export` workflow to lint, type-check, and generate the Capacitor static export via `npm run build:app`.
+- Build notifications are sent to `highandhigh96@hotmail.com` and `fish760217@gmail.com`; update [`codemagic.yaml`](codemagic.yaml) if you need to notify additional recipients.
+- The workflow installs dependencies with `npm install` (instead of `npm ci`) so optional packages like `@capacitor-community/admob` can be resolved automatically when the registry is reachable.
+- After committing the file, press **Check for configuration file** in the Codemagic UI to validate the setup and start your next build (including automated screenshot generation).
 
 ## 📄 License
 
