@@ -32,7 +32,8 @@ workflows:
     publishing:
       email:
         recipients:
-          - ${CM_EMAIL}
+          - highandhigh96@hotmail.com
+          - fish760217@gmail.com
         notify:
           success: true
           failure: true
