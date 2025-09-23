@@ -4,15 +4,16 @@ workflows:
     max_build_duration: 60
     environment:
       node: 18
-      npm: latest
       vars:
         CI: "true"
     cache:
-      cache_default_paths: true
+      cache_paths:
+        - $HOME/.npm
     scripts:
       - name: Install dependencies
         script: |
-          npm ci
+          npm install --no-progress
+
       - name: Lint
         script: |
           npm run lint
@@ -31,7 +32,8 @@ workflows:
     publishing:
       email:
         recipients:
-          - ${CM_EMAIL}
+          - highandhigh96@hotmail.com
+          - fish760217@gmail.com
         notify:
           success: true
           failure: true
