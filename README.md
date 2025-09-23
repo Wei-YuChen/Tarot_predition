@@ -184,6 +184,7 @@ Each phase builds upon the monorepo foundation established in Phase 0.
 
 - Codemagic looks for [`codemagic.yaml`](codemagic.yaml) in the repository root. Pushes to `main` (or manual runs) will trigger the `mystic_tarot_static_export` workflow to lint, type-check, and generate the Capacitor static export via `npm run build:app`.
 - Build notifications are sent to `highandhigh96@hotmail.com` and `fish760217@gmail.com`; update [`codemagic.yaml`](codemagic.yaml) if you need to notify additional recipients.
+- The workflow installs dependencies with `npm install` (instead of `npm ci`) so optional packages like `@capacitor-community/admob` can be resolved automatically when the registry is reachable.
 - After committing the file, press **Check for configuration file** in the Codemagic UI to validate the setup and start your next build (including automated screenshot generation).
 
 ## 📄 License
