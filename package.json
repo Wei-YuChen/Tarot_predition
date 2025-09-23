@@ -3,12 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "dev": "npm run dev:web",
+    "dev:web": "node scripts/run-next.mjs dev web",
+    "dev:app": "node scripts/run-next.mjs dev app",
+    "build": "npm run build:web",
+    "build:web": "node scripts/run-next.mjs build web",
+    "build:app": "node scripts/run-next.mjs build app && node scripts/sync-static-export.mjs",
+    "start": "node scripts/run-next.mjs start web",
+    "start:app": "node scripts/run-next.mjs start app",
+    "export": "npm run build:app",
+    "lint": "next lint apps/web",
     "format": "prettier --write .",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --project apps/web/tsconfig.json --noEmit",
+    "test": "npm run test:build && npm run test:run",
+    "test:build": "tsc --project tsconfig.tests.json",
+    "test:run": "node --test .tmp-tests/tests/app-reading-storage.test.js",
+    "release:verify": "npm run lint && npm run type-check && npm run test && npm run build:web && npm run build:app",
+    "cap:patch": "node scripts/apply-capacitor-platform-config.mjs",
+    "cap:copy": "CAPACITOR_CONFIG_PATH=mobile/capacitor.config.ts npx cap copy",
+    "cap:open:ios": "CAPACITOR_CONFIG_PATH=mobile/capacitor.config.ts npx cap open ios",
+    "cap:open:android": "CAPACITOR_CONFIG_PATH=mobile/capacitor.config.ts npx cap open android",
+    "cap:sync": "npm run export && npm run cap:patch && npm run cap:copy"
   },
   "dependencies": {
     "autoprefixer": "^10.4.21",
@@ -16,6 +31,10 @@
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18"
+  },
+  "optionalDependencies": {
+    "@capacitor-community/admob": "^5.5.1",
+    "@capacitor/core": "^6.1.2"
   },
   "devDependencies": {
     "@types/node": "^20",

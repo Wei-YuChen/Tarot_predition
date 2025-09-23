@@ -6,15 +6,31 @@ node_modules/
 
 # Testing
 coverage/
+.tmp-tests/
 
 # Next.js
 .next/
+apps/web/.next/
 out/
+apps/web/out/
 build/
 
 # Misc
 .DS_Store
 *.pem
+
+# Capacitor native outputs
+mobile/android/.gradle/
+mobile/android/build/
+mobile/android/app/build/
+mobile/android/capacitor-cordova-android-plugins/
+mobile/android/local.properties
+mobile/android/gradle/
+mobile/ios/App/App.xcworkspace/
+mobile/ios/App/build/
+mobile/ios/App/Pods/
+mobile/ios/App/Podfile.lock
+mobile/ios/App/App.xcodeproj/xcuserdata/
 
 # Debug
 npm-debug.log*
@@ -34,6 +50,7 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+apps/web/next-env.d.ts
 
 # IDE
 .vscode/

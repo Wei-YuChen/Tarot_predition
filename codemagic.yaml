@@ -1,0 +1,161 @@
+# Codemagic workflow configuration for Tarot App (Capacitor Android/iOS builds)
+workflows:
+  android_release:
+    name: Android AAB (Capacitor)
+    max_build_duration: 90
+    environment:
+      node: 20
+      npm: 10
+      java: 17
+      vars:
+        CAPACITOR_CONFIG_PATH: mobile/capacitor.config.ts
+        NEXT_PUBLIC_BUILD_TARGET: app
+      groups:
+        - android_keystore        # 於 Codemagic 設定簽署金鑰與憑證
+        - admob_env               # 可選，若需要在 CI 中覆寫廣告 ID
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+          source: true
+    scripts:
+      - name: 安裝 Node 相依
+        script: |
+          set -euxo pipefail
+          npm ci
+      - name: 安裝 Capacitor CLI 與 Android 平台
+        script: |
+          set -euxo pipefail
+          npm install --no-save @capacitor/cli@6.1.2 @capacitor/android@6.1.2
+      - name: 驗證程式碼品質與雙目標建置
+        script: |
+          set -euxo pipefail
+          npm run release:verify
+      - name: 確保已建立 Android 平台並同步資產
+        script: |
+          set -euxo pipefail
+          if [ ! -d "mobile/android/app" ]; then
+            npx cap add android --skip-deps
+          fi
+          npm run cap:patch
+          npm run cap:copy
+      - name: 建置 Android AAB
+        script: |
+          set -euxo pipefail
+          cd mobile/android
+          ./gradlew --no-daemon clean bundleRelease
+      - name: 列出產出檔案供除錯
+        script: |
+          set -euxo pipefail
+          ls -R app/build/outputs
+    artifacts:
+      - mobile/android/app/build/outputs/**/*.aab
+      - mobile/android/app/build/outputs/**/*.apk
+      - apps/web/out/**
+    publishing:
+      email:
+        recipients:
+          - ${CM_EMAIL}
+        notify:
+          success: true
+          failure: true
+
+  ios_release:
+    name: iOS IPA (Capacitor)
+    max_build_duration: 120
+    environment:
+      node: 20
+      npm: 10
+      xcode: 15.3
+      cocoapods: default
+      vars:
+        CAPACITOR_CONFIG_PATH: mobile/capacitor.config.ts
+        NEXT_PUBLIC_BUILD_TARGET: app
+      groups:
+        - ios_signing             # 於 Codemagic 儲存 p12、provisioning profiles、Team ID
+        - admob_env               # 可選，若需要在 CI 中覆寫廣告 ID
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+          source: true
+    scripts:
+      - name: 安裝 Node 相依
+        script: |
+          set -euxo pipefail
+          npm ci
+      - name: 安裝 Capacitor CLI 與 iOS 平台
+        script: |
+          set -euxo pipefail
+          npm install --no-save @capacitor/cli@6.1.2 @capacitor/ios@6.1.2
+      - name: 驗證程式碼品質與雙目標建置
+        script: |
+          set -euxo pipefail
+          npm run release:verify
+      - name: 確保已建立 iOS 平台並同步資產
+        script: |
+          set -euxo pipefail
+          if [ ! -d "mobile/ios/App/App.xcodeproj" ]; then
+            npx cap add ios --skip-deps
+          fi
+          npm run cap:patch
+          npm run cap:copy
+      - name: 安裝 CocoaPods 依賴
+        script: |
+          set -euxo pipefail
+          cd mobile/ios/App
+          pod install
+      - name: 建置 Xcode Archive
+        script: |
+          set -euxo pipefail
+          cd mobile/ios/App
+          ARCHIVE_PATH="$CM_BUILD_DIR/TarotApp.xcarchive"
+          xcodebuild -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath "$ARCHIVE_PATH" \
+            DEVELOPMENT_TEAM="${APPLE_TEAM_ID}" \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="${CODE_SIGN_IDENTITY}" \
+            PROVISIONING_PROFILE_SPECIFIER="${PROVISIONING_PROFILE}" \
+            archive
+      - name: 匯出 IPA
+        script: |
+          set -euxo pipefail
+          EXPORT_OPTIONS="$CM_BUILD_DIR/exportOptions.plist"
+          cat > "$EXPORT_OPTIONS" <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>${EXPORT_METHOD}</string>
+            <key>teamID</key>
+            <string>${APPLE_TEAM_ID}</string>
+            <key>compileBitcode</key>
+            <false/>
+            <key>stripSwiftSymbols</key>
+            <true/>
+          </dict>
+          </plist>
+          PLIST
+          xcodebuild -exportArchive \
+            -archivePath "$CM_BUILD_DIR/TarotApp.xcarchive" \
+            -exportPath "$CM_BUILD_DIR/ios" \
+            -exportOptionsPlist "$EXPORT_OPTIONS"
+    artifacts:
+      - $CM_BUILD_DIR/TarotApp.xcarchive/**
+      - $CM_BUILD_DIR/ios/*.ipa
+      - apps/web/out/**
+    publishing:
+      email:
+        recipients:
+          - ${CM_EMAIL}
+        notify:
+          success: true
+          failure: true

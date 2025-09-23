@@ -11,10 +11,6 @@
   --tarot-cosmic: #16213e;
 }
 
-body {
-  @apply bg-white dark:bg-tarot-midnight text-gray-900 dark:text-gray-100 transition-colors duration-300;
-}
-
 @layer components {
   .card-frame {
     @apply relative bg-gradient-to-br from-tarot-gold/20 via-tarot-purple/10 to-tarot-cosmic/20 
