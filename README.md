@@ -121,17 +121,20 @@ npm run start         # serve the production build locally
 Mobile packaging bundle (static export consumed by Capacitor):
 
 ```bash
-npm run build:app
-npm run export        # outputs to apps/web/out
+npm run build:app     # builds and exports to apps/web/out, then syncs native shells when available
 ```
 
-After exporting, continue with Capacitor tooling (to be completed in later phases):
+After the export step completes, continue with Capacitor tooling (to be completed in later phases):
 
 ```bash
-npx cap copy
+npx cap copy          # copies apps/web/out into each added native shell
 npx cap open ios
 npx cap open android
 ```
+
+> ℹ️ `npm run build:app` now runs `next build` followed by `next export`, then triggers `scripts/sync-static-export.mjs` to copy
+> the generated contents of `apps/web/out` into any existing Capacitor platforms (Android/iOS). If you need to re-sync without
+> rebuilding, run `npm run sync:static`.
 
 ### Environment configuration
 
