@@ -39,7 +39,7 @@ export default function RootLayout({
         {/* Google AdSense verification meta tag */}
         <meta name="google-adsense-account" content="ca-pub-8388475297920969" />
       </head>
-      <body className="font-sans antialiased">
+      <body className="bg-white dark:bg-tarot-midnight text-gray-900 dark:text-gray-100 transition-colors duration-300 font-sans antialiased">
         {/* Google AdSense verification script */}
         <Script
           async
