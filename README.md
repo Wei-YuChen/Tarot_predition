@@ -66,13 +66,21 @@ tarot-app/
 │   ├── admob.ts             # AdMob wrapper (delegates to native plugin or stub)
 │   └── stubs/
 │       └── capacitor-admob.ts  # Local fallback when optional dependency is missing
-├── mobile/
-│   ├── capacitor.config.ts  # Capacitor shell configuration
-│   ├── ios/                 # iOS platform assets (placeholder)
-│   └── android/             # Android platform assets (placeholder)
+├── android/                 # Android Capacitor platform
+│   ├── app/
+│   │   └── src/main/assets/public/  # Synced static export
+│   ├── build.gradle
+│   └── ...
+├── ios/                     # iOS Capacitor platform
+│   ├── App/
+│   │   └── App/public/      # Synced static export
+│   ├── App.xcodeproj
+│   └── ...
 ├── .env.web.local           # Sample env vars for web builds
 ├── .env.app.local           # Sample env vars for app builds
 ├── .env.example             # Shared env template
+├── capacitor.config.ts      # Capacitor configuration
+├── codemagic.yaml           # CI/CD workflows for web, iOS, and Android
 ├── package.json             # Shared scripts & dependencies
 ├── tsconfig.json            # Monorepo TypeScript project references
 └── README.md
@@ -121,19 +129,19 @@ npm run start         # serve the production build locally
 Mobile packaging bundle (static export consumed by Capacitor):
 
 ```bash
-npm run build:app     # builds and exports to apps/web/out, then syncs native shells when available
+npm run build:app     # builds and exports to .next, then syncs native shells
 ```
 
-After the export step completes, continue with Capacitor tooling (to be completed in later phases):
+After the export step completes, you can also use Capacitor tooling directly:
 
 ```bash
-npx cap copy          # copies apps/web/out into each added native shell
-npx cap open ios
-npx cap open android
+npx cap copy          # copies .next into each added native shell
+npx cap open ios      # opens Xcode for iOS development
+npx cap open android  # opens Android Studio for Android development
 ```
 
-> ℹ️ `npm run build:app` now runs `next build` followed by `next export`, then triggers `scripts/sync-static-export.mjs` to copy
-> the generated contents of `apps/web/out` into any existing Capacitor platforms (Android/iOS). If you need to re-sync without
+> ℹ️ `npm run build:app` now runs `next build` with static export, then triggers `scripts/sync-static-export.mjs` to copy
+> the generated contents of `.next` into any existing Capacitor platforms (Android/iOS). If you need to re-sync without
 > rebuilding, run `npm run sync:static`.
 
 ### Environment configuration
@@ -159,8 +167,9 @@ All modules now live under `apps/web` so they can later be imported into shared 
 
 ## 🧭 Roadmap
 
+- ✅ **Phase 0 – Monorepo foundation**: web app, shared assets, and build pipeline are established.
 - ✅ **Phase 1 – Advertisement abstraction**: `<WebAdsense />`, `<MobileAdMob />`, and reward-gated flows are live in the reading experience.
-- 🔜 **Phase 2 – Capacitor shell**: initialize native projects, configure permissions, and sync exported assets.
+- ✅ **Phase 2 – Capacitor shell**: Native iOS/Android projects initialized, CI/CD workflows configured for mobile builds.
 - 🔜 **Phase 3 – Mobile UX polish**: handle offline storage, rewarded flows, and native-only affordances.
 - 🔜 **Phase 4 – Release readiness**: document deployment, store submissions, and privacy questionnaires.
 
@@ -175,19 +184,34 @@ Each phase builds upon the monorepo foundation established in Phase 0.
 | `npm run build:web`  | Production build for web deployments                 |
 | `npm run build:app`  | Production build for Capacitor export                |
 | `npm run start`      | Run the built web bundle locally                     |
-| `npm run export`     | Static export to `apps/web/out` for Capacitor        |
+| `npm run export`     | Static export to `.next` for Capacitor              |
+| `npm run sync:static`| Sync `.next` export to Capacitor platforms          |
 | `npm run lint`       | ESLint (`apps/web`)                                  |
 | `npm run format`     | Prettier formatting                                  |
 | `npm run type-check` | TypeScript project check                             |
 
 ## 🤖 Codemagic CI
 
-- Codemagic looks for [`codemagic.yaml`](codemagic.yaml) in the repository root. Pushes to `main` (or manual runs) will trigger the `mystic_tarot_static_export` workflow to lint, type-check, and generate the Capacitor static export via `npm run build:app`.
+Codemagic looks for [`codemagic.yaml`](codemagic.yaml) in the repository root. The configuration includes three workflows:
 
+- **`mystic_tarot_static_export`**: Lints, type-checks, and generates the Capacitor static export via `npm run build:app`
+- **`mystic_tarot_ios`**: Builds iOS app with Xcode, includes CocoaPods dependency management
+- **`mystic_tarot_android`**: Builds Android APK/AAB with Gradle
+
+### Workflow Triggers
+- Manual runs from Codemagic UI
+- Pushes to `main` branch (configure branch filters as needed)
+
+### Build Configuration
 - Build notifications are sent to `highandhigh96@hotmail.com` and `fish760217@gmail.com`; update [`codemagic.yaml`](codemagic.yaml) if you need to notify additional recipients.
-- The workflow installs dependencies with `npm install` (instead of `npm ci`) so optional packages like `@capacitor-community/admob` can be resolved automatically when the registry is reachable.
+- The workflows install dependencies with `npm install` (instead of `npm ci`) so optional packages like `@capacitor-community/admob` can be resolved automatically when the registry is reachable.
 
-- After committing the file, press **Check for configuration file** in the Codemagic UI to validate the setup and start your next build (including automated screenshot generation).
+### Getting Started
+1. Connect your GitHub repository to Codemagic
+2. Press **Check for configuration file** in the Codemagic UI to validate the setup
+3. Start your first build manually or push to the `main` branch
+
+For code signing and app store publishing, configure certificates and provisioning profiles in the Codemagic UI.
 
 ## 📄 License
 
