@@ -7,6 +7,7 @@ workflows:
       vars:
         CI: "true"
     cache:
+      cache_default_paths: true
       cache_paths:
         - $HOME/.npm
     scripts:
