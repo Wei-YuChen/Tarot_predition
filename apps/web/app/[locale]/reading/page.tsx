@@ -3,9 +3,9 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
-import AdsSwitch, { isAppBuildTarget } from '@shared/AdsSwitch';
-import WebAdsense from '@shared/WebAdsense';
-import MobileAdMob from '@shared/MobileAdMob';
+import AdsSwitch, { isAppBuildTarget } from '@/components/AdsSwitch';
+import WebAdsense from '@/components/WebAdsense';
+import MobileAdMob from '@/components/MobileAdMob';
 import {
   drawCards,
   DrawnCard,
@@ -26,7 +26,7 @@ import {
   meaningByOrientationLocalized,
   getOrientationLabels,
 } from '@/lib/tarot-i18n';
-import { initAdmob, showInterstitial, showRewarded } from '@shared-lib/admob';
+import { initAdmob, showInterstitial, showRewarded } from '@/lib/admob';
 
 interface ReadingPageProps {
   params: { locale: string };
