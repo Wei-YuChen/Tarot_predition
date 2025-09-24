@@ -24,29 +24,35 @@ export default function MobileAdMob({ className, bannerId }: MobileAdMobProps) {
 
   useEffect(() => {
     if (!isAppTarget) {
+      console.log('[MobileAdMob] Not app target, skipping');
       return;
     }
 
     if (!resolvedBannerId) {
+      console.warn('[MobileAdMob] Missing banner ID');
       setStatus('error');
       setErrorMessage('缺少 AdMob Banner 廣告 ID');
       return;
     }
 
+    console.log('[MobileAdMob] Setting up banner with ID:', resolvedBannerId);
     let cancelled = false;
 
     const setupBanner = async () => {
       setStatus('loading');
+      console.log('[MobileAdMob] Initializing AdMob...');
       const initialized = await initAdmob();
 
       if (!initialized) {
         if (!cancelled) {
+          console.error('[MobileAdMob] AdMob initialization failed');
           setStatus('error');
           setErrorMessage('AdMob 初始化失敗');
         }
         return;
       }
 
+      console.log('[MobileAdMob] AdMob initialized, showing banner...');
       const success = await showBanner(resolvedBannerId);
 
       if (cancelled) {
@@ -54,9 +60,11 @@ export default function MobileAdMob({ className, bannerId }: MobileAdMobProps) {
       }
 
       if (success) {
+        console.log('[MobileAdMob] Banner shown successfully');
         setStatus('loaded');
         setErrorMessage(null);
       } else {
+        console.error('[MobileAdMob] Banner show failed');
         setStatus('error');
         setErrorMessage('AdMob Banner 顯示失敗');
       }
@@ -67,7 +75,7 @@ export default function MobileAdMob({ className, bannerId }: MobileAdMobProps) {
     return () => {
       cancelled = true;
       hideBanner().catch((error) => {
-        console.error('[admob] failed to hide banner on cleanup', error);
+        console.error('[MobileAdMob] failed to hide banner on cleanup', error);
       });
     };
   }, [resolvedBannerId]);

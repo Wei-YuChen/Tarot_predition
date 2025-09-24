@@ -177,18 +177,18 @@ Each phase builds upon the monorepo foundation established in Phase 0.
 
 ## 📝 Scripts Reference
 
-| Script               | Description                                          |
-| -------------------- | ---------------------------------------------------- |
-| `npm run dev:web`    | Start Next.js dev server for the web target          |
-| `npm run dev:app`    | Start dev server with `NEXT_PUBLIC_BUILD_TARGET=app` |
-| `npm run build:web`  | Production build for web deployments                 |
-| `npm run build:app`  | Production build for Capacitor export                |
-| `npm run start`      | Run the built web bundle locally                     |
-| `npm run export`     | Static export to `.next` for Capacitor              |
-| `npm run sync:static`| Sync `.next` export to Capacitor platforms          |
-| `npm run lint`       | ESLint (`apps/web`)                                  |
-| `npm run format`     | Prettier formatting                                  |
-| `npm run type-check` | TypeScript project check                             |
+| Script                | Description                                          |
+| --------------------- | ---------------------------------------------------- |
+| `npm run dev:web`     | Start Next.js dev server for the web target          |
+| `npm run dev:app`     | Start dev server with `NEXT_PUBLIC_BUILD_TARGET=app` |
+| `npm run build:web`   | Production build for web deployments                 |
+| `npm run build:app`   | Production build for Capacitor export                |
+| `npm run start`       | Run the built web bundle locally                     |
+| `npm run export`      | Static export to `.next` for Capacitor               |
+| `npm run sync:static` | Sync `.next` export to Capacitor platforms           |
+| `npm run lint`        | ESLint (`apps/web`)                                  |
+| `npm run format`      | Prettier formatting                                  |
+| `npm run type-check`  | TypeScript project check                             |
 
 ## 🤖 Codemagic CI
 
@@ -199,14 +199,17 @@ Codemagic looks for [`codemagic.yaml`](codemagic.yaml) in the repository root. T
 - **`mystic_tarot_android`**: Builds Android APK/AAB with Gradle
 
 ### Workflow Triggers
+
 - Manual runs from Codemagic UI
 - Pushes to `main` branch (configure branch filters as needed)
 
 ### Build Configuration
+
 - Build notifications are sent to `highandhigh96@hotmail.com` and `fish760217@gmail.com`; update [`codemagic.yaml`](codemagic.yaml) if you need to notify additional recipients.
 - The workflows install dependencies with `npm install` (instead of `npm ci`) so optional packages like `@capacitor-community/admob` can be resolved automatically when the registry is reachable.
 
 ### Getting Started
+
 1. Connect your GitHub repository to Codemagic
 2. Press **Check for configuration file** in the Codemagic UI to validate the setup
 3. Start your first build manually or push to the `main` branch

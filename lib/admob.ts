@@ -38,20 +38,24 @@ async function getAdmob() {
 
 export async function initAdmob(): Promise<boolean> {
   if (!canUseAdmob()) {
+    console.log('[admob] Cannot use AdMob - not app target or no window');
     return false;
   }
 
   if (initialized) {
+    console.log('[admob] Already initialized');
     return true;
   }
 
   try {
+    console.log('[admob] Initializing AdMob with testing enabled');
     const { AdMob } = await getAdmob();
     await AdMob.initialize({
       requestTrackingAuthorization: true,
       initializeForTesting: true,
     });
     initialized = true;
+    console.log('[admob] AdMob initialized successfully');
     return true;
   } catch (error) {
     console.error('[admob] initialize failed', error);
@@ -116,6 +120,7 @@ export async function showBanner(
   options: Partial<BannerAdOptions> = {}
 ): Promise<boolean> {
   if (!canUseAdmob()) {
+    console.log('[admob] Cannot show banner - not app target or no window');
     return false;
   }
 
@@ -125,6 +130,7 @@ export async function showBanner(
   }
 
   try {
+    console.log('[admob] Showing banner with ID:', adId);
     const { AdMob, BannerAdPosition, BannerAdSize } = await getAdmob();
     await ensureInitialized();
 
@@ -136,6 +142,7 @@ export async function showBanner(
     };
 
     await AdMob.showBanner(bannerOptions);
+    console.log('[admob] Banner shown successfully');
     return true;
   } catch (error) {
     console.error('[admob] showBanner failed', error);

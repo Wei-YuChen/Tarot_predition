@@ -12,7 +12,15 @@ const capacitorTargets = [
   {
     platform: 'android',
     assetsDir: path.join(repoRoot, 'android', 'app', 'src', 'main', 'assets'),
-    outputDir: path.join(repoRoot, 'android', 'app', 'src', 'main', 'assets', 'public'),
+    outputDir: path.join(
+      repoRoot,
+      'android',
+      'app',
+      'src',
+      'main',
+      'assets',
+      'public'
+    ),
   },
   {
     platform: 'ios',
@@ -40,34 +48,38 @@ async function main() {
     return;
   }
 
-  const copyPromises = capacitorTargets.map(async ({ platform, assetsDir, outputDir }) => {
-    if (!(await pathExists(assetsDir))) {
-      console.warn(
-        `Skipping ${platform} sync – expected assets directory missing at "${path.relative(
+  const copyPromises = capacitorTargets.map(
+    async ({ platform, assetsDir, outputDir }) => {
+      if (!(await pathExists(assetsDir))) {
+        console.warn(
+          `Skipping ${platform} sync – expected assets directory missing at "${path.relative(
+            repoRoot,
+            assetsDir
+          )}". Run "npx cap add ${platform}" if this platform should be synced.`
+        );
+        return false;
+      }
+
+      await fs.rm(outputDir, { recursive: true, force: true });
+      await fs.mkdir(outputDir, { recursive: true });
+      await fs.cp(exportDir, outputDir, { recursive: true });
+
+      console.log(
+        `Synced static export from "${path.relative(repoRoot, exportDir)}" to "${path.relative(
           repoRoot,
-          assetsDir
-        )}". Run "npx cap add ${platform}" if this platform should be synced.`
+          outputDir
+        )}".`
       );
-      return false;
+      return true;
     }
-
-    await fs.rm(outputDir, { recursive: true, force: true });
-    await fs.mkdir(outputDir, { recursive: true });
-    await fs.cp(exportDir, outputDir, { recursive: true });
-
-    console.log(
-      `Synced static export from "${path.relative(repoRoot, exportDir)}" to "${path.relative(
-        repoRoot,
-        outputDir
-      )}".`
-    );
-    return true;
-  });
+  );
 
   const results = await Promise.all(copyPromises);
 
   if (!results.some(Boolean)) {
-    console.warn('No Capacitor platforms were synced. This is expected when no native shells exist yet.');
+    console.warn(
+      'No Capacitor platforms were synced. This is expected when no native shells exist yet.'
+    );
   }
 }
 
