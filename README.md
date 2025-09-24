@@ -154,6 +154,29 @@ Load the appropriate file before building or deploy via your hosting provider's 
 
 > ℹ️ `@capacitor-community/admob` and `@capacitor/core` are marked as optional dependencies. When they are unavailable (CI, preview builds, or network-restricted environments), the tooling falls back to `lib/stubs/capacitor-admob.ts` so web builds continue to succeed. Install the official packages before shipping native apps.
 
+## 🚀 Deployment
+
+### Vercel Deployment
+
+The project includes `vercel.json` configuration for seamless deployment:
+
+```json
+{
+  "version": 2,
+  "buildCommand": "npm run build:web",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "framework": "nextjs"
+}
+```
+
+**Environment Variables for Vercel:**
+- `NEXT_PUBLIC_BUILD_TARGET=web`
+- `NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-8388475297920969`
+- `NEXT_PUBLIC_ADSENSE_SLOT_ID=0000000000`
+
+The monorepo structure with Next.js app in `apps/web/` is properly configured to build to the root `.next` directory for Vercel compatibility.
+
 ## 🎯 Core Functionality Overview
 
 The core tarot experience remains unchanged from the original implementation:
