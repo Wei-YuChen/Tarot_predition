@@ -83,6 +83,12 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
               >
                 {t.nav.reading}
               </a>
+              <a
+                href={`/${locale}/privacy`}
+                className="text-gray-600 dark:text-gray-300 hover:text-tarot-purple dark:hover:text-tarot-gold transition-colors text-sm"
+              >
+                Privacy
+              </a>
               <Suspense
                 fallback={
                   <div className="w-32 h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
@@ -111,14 +117,22 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
                   ? '通往古老智慧的門戶'
                   : 'Your gateway to ancient wisdom'}
             </p>
-            <p className="text-sm">
+            <p className="text-sm mb-2">
               {locale === 'zh'
                 ? '请记住，塔罗牌阅读仅供娱乐和自我反思之用。'
                 : locale === 'tw'
                   ? '請記住，塔羅牌閱讀僅供娛樂和自我反思之用。'
                   : 'Remember, tarot readings are for entertainment and self-reflection purposes only.'}
             </p>
-            <p className="text-xs mt-4 text-gray-500 dark:text-gray-500">
+            <p className="text-xs mb-2">
+              <a
+                href={`/${locale}/privacy`}
+                className="text-tarot-purple dark:text-tarot-gold hover:underline"
+              >
+                Privacy Policy
+              </a>
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-500">
               © 2024 Mystic Tarot. All rights reserved.
             </p>
           </div>
