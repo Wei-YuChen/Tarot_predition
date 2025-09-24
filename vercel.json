@@ -1,37 +1,13 @@
 {
-  "name": "mystic-tarot",
   "version": 2,
-  "buildCommand": "npm run build:web",
-  "outputDirectory": ".next",
-  "installCommand": "npm install",
-  "framework": "nextjs",
-  "functions": {
-    "apps/web/app/api/**/*.ts": {
-      "runtime": "nodejs18.x"
-    }
-  },
-  "rewrites": [
+  "builds": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        }
-      ]
+      "src": "apps/web/next.config.js",
+      "use": "@vercel/next"
     }
   ],
   "env": {
-    "NEXT_PUBLIC_BUILD_TARGET": "web"
+    "NEXT_PUBLIC_BUILD_TARGET": "web",
+    "VERCEL": "1"
   }
 }
