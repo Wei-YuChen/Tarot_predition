@@ -6,18 +6,18 @@ import fs from 'node:fs/promises';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const exportDir = path.join(repoRoot, 'apps', 'web', 'out');
+const exportDir = path.join(repoRoot, '.next');
 
 const capacitorTargets = [
   {
     platform: 'android',
-    assetsDir: path.join(repoRoot, 'mobile', 'android', 'app', 'src', 'main', 'assets'),
-    outputDir: path.join(repoRoot, 'mobile', 'android', 'app', 'src', 'main', 'assets', 'public'),
+    assetsDir: path.join(repoRoot, 'android', 'app', 'src', 'main', 'assets'),
+    outputDir: path.join(repoRoot, 'android', 'app', 'src', 'main', 'assets', 'public'),
   },
   {
     platform: 'ios',
-    assetsDir: path.join(repoRoot, 'mobile', 'ios', 'App', 'App'),
-    outputDir: path.join(repoRoot, 'mobile', 'ios', 'App', 'App', 'public'),
+    assetsDir: path.join(repoRoot, 'ios', 'App', 'App'),
+    outputDir: path.join(repoRoot, 'ios', 'App', 'App', 'public'),
   },
 ];
 

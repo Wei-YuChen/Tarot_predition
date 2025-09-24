@@ -8,10 +8,10 @@
     "dev:app": "NEXT_PUBLIC_BUILD_TARGET=app next dev apps/web",
     "build": "npm run build:web",
     "build:web": "NEXT_PUBLIC_BUILD_TARGET=web next build apps/web",
-    "build:app": "NEXT_PUBLIC_BUILD_TARGET=app next build apps/web && npm run export",
+    "build:app": "NEXT_PUBLIC_BUILD_TARGET=app next build apps/web && npm run postexport",
     "start": "NEXT_PUBLIC_BUILD_TARGET=web next start apps/web",
     "start:app": "NEXT_PUBLIC_BUILD_TARGET=app next start apps/web",
-    "export": "NEXT_PUBLIC_BUILD_TARGET=app next export apps/web --outdir apps/web/out",
+    "export": "NEXT_PUBLIC_BUILD_TARGET=app next build apps/web",
     "postexport": "node scripts/sync-static-export.mjs",
     "sync:static": "node scripts/sync-static-export.mjs",
     "lint": "next lint apps/web",
@@ -19,6 +19,8 @@
     "type-check": "tsc --project apps/web/tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/ios": "^6.2.1",
     "autoprefixer": "^10.4.21",
     "framer-motion": "^11.3.19",
     "next": "14.2.5",
@@ -27,9 +29,10 @@
   },
   "optionalDependencies": {
     "@capacitor-community/admob": "^5.5.1",
-    "@capacitor/core": "^6.1.2"
+    "@capacitor/core": "^6.2.1"
   },
   "devDependencies": {
+    "@capacitor/cli": "^7.4.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

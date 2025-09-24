@@ -19,6 +19,11 @@ try {
 
 const nextConfig = {
   distDir: path.join('..', '..', '.next'),
+  output: process.env.NEXT_PUBLIC_BUILD_TARGET === 'app' ? 'export' : undefined,
+  trailingSlash: true,
+  images: {
+    unoptimized: process.env.NEXT_PUBLIC_BUILD_TARGET === 'app',
+  },
   experimental: {
     outputFileTracingRoot: path.join(__dirname, '..', '..'),
   },

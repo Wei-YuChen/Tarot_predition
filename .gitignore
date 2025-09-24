@@ -14,6 +14,14 @@ out/
 apps/web/out/
 build/
 
+# Capacitor
+android/app/build/
+android/.gradle/
+ios/App/build/
+ios/App/App.xcworkspace/xcuserdata/
+ios/App/App.xcodeproj/xcuserdata/
+*.orig
+
 # Misc
 .DS_Store
 *.pem

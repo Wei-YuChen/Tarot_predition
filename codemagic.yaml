@@ -25,10 +25,90 @@ workflows:
           npm run build:app
       - name: Archive static export for download
         script: |
-          tar -czf apps-web-out.tar.gz -C apps/web/out .
+          tar -czf apps-web-out.tar.gz -C .next .
     artifacts:
       - apps-web-out.tar.gz
-      - apps/web/out/**
+      - .next/**
+    publishing:
+      email:
+        recipients:
+          - highandhigh96@hotmail.com
+          - fish760217@gmail.com
+        notify:
+          success: true
+          failure: true
+
+  mystic_tarot_ios:
+    name: Mystic Tarot iOS
+    max_build_duration: 120
+    environment:
+      node: 18
+      xcode: latest
+      cocoapods: default
+      vars:
+        CI: "true"
+    cache:
+      cache_paths:
+        - $HOME/.npm
+        - $HOME/Library/Caches/CocoaPods
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install --no-progress
+      - name: Build and sync static export
+        script: |
+          npm run build:app
+      - name: Update iOS dependencies
+        script: |
+          cd ios/App && pod install
+      - name: Build iOS app
+        script: |
+          xcode-project build-ipa \
+            --workspace ios/App/App.xcworkspace \
+            --scheme App
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+    publishing:
+      email:
+        recipients:
+          - highandhigh96@hotmail.com
+          - fish760217@gmail.com
+        notify:
+          success: true
+          failure: true
+
+  mystic_tarot_android:
+    name: Mystic Tarot Android
+    max_build_duration: 120
+    environment:
+      node: 18
+      java: 11
+      vars:
+        CI: "true"
+    cache:
+      cache_paths:
+        - $HOME/.npm
+        - $HOME/.gradle/caches
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install --no-progress
+      - name: Build and sync static export
+        script: |
+          npm run build:app
+      - name: Build Android APK
+        script: |
+          cd android
+          ./gradlew assembleDebug
+      - name: Build Android AAB
+        script: |
+          cd android
+          ./gradlew bundleRelease
+    artifacts:
+      - android/app/build/outputs/**/*.apk
+      - android/app/build/outputs/**/*.aab
     publishing:
       email:
         recipients:
