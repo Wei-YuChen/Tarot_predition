@@ -51,7 +51,7 @@ export default function WebAdsense({
   if (!clientId || !resolvedSlotId) {
     console.warn('[adsense] Missing required configuration:', {
       clientId: clientId ? 'present' : 'missing',
-      slotId: resolvedSlotId ? 'present' : 'missing'
+      slotId: resolvedSlotId ? 'present' : 'missing',
     });
     return (
       <div
