@@ -15,7 +15,11 @@ export function isAppBuildTarget() {
   return BUILD_TARGET === 'app';
 }
 
-export default function AdsSwitch({ web, app, fallback = null }: AdsSwitchProps) {
+export default function AdsSwitch({
+  web,
+  app,
+  fallback = null,
+}: AdsSwitchProps) {
   if (BUILD_TARGET === 'app') {
     return app ?? fallback ?? null;
   }

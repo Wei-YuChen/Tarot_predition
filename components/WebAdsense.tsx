@@ -20,24 +20,39 @@ export default function WebAdsense({
 
   useEffect(() => {
     if (!clientId || !resolvedSlotId) {
+      console.warn('[adsense] Missing required configuration:', {
+        clientId: clientId ? 'present' : 'missing',
+        slotId: resolvedSlotId ? 'present' : 'missing',
+      });
       return;
     }
 
     if (!adRef.current) {
+      console.warn('[adsense] Ad container ref not available');
       return;
     }
 
     try {
+      console.log('[adsense] Attempting to render ad slot:', {
+        clientId,
+        slotId: resolvedSlotId,
+      });
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push(
         {}
       );
+      console.log('[adsense] Ad slot rendered successfully');
     } catch (error) {
       console.error('[adsense] Failed to render slot', error);
     }
   }, [clientId, resolvedSlotId]);
 
   if (!clientId || !resolvedSlotId) {
+    console.warn('[adsense] Missing required configuration:', {
+      clientId: clientId ? 'present' : 'missing',
+      slotId: resolvedSlotId ? 'present' : 'missing'
+    });
     return (
       <div
         className={className}

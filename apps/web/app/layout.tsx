@@ -37,17 +37,22 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         {/* Google AdSense verification meta tag */}
-        <meta name="google-adsense-account" content="ca-pub-8388475297920969" />
+        <meta
+          name="google-adsense-account"
+          content={
+            process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ||
+            'ca-pub-8388475297920969'
+          }
+        />
       </head>
       <body className="font-sans antialiased">
         {/* Google AdSense verification script */}
         <Script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-          data-ad-client={
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${
             process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ||
-            'ca-pub-XXXXXXXXXXXXXXXX'
-          }
+            'ca-pub-8388475297920969'
+          }`}
           strategy="afterInteractive"
           crossOrigin="anonymous"
         />
