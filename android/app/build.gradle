@@ -39,7 +39,12 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
-    implementation project(':capacitor-cordova-android-plugins')
+    def cordovaPluginsProject = rootProject.findProject(':capacitor-cordova-android-plugins')
+    if (cordovaPluginsProject != null) {
+        implementation cordovaPluginsProject
+    } else {
+        logger.lifecycle('Skipping dependency on :capacitor-cordova-android-plugins because the project is not available.')
+    }
 }
 
 apply from: 'capacitor.build.gradle'
