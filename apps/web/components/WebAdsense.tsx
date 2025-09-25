@@ -38,10 +38,8 @@ export default function WebAdsense({
         slotId: resolvedSlotId,
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push(
-        {}
-      );
+      (window as any).adsbygoogle = (window as any).adsbygoogle || [];
+      (window as any).adsbygoogle.push({});
       console.log('[adsense] Ad slot rendered successfully');
     } catch (error) {
       console.error('[adsense] Failed to render slot', error);

@@ -1,0 +1,40 @@
+{
+  "name": "mystic-tarot-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "NEXT_PUBLIC_BUILD_TARGET=web next dev",
+    "build": "NEXT_PUBLIC_BUILD_TARGET=web next build",
+    "start": "NEXT_PUBLIC_BUILD_TARGET=web next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/ios": "^6.2.1",
+    "autoprefixer": "^10.4.21",
+    "framer-motion": "^11.3.19",
+    "next": "14.2.5",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "optionalDependencies": {
+    "@capacitor-community/admob": "^5.5.1",
+    "@capacitor/core": "^6.2.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.5",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "postcss": "^8",
+    "prettier": "^3.0.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

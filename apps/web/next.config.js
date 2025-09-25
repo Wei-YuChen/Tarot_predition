@@ -18,7 +18,8 @@ try {
 }
 
 const nextConfig = {
-  distDir: path.join('..', '..', '.next'),
+  // Only use custom distDir for root build commands, for Vercel use default
+  distDir: process.env.VERCEL ? '.next' : path.join('..', '..', '.next'),
   output: process.env.NEXT_PUBLIC_BUILD_TARGET === 'app' ? 'export' : undefined,
   trailingSlash: true,
   images: {
