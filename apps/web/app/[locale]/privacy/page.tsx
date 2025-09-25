@@ -163,7 +163,7 @@ export default function PrivacyPolicyPage() {
             </p>
             <ul className="list-none mb-4 text-gray-700 dark:text-gray-300">
               <li>
-                <strong>Email:</strong> privacy@mystictarot.app
+                <strong>Email:</strong> fish760217@gmail.com
               </li>
               <li>
                 <strong>App:</strong> Mystic Tarot
