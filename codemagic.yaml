@@ -85,12 +85,10 @@ workflows:
     environment:
       node: 18
       java: 17
+      groups:
+        - android_signing     # 由 Codemagic UI 建立的變數群組：CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / CM_KEY_PASSWORD
       vars:
         CI: 'true'
-        CM_KEYSTORE: Encrypted(keystore)
-        CM_KEYSTORE_PASSWORD: Encrypted(password)
-        CM_KEY_ALIAS: upload
-        CM_KEY_PASSWORD: Encrypted(password)
     cache:
       cache_paths:
         - $HOME/.npm
@@ -99,24 +97,37 @@ workflows:
       - name: Install dependencies
         script: |
           npm install --no-progress
+
       - name: Build and sync static export
         script: |
           npm run build:app
-      - name: Decode Android keystore
+
+      - name: Prepare Android signing keystore
         script: |
-          echo $CM_KEYSTORE | base64 --decode > $CM_BUILD_DIR/upload-keystore.jks
-          cp $CM_BUILD_DIR/upload-keystore.jks android/app/upload-keystore.jks
-      - name: Build Android APK
+          # 將 Base64 keystore 還原到 android/app 供 Gradle 使用
+          mkdir -p $CM_BUILD_DIR/android/app
+          echo "$CM_KEYSTORE" | base64 --decode > $CM_BUILD_DIR/android/app/upload-keystore.jks
+
+      - name: Make gradlew executable
         script: |
           cd android
-          ./gradlew assembleDebug
-      - name: Build Android AAB
+          chmod +x ./gradlew
+
+      - name: Build Android AAB (release)
         script: |
           cd android
-          ./gradlew bundleRelease
+          ./gradlew bundleRelease --stacktrace
+
+      # （可選）若你仍想產生 debug APK 供測試，保留這段；不需要則可刪除
+      - name: Build Android APK (debug)
+        script: |
+          cd android
+          ./gradlew assembleDebug --stacktrace
+
     artifacts:
-      - android/app/build/outputs/**/*.apk
       - android/app/build/outputs/bundle/release/app-release.aab
+      - android/app/build/outputs/**/*.apk
+
     publishing:
       email:
         recipients:
