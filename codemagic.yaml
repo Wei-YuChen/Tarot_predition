@@ -17,12 +17,15 @@ workflows:
       - name: Lint
         script: |
           npm run lint
+
       - name: Type check
         script: |
           npm run type-check
+
       - name: Build static export for Capacitor shells
         script: |
           npm run build:app
+
       - name: Archive static export for download
         script: |
           tar -czf apps-web-out.tar.gz -C .next .
@@ -55,12 +58,15 @@ workflows:
       - name: Install dependencies
         script: |
           npm install --no-progress
+
       - name: Build and sync static export
         script: |
           npm run build:app
+
       - name: Update iOS dependencies
         script: |
           cd ios/App && pod install
+
       - name: Build iOS app
         script: |
           xcode-project build-ipa \
@@ -86,7 +92,7 @@ workflows:
       node: 18
       java: 17
       groups:
-        - android_signing     # 由 Codemagic UI 建立的變數群組：CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / CM_KEY_PASSWORD
+        - android_signing   # CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / CM_KEY_PASSWORD
       vars:
         CI: 'true'
     cache:
@@ -104,9 +110,27 @@ workflows:
 
       - name: Prepare Android signing keystore
         script: |
-          # 將 Base64 keystore 還原到 android/app 供 Gradle 使用
+          # 將 Base64（可能帶換行/空白）清理後再解碼，寫入 android/app
           mkdir -p $CM_BUILD_DIR/android/app
-          echo "$CM_KEYSTORE" | base64 --decode > $CM_BUILD_DIR/android/app/upload-keystore.jks
+          CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
+          ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
+            printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
+            printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
+            > $CM_BUILD_DIR/android/app/upload-keystore.jks
+
+      - name: Verify keystore (debug)   # ← 首次成功後可刪除
+        script: |
+          set -e
+          cd $CM_BUILD_DIR/android/app
+          echo "== size =="
+          ls -l upload-keystore.jks
+          echo "== list aliases (storepass only) =="
+          keytool -list -keystore upload-keystore.jks -storepass "$CM_KEYSTORE_PASSWORD"
+          echo "== open target alias (storepass + keypass) =="
+          keytool -list -v -keystore upload-keystore.jks \
+            -alias "$CM_KEY_ALIAS" \
+            -storepass "$CM_KEYSTORE_PASSWORD" \
+            -keypass "$CM_KEY_PASSWORD" >/dev/null && echo "OK: alias+password match"
 
       - name: Make gradlew executable
         script: |
@@ -118,7 +142,7 @@ workflows:
           cd android
           ./gradlew bundleRelease --stacktrace
 
-      # （可選）若你仍想產生 debug APK 供測試，保留這段；不需要則可刪除
+      # 可選：需要 debug APK 再保留
       - name: Build Android APK (debug)
         script: |
           cd android
