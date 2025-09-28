@@ -87,6 +87,10 @@ workflows:
       java: 17
       vars:
         CI: 'true'
+        CM_KEYSTORE: Encrypted(keystore)
+        CM_KEYSTORE_PASSWORD: Encrypted(password)
+        CM_KEY_ALIAS: upload
+        CM_KEY_PASSWORD: Encrypted(password)
     cache:
       cache_paths:
         - $HOME/.npm
@@ -98,6 +102,10 @@ workflows:
       - name: Build and sync static export
         script: |
           npm run build:app
+      - name: Decode Android keystore
+        script: |
+          echo $CM_KEYSTORE | base64 --decode > $CM_BUILD_DIR/upload-keystore.jks
+          cp $CM_BUILD_DIR/upload-keystore.jks android/app/upload-keystore.jks
       - name: Build Android APK
         script: |
           cd android
@@ -108,7 +116,7 @@ workflows:
           ./gradlew bundleRelease
     artifacts:
       - android/app/build/outputs/**/*.apk
-      - android/app/build/outputs/**/*.aab
+      - android/app/build/outputs/bundle/release/app-release.aab
     publishing:
       email:
         recipients:
