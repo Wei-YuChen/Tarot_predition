@@ -104,18 +104,34 @@ workflows:
             printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
             > $CM_BUILD_DIR/android/app/upload-keystore.jks
 
+      - name: Inspect env & keystore (debug)   # 首次成功後可刪
+        script: |
+          set -euo pipefail
+          echo "ALIAS=[$CM_KEY_ALIAS]"
+          echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
+          echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
+          cd $CM_BUILD_DIR/android/app
+          python3 - <<'PY'
+import hashlib
+p='upload-keystore.jks'
+with open(p,'rb') as f:
+    b=f.read()
+print("JKS size:", len(b))
+print("JKS sha256:", hashlib.sha256(b).hexdigest())
+PY
+
       - name: Verify keystore (debug)   # 首次成功後可刪
         script: |
-          set -e
+          set -euo pipefail
           cd $CM_BUILD_DIR/android/app
-          echo "== size ==" && ls -l upload-keystore.jks
           echo "== list aliases (storepass) =="
           keytool -list -keystore upload-keystore.jks -storepass "$CM_KEYSTORE_PASSWORD"
           echo "== open target alias (storepass + keypass) =="
           keytool -list -v -keystore upload-keystore.jks \
             -alias "$CM_KEY_ALIAS" \
             -storepass "$CM_KEYSTORE_PASSWORD" \
-            -keypass "$CM_KEY_PASSWORD" >/dev/null && echo "OK: alias+password match"
+            -keypass "$CM_KEY_PASSWORD"
+          echo "OK: alias+password match"
 
       - name: Make gradlew executable
         script: |
