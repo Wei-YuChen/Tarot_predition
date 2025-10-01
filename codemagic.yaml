@@ -104,35 +104,70 @@ workflows:
 
       - name: Prepare Android signing keystore
         script: |
-          # 清理 Base64 的空白/換行並嘗試多種 base64 參數，還原到 android/app
-          mkdir -p $CM_BUILD_DIR/android/app
-          CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
-          ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
-            printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
-            printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
-            > $CM_BUILD_DIR/android/app/upload-keystore.jks
+          set -euo pipefail
+          mkdir -p "$CM_BUILD_DIR/android/app"
+
+          require_var() {
+            local name="$1"
+            if [ -z "${!name:-}" ]; then
+              echo "ERROR: missing required env var $name" >&2
+              exit 1
+            fi
+          }
+
+          require_var CM_KEYSTORE
+          require_var CM_KEYSTORE_PASSWORD
+          require_var CM_KEY_PASSWORD
+          require_var CM_KEY_ALIAS
+
+          CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \r\n\t')
+          OUTPUT_FILE="$CM_BUILD_DIR/android/app/upload-keystore.keystore"
+          if ! (
+            printf "%s" "$CLEANED" | base64 -d 2>/dev/null ||
+            printf "%s" "$CLEANED" | base64 --decode 2>/dev/null ||
+            printf "%s" "$CLEANED" | base64 -D 2>/dev/null
+          ) >"$OUTPUT_FILE"; then
+            echo "ERROR: failed to decode CM_KEYSTORE (check base64)" >&2
+            exit 1
+          fi
 
       - name: Inspect env & keystore (debug)
         script: |
           set -euo pipefail
+          cd "$CM_BUILD_DIR/android/app"
           echo "ALIAS=[$CM_KEY_ALIAS]"
           echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
           echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
-          cd $CM_BUILD_DIR/android/app
-          python3 -c 'import hashlib,sys; b=open("upload-keystore.jks","rb").read(); print("JKS size:",len(b)); print("JKS sha256:",hashlib.sha256(b).hexdigest())'
+          ls -l upload-keystore.keystore
+          python3 - <<'PY'
+import hashlib
+path = "upload-keystore.keystore"
+data = open(path, "rb").read()
+print(f"KEYSTORE size: {len(data)} bytes")
+print(f"KEYSTORE sha256: {hashlib.sha256(data).hexdigest()}")
+PY
 
       - name: Verify keystore (debug)
         script: |
           set -euo pipefail
-          cd $CM_BUILD_DIR/android/app
+          cd "$CM_BUILD_DIR/android/app"
+          STORETYPE="${CM_KEYSTORE_TYPE:-JKS}"
           echo "== list aliases (storepass) =="
-          keytool -list -keystore upload-keystore.jks -storepass "$CM_KEYSTORE_PASSWORD"
-          echo "== open target alias (storepass + keypass) =="
-          keytool -list -v -keystore upload-keystore.jks \
+          if ! keytool -list -keystore upload-keystore.keystore -storepass "$CM_KEYSTORE_PASSWORD" -storetype "$STORETYPE"; then
+            echo "ERROR: failed to list aliases. Check CM_KEYSTORE_PASSWORD or CM_KEYSTORE_TYPE" >&2
+            exit 1
+          fi
+          echo "== verify target alias (storepass + keypass) =="
+          if keytool -list -v -keystore upload-keystore.keystore \
             -alias "$CM_KEY_ALIAS" \
             -storepass "$CM_KEYSTORE_PASSWORD" \
-            -keypass "$CM_KEY_PASSWORD"
-          echo "OK: alias+password match"
+            -keypass "$CM_KEY_PASSWORD" \
+            -storetype "$STORETYPE" >/dev/null; then
+            echo "OK: alias+password match"
+          else
+            echo "ERROR: alias/password mismatch (check CM_KEY_ALIAS / CM_KEY_PASSWORD / CM_KEYSTORE_PASSWORD)" >&2
+            exit 1
+          fi
 
       - name: Make gradlew executable
         script: |
