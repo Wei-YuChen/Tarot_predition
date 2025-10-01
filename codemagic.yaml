@@ -4,8 +4,7 @@ workflows:
     max_build_duration: 60
     environment:
       node: 18
-      vars:
-        CI: 'true'
+      vars: { CI: 'true' }
     cache:
       cache_paths:
         - $HOME/.npm
@@ -13,19 +12,15 @@ workflows:
       - name: Install dependencies
         script: |
           npm install --no-progress
-
       - name: Lint
         script: |
           npm run lint
-
       - name: Type check
         script: |
           npm run type-check
-
       - name: Build static export for Capacitor shells
         script: |
           npm run build:app
-
       - name: Archive static export for download
         script: |
           tar -czf apps-web-out.tar.gz -C .next .
@@ -37,9 +32,7 @@ workflows:
         recipients:
           - highandhigh96@hotmail.com
           - fish760217@gmail.com
-        notify:
-          success: true
-          failure: true
+        notify: { success: true, failure: true }
 
   mystic_tarot_ios:
     name: Mystic Tarot iOS
@@ -48,8 +41,7 @@ workflows:
       node: 18
       xcode: latest
       cocoapods: default
-      vars:
-        CI: 'true'
+      vars: { CI: 'true' }
     cache:
       cache_paths:
         - $HOME/.npm
@@ -58,15 +50,12 @@ workflows:
       - name: Install dependencies
         script: |
           npm install --no-progress
-
       - name: Build and sync static export
         script: |
           npm run build:app
-
       - name: Update iOS dependencies
         script: |
           cd ios/App && pod install
-
       - name: Build iOS app
         script: |
           xcode-project build-ipa \
@@ -81,9 +70,7 @@ workflows:
         recipients:
           - highandhigh96@hotmail.com
           - fish760217@gmail.com
-        notify:
-          success: true
-          failure: true
+        notify: { success: true, failure: true }
 
   mystic_tarot_android:
     name: Mystic Tarot Android
@@ -92,9 +79,8 @@ workflows:
       node: 18
       java: 17
       groups:
-        - android_signing   # CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / CM_KEY_PASSWORD
-      vars:
-        CI: 'true'
+        - android_signing   # 必須含：CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / CM_KEY_PASSWORD
+      vars: { CI: 'true' }
     cache:
       cache_paths:
         - $HOME/.npm
@@ -110,7 +96,7 @@ workflows:
 
       - name: Prepare Android signing keystore
         script: |
-          # 將 Base64（可能帶換行/空白）清理後再解碼，寫入 android/app
+          # 清理 Base64 的空白/換行並嘗試多種 base64 參數，還原到 android/app
           mkdir -p $CM_BUILD_DIR/android/app
           CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
           ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
@@ -118,13 +104,12 @@ workflows:
             printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
             > $CM_BUILD_DIR/android/app/upload-keystore.jks
 
-      - name: Verify keystore (debug)   # ← 首次成功後可刪除
+      - name: Verify keystore (debug)   # 首次成功後可刪
         script: |
           set -e
           cd $CM_BUILD_DIR/android/app
-          echo "== size =="
-          ls -l upload-keystore.jks
-          echo "== list aliases (storepass only) =="
+          echo "== size ==" && ls -l upload-keystore.jks
+          echo "== list aliases (storepass) =="
           keytool -list -keystore upload-keystore.jks -storepass "$CM_KEYSTORE_PASSWORD"
           echo "== open target alias (storepass + keypass) =="
           keytool -list -v -keystore upload-keystore.jks \
@@ -142,8 +127,7 @@ workflows:
           cd android
           ./gradlew bundleRelease --stacktrace
 
-      # 可選：需要 debug APK 再保留
-      - name: Build Android APK (debug)
+      - name: Build Android APK (debug)   # 可選
         script: |
           cd android
           ./gradlew assembleDebug --stacktrace
@@ -157,6 +141,4 @@ workflows:
         recipients:
           - highandhigh96@hotmail.com
           - fish760217@gmail.com
-        notify:
-          success: true
-          failure: true
+        notify: { success: true, failure: true }
