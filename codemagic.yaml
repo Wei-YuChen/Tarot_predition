@@ -139,13 +139,7 @@ workflows:
           echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
           echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
           ls -l upload-keystore.keystore
-          python3 - <<'PY'
-import hashlib
-path = "upload-keystore.keystore"
-data = open(path, "rb").read()
-print(f"KEYSTORE size: {len(data)} bytes")
-print(f"KEYSTORE sha256: {hashlib.sha256(data).hexdigest()}")
-PY
+          python3 -c "import hashlib, pathlib; data = pathlib.Path('upload-keystore.keystore').read_bytes(); print(f'KEYSTORE size: {len(data)} bytes'); print(f'KEYSTORE sha256: {hashlib.sha256(data).hexdigest()}')"
 
       - name: Verify keystore (debug)
         script: |
