@@ -26,6 +26,20 @@ android {
             keyAlias System.getenv("CM_KEY_ALIAS")
             keyPassword System.getenv("CM_KEY_PASSWORD")
             def cmStoreType = System.getenv("CM_KEYSTORE_TYPE")
+            if (cmStoreType == null || cmStoreType.isEmpty()) {
+                def detectedFromEnv = System.getenv("CM_DETECTED_KEYSTORE_TYPE")
+                if (detectedFromEnv != null && !detectedFromEnv.isEmpty()) {
+                    cmStoreType = detectedFromEnv
+                } else {
+                    def detectedFile = file("keystore.storetype")
+                    if (detectedFile.exists()) {
+                        def detectedValue = detectedFile.getText('UTF-8').trim()
+                        if (!detectedValue.isEmpty()) {
+                            cmStoreType = detectedValue
+                        }
+                    }
+                }
+            }
             if (cmStoreType != null && !cmStoreType.isEmpty()) {
                 storeType cmStoreType
             }

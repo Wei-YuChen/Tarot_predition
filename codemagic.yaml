@@ -131,6 +131,11 @@ workflows:
             exit 1
           fi
 
+          if [ ! -s "$OUTPUT_FILE" ]; then
+            echo "ERROR: decoded keystore is empty (check CM_KEYSTORE contents)" >&2
+            exit 1
+          fi
+
       - name: Inspect env & keystore (debug)
         script: |
           set -euo pipefail
@@ -145,23 +150,66 @@ workflows:
         script: |
           set -euo pipefail
           cd "$CM_BUILD_DIR/android/app"
-          STORETYPE="${CM_KEYSTORE_TYPE:-JKS}"
-          echo "== list aliases (storepass) =="
-          if ! keytool -list -keystore upload-keystore.keystore -storepass "$CM_KEYSTORE_PASSWORD" -storetype "$STORETYPE"; then
-            echo "ERROR: failed to list aliases. Check CM_KEYSTORE_PASSWORD or CM_KEYSTORE_TYPE" >&2
+
+          detect_storetype() {
+            if [ -n "${CM_KEYSTORE_TYPE:-}" ]; then
+              printf '%s' "$CM_KEYSTORE_TYPE"
+              return 0
+            fi
+
+            for candidate in JKS PKCS12; do
+              if keytool -list -keystore upload-keystore.keystore \
+                -storepass "$CM_KEYSTORE_PASSWORD" \
+                -storetype "$candidate" >/dev/null 2>&1; then
+                printf '%s' "$candidate"
+                return 0
+              fi
+            done
+
+            return 1
+          }
+
+          STORETYPE=$(detect_storetype)
+          if [ -z "$STORETYPE" ]; then
+            echo "ERROR: unable to determine keystore type. Set CM_KEYSTORE_TYPE explicitly (JKS or PKCS12)." >&2
             exit 1
           fi
-          echo "== verify target alias (storepass + keypass) =="
-          if keytool -list -v -keystore upload-keystore.keystore \
-            -alias "$CM_KEY_ALIAS" \
-            -storepass "$CM_KEYSTORE_PASSWORD" \
-            -keypass "$CM_KEY_PASSWORD" \
-            -storetype "$STORETYPE" >/dev/null; then
-            echo "OK: alias+password match"
+
+          if [ -z "${CM_KEYSTORE_TYPE:-}" ]; then
+            echo "Detected keystore type: $STORETYPE"
           else
+            echo "Using keystore type from CM_KEYSTORE_TYPE: $STORETYPE"
+          fi
+
+          export CM_DETECTED_KEYSTORE_TYPE="$STORETYPE"
+          printf '%s\n' "$STORETYPE" > keystore.storetype
+
+          echo "== list aliases (storepass) =="
+          if ! keytool -list -keystore upload-keystore.keystore -storepass "$CM_KEYSTORE_PASSWORD" -storetype "$STORETYPE"; then
+            echo "ERROR: failed to list aliases. Check CM_KEYSTORE_PASSWORD or keystore type" >&2
+            exit 1
+          fi
+
+          echo "== verify target alias via import (storepass + keypass) =="
+          TEMP_JKS="$(mktemp keystore-check-XXXXXX.jks)"
+          if keytool -importkeystore \
+            -srckeystore upload-keystore.keystore \
+            -srcstoretype "$STORETYPE" \
+            -srcstorepass "$CM_KEYSTORE_PASSWORD" \
+            -srckeypass "$CM_KEY_PASSWORD" \
+            -srcalias "$CM_KEY_ALIAS" \
+            -destkeystore "$TEMP_JKS" \
+            -deststoretype JKS \
+            -deststorepass changeit \
+            -destkeypass changeit \
+            -noprompt >/dev/null 2>&1; then
+            echo "OK: alias and key password verified"
+          else
+            rm -f "$TEMP_JKS"
             echo "ERROR: alias/password mismatch (check CM_KEY_ALIAS / CM_KEY_PASSWORD / CM_KEYSTORE_PASSWORD)" >&2
             exit 1
           fi
+          rm -f "$TEMP_JKS"
 
       - name: Make gradlew executable
         script: |
