@@ -18,14 +18,14 @@ android {
         }
     }
 
-    // === 签章設定：由 Codemagic 注入的環境變數與 upload-keystore.jks ===
+    // 簽章設定：由 Codemagic 注入的環境變數與 android/app/upload-keystore.jks
     signingConfigs {
         release {
-            // Codemagic 的 script 會把 keystore 還原到 android/app/upload-keystore.jks
             storeFile file("upload-keystore.jks")
             storePassword System.getenv("CM_KEYSTORE_PASSWORD")
             keyAlias System.getenv("CM_KEY_ALIAS")
             keyPassword System.getenv("CM_KEY_PASSWORD")
+            storeType "JKS"   // 保險：避免 keystore 類型誤判
         }
     }
 
@@ -33,14 +33,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            // 使用上面的 release 簽章
             signingConfig signingConfigs.release
         }
     }
 }
 
 repositories {
-    flatDir{
+    flatDir {
         dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
     }
 }
