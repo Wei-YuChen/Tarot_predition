@@ -4,7 +4,8 @@ workflows:
     max_build_duration: 60
     environment:
       node: 18
-      vars: { CI: 'true' }
+      vars:
+        CI: 'true'
     cache:
       cache_paths:
         - $HOME/.npm
@@ -32,7 +33,9 @@ workflows:
         recipients:
           - highandhigh96@hotmail.com
           - fish760217@gmail.com
-        notify: { success: true, failure: true }
+        notify:
+          success: true
+          failure: true
 
   mystic_tarot_ios:
     name: Mystic Tarot iOS
@@ -41,7 +44,8 @@ workflows:
       node: 18
       xcode: latest
       cocoapods: default
-      vars: { CI: 'true' }
+      vars:
+        CI: 'true'
     cache:
       cache_paths:
         - $HOME/.npm
@@ -70,7 +74,9 @@ workflows:
         recipients:
           - highandhigh96@hotmail.com
           - fish760217@gmail.com
-        notify: { success: true, failure: true }
+        notify:
+          success: true
+          failure: true
 
   mystic_tarot_android:
     name: Mystic Tarot Android
@@ -79,12 +85,14 @@ workflows:
       node: 18
       java: 17
       groups:
-        - android_signing   # 必須含：CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / CM_KEY_PASSWORD
-      vars: { CI: 'true' }
+        - android_signing   # CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / CM_KEY_PASSWORD
+      vars:
+        CI: 'true'
     cache:
       cache_paths:
         - $HOME/.npm
         - $HOME/.gradle/caches
+
     scripts:
       - name: Install dependencies
         script: |
@@ -104,23 +112,16 @@ workflows:
             printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
             > $CM_BUILD_DIR/android/app/upload-keystore.jks
 
-      - name: Inspect env & keystore (debug)   # 首次成功後可刪
+      - name: Inspect env & keystore (debug)
         script: |
           set -euo pipefail
           echo "ALIAS=[$CM_KEY_ALIAS]"
           echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
           echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
           cd $CM_BUILD_DIR/android/app
-          python3 - <<'PY'
-import hashlib
-p='upload-keystore.jks'
-with open(p,'rb') as f:
-    b=f.read()
-print("JKS size:", len(b))
-print("JKS sha256:", hashlib.sha256(b).hexdigest())
-PY
+          python3 -c 'import hashlib,sys; b=open("upload-keystore.jks","rb").read(); print("JKS size:",len(b)); print("JKS sha256:",hashlib.sha256(b).hexdigest())'
 
-      - name: Verify keystore (debug)   # 首次成功後可刪
+      - name: Verify keystore (debug)
         script: |
           set -euo pipefail
           cd $CM_BUILD_DIR/android/app
@@ -157,4 +158,6 @@ PY
         recipients:
           - highandhigh96@hotmail.com
           - fish760217@gmail.com
-        notify: { success: true, failure: true }
+        notify:
+          success: true
+          failure: true
