@@ -190,26 +190,18 @@ workflows:
             exit 1
           fi
 
-          echo "== verify target alias via import (storepass + keypass) =="
-          TEMP_JKS="$(mktemp keystore-check-XXXXXX.jks)"
-          if keytool -importkeystore \
-            -srckeystore upload-keystore.keystore \
-            -srcstoretype "$STORETYPE" \
-            -srcstorepass "$CM_KEYSTORE_PASSWORD" \
-            -srckeypass "$CM_KEY_PASSWORD" \
-            -srcalias "$CM_KEY_ALIAS" \
-            -destkeystore "$TEMP_JKS" \
-            -deststoretype JKS \
-            -deststorepass changeit \
-            -destkeypass changeit \
-            -noprompt >/dev/null 2>&1; then
+          echo "== verify target alias with keytool (storepass + keypass) =="
+          if keytool -list -v \
+            -keystore upload-keystore.keystore \
+            -alias "$CM_KEY_ALIAS" \
+            -storepass "$CM_KEYSTORE_PASSWORD" \
+            -keypass "$CM_KEY_PASSWORD" \
+            -storetype "$STORETYPE" >/dev/null 2>&1; then
             echo "OK: alias and key password verified"
           else
-            rm -f "$TEMP_JKS"
             echo "ERROR: alias/password mismatch (check CM_KEY_ALIAS / CM_KEY_PASSWORD / CM_KEYSTORE_PASSWORD)" >&2
             exit 1
           fi
-          rm -f "$TEMP_JKS"
 
       - name: Make gradlew executable
         script: |

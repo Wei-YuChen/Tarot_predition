@@ -24,7 +24,7 @@
 4. **自動偵測 keystore 類型**：若未設定 `CM_KEYSTORE_TYPE`，會依序嘗試 `JKS`、`PKCS12`，並將結果寫入 `android/app/keystore.storetype` 與環境變數 `CM_DETECTED_KEYSTORE_TYPE` 供後續步驟與 Gradle 使用。
 5. **別名與密碼驗證**：
    - `keytool -list` 使用 store password 驗證 keystore，可偵測 storepass 或 keystore 類型錯誤。
-   - `keytool -importkeystore` 以提供的 alias/keypass 導出到暫存 JKS，確保 key password 必須正確，失敗時輸出 `alias/password mismatch`。
+   - `keytool -list -v -alias ...` 再次以 alias + keypass 驗證；若任一密碼錯誤會輸出 `alias/password mismatch`。
 
 所有步驟均不會輸出明碼，只顯示長度或雜湊資訊。
 
