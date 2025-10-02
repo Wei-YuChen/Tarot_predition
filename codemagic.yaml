@@ -113,11 +113,8 @@ workflows:
             > $CM_BUILD_DIR/android/app/upload-keystore.jks
           
           # 創建 keystore.properties 文件供 Gradle 讀取，避免環境變數解析問題
-          # 使用 printf 和適當的引號來確保特殊字元被正確處理
-          cat > $CM_BUILD_DIR/android/keystore.properties << 'PROPERTIES_EOF'
-storeFile=app/upload-keystore.jks
-PROPERTIES_EOF
-          # 使用 printf 來安全地寫入可能包含特殊字元的密碼
+          # 使用 printf 來安全地寫入所有內容，確保特殊字元被正確處理
+          printf "storeFile=app/upload-keystore.jks\n" > $CM_BUILD_DIR/android/keystore.properties
           printf "storePassword=%s\n" "$CM_KEYSTORE_PASSWORD" >> $CM_BUILD_DIR/android/keystore.properties
           printf "keyAlias=%s\n" "$CM_KEY_ALIAS" >> $CM_BUILD_DIR/android/keystore.properties
           printf "keyPassword=%s\n" "$CM_KEY_PASSWORD" >> $CM_BUILD_DIR/android/keystore.properties
