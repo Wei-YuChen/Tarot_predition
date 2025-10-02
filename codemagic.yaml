@@ -197,11 +197,32 @@ workflows:
             -storepass "$CM_KEYSTORE_PASSWORD" \
             -keypass "$CM_KEY_PASSWORD" \
             -storetype "$STORETYPE" >/dev/null 2>&1; then
-            echo "OK: alias and key password verified"
+            echo "OK: alias exists in keystore"
           else
-            echo "ERROR: alias/password mismatch (check CM_KEY_ALIAS / CM_KEY_PASSWORD / CM_KEYSTORE_PASSWORD)" >&2
+            echo "ERROR: alias lookup failed (check CM_KEY_ALIAS / CM_KEYSTORE_PASSWORD / keystore type)" >&2
             exit 1
           fi
+
+          echo "== verify private key with import (storepass + keypass) =="
+          TMP_P12=$(mktemp "cm-keystore-XXXXXX.p12")
+          if keytool -importkeystore \
+            -noprompt \
+            -srckeystore upload-keystore.keystore \
+            -srcstoretype "$STORETYPE" \
+            -srcalias "$CM_KEY_ALIAS" \
+            -srcstorepass "$CM_KEYSTORE_PASSWORD" \
+            -srckeypass "$CM_KEY_PASSWORD" \
+            -deststoretype PKCS12 \
+            -destkeystore "$TMP_P12" \
+            -deststorepass changeit \
+            -destkeypass changeit >/dev/null 2>&1; then
+            echo "OK: alias and key password verified"
+          else
+            echo "ERROR: alias/password mismatch (check CM_KEY_PASSWORD / CM_KEYSTORE_PASSWORD)" >&2
+            rm -f "$TMP_P12"
+            exit 1
+          fi
+          rm -f "$TMP_P12"
 
       - name: Make gradlew executable
         script: |

@@ -24,7 +24,8 @@
 4. **自動偵測 keystore 類型**：若未設定 `CM_KEYSTORE_TYPE`，會依序嘗試 `JKS`、`PKCS12`，並將結果寫入 `android/app/keystore.storetype` 與環境變數 `CM_DETECTED_KEYSTORE_TYPE` 供後續步驟與 Gradle 使用。
 5. **別名與密碼驗證**：
    - `keytool -list` 使用 store password 驗證 keystore，可偵測 storepass 或 keystore 類型錯誤。
-   - `keytool -list -v -alias ...` 再次以 alias + keypass 驗證；若任一密碼錯誤會輸出 `alias/password mismatch`。
+   - `keytool -list -v -alias ...` 確認 alias 存在並能讀取公開憑證。
+   - `keytool -importkeystore` 會嘗試把指定 alias 匯出到暫存 PKCS12，確保 storepass 與 keypass 同時正確；若失敗將輸出 `alias/password mismatch`。
 
 所有步驟均不會輸出明碼，只顯示長度或雜湊資訊。
 
@@ -36,7 +37,8 @@
 | `ERROR: failed to decode CM_KEYSTORE (check base64)` | Base64 內容損壞或有多餘空白 | 重新從本機 keystore 產生 Base64：`base64 < upload-keystore.keystore`，貼上前確認無額外空白。 |
 | `ERROR: decoded keystore is empty...` | Base64 內容無效或未成功複製 | 確認 Codemagic 變數內容與本機檔案大小一致後重新上傳。 |
 | `ERROR: failed to list aliases...` | store password 錯誤或 keystore 類型錯誤 | 確認 `CM_KEYSTORE_PASSWORD`，若為 PKCS12 請設定 `CM_KEYSTORE_TYPE=PKCS12`。 |
-| `ERROR: alias/password mismatch...` | alias 或 key password 不正確 | 到本機執行 `keytool -list -v -keystore ...`，並確認 keypass 與 storepass 是否一致（PKCS12 通常需相同）。 |
+| `ERROR: alias lookup failed...` | alias 或 store password 錯誤、keystore 類型不符 | 確認 `CM_KEY_ALIAS` 與 `CM_KEYSTORE_PASSWORD`，必要時設定 `CM_KEYSTORE_TYPE`。 |
+| `ERROR: alias/password mismatch...` | key password 不正確，或 keystore 內的 key 與 store 密碼不一致 | 於本機使用 `keytool -importkeystore` 測試匯出；若為 PKCS12 請確認 keypass = storepass。 |
 | `ERROR: unable to determine keystore type...` | keystore 類型非 JKS/PKCS12，或 store password 錯誤 | 手動確認 keystore 類型，於 Codemagic 設定 `CM_KEYSTORE_TYPE`。 |
 | Gradle 任務 `:app:signReleaseBundle` 報 `Cannot recover key` | alias / key password 錯誤，或 keystore 格式不符 | 依上表修正環境變數，或轉換 keystore 類型；確認 `keystore.storetype` 內容與實際一致。 |
 
