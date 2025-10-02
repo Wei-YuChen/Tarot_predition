@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
 
+// 讀取 keystore 屬性（如果存在）
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+def useKeystoreProperties = false
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    useKeystoreProperties = true
+}
+
 android {
     namespace "com.mystictarot.app"
     compileSdk rootProject.ext.compileSdkVersion
@@ -18,14 +27,31 @@ android {
         }
     }
 
-    // 簽章設定：由 Codemagic 注入的環境變數與 android/app/upload-keystore.jks
+    // 簽章設定：優先使用 keystore.properties，其次使用環境變數
     signingConfigs {
         release {
-            storeFile file("upload-keystore.jks")
-            storePassword System.getenv("CM_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("CM_KEY_ALIAS")
-            keyPassword System.getenv("CM_KEY_PASSWORD")
-            storeType "JKS"   // 保險：避免 keystore 類型誤判
+            if (useKeystoreProperties) {
+                // 從 keystore.properties 檔案讀取
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            } else {
+                // 從環境變數讀取（向後兼容）
+                def keystorePath = "upload-keystore.jks"
+                if (file(keystorePath).exists()) {
+                    def keystorePassword = System.getenv("CM_KEYSTORE_PASSWORD")
+                    def keyAliasValue = System.getenv("CM_KEY_ALIAS") 
+                    def keyPasswordValue = System.getenv("CM_KEY_PASSWORD")
+                    
+                    if (keystorePassword && keyAliasValue && keyPasswordValue) {
+                        storeFile file(keystorePath)
+                        storePassword keystorePassword
+                        keyAlias keyAliasValue
+                        keyPassword keyPasswordValue
+                    }
+                }
+            }
         }
     }
 
@@ -33,7 +59,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            
+            // 只在簽章資訊可用時才應用簽章配置
+            if (useKeystoreProperties || 
+                (file("upload-keystore.jks").exists() && 
+                 System.getenv("CM_KEYSTORE_PASSWORD") && 
+                 System.getenv("CM_KEY_ALIAS") && 
+                 System.getenv("CM_KEY_PASSWORD"))) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 }

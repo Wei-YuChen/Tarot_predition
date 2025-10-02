@@ -111,6 +111,14 @@ workflows:
             printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
             > $CM_BUILD_DIR/android/app/upload-keystore.jks
+          
+          # 創建 keystore.properties 文件供 Gradle 讀取，避免環境變數解析問題
+          cat > $CM_BUILD_DIR/android/keystore.properties <<EOF
+storeFile=app/upload-keystore.jks
+storePassword=$CM_KEYSTORE_PASSWORD
+keyAlias=$CM_KEY_ALIAS
+keyPassword=$CM_KEY_PASSWORD
+EOF
 
       - name: Inspect env & keystore (debug)
         script: |
@@ -120,6 +128,14 @@ workflows:
           echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
           cd $CM_BUILD_DIR/android/app
           python3 -c 'import hashlib,sys; b=open("upload-keystore.jks","rb").read(); print("JKS size:",len(b)); print("JKS sha256:",hashlib.sha256(b).hexdigest())'
+          echo "== keystore.properties content (passwords hidden) =="
+          cd $CM_BUILD_DIR/android
+          if [ -f keystore.properties ]; then
+            grep -v "Password" keystore.properties || true
+            echo "keystore.properties exists and is readable"
+          else
+            echo "WARNING: keystore.properties not found!"
+          fi
 
       - name: Verify keystore (debug)
         script: |
