@@ -38,7 +38,7 @@
 | `ERROR: decoded keystore is empty...` | Base64 內容無效或未成功複製 | 確認 Codemagic 變數內容與本機檔案大小一致後重新上傳。 |
 | `ERROR: failed to list aliases...` | store password 錯誤或 keystore 類型錯誤 | 確認 `CM_KEYSTORE_PASSWORD`，若為 PKCS12 請設定 `CM_KEYSTORE_TYPE=PKCS12`。 |
 | `ERROR: alias lookup failed...` | alias 或 store password 錯誤、keystore 類型不符 | 確認 `CM_KEY_ALIAS` 與 `CM_KEYSTORE_PASSWORD`，必要時設定 `CM_KEYSTORE_TYPE`。 |
-| `ERROR: alias/password mismatch...` | key password 不正確，或 keystore 內的 key 與 store 密碼不一致 | 於本機使用 `keytool -importkeystore` 測試匯出；若為 PKCS12 請確認 keypass = storepass。 |
+| `ERROR: alias/password mismatch...` | key password 不正確，或 keystore 內的 key 與 store 密碼不一致 | 依錯誤訊息檢視 CI 列印的 `keytool output`（已遮蔽密碼），於本機執行 `keytool -importkeystore` 重新測試；若為 PKCS12 請確認 keypass = storepass。 |
 | `ERROR: unable to determine keystore type...` | keystore 類型非 JKS/PKCS12，或 store password 錯誤 | 手動確認 keystore 類型，於 Codemagic 設定 `CM_KEYSTORE_TYPE`。 |
 | Gradle 任務 `:app:signReleaseBundle` 報 `Cannot recover key` | alias / key password 錯誤，或 keystore 格式不符 | 依上表修正環境變數，或轉換 keystore 類型；確認 `keystore.storetype` 內容與實際一致。 |
 

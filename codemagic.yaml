@@ -205,6 +205,7 @@ workflows:
 
           echo "== verify private key with import (storepass + keypass) =="
           TMP_P12=$(mktemp "cm-keystore-XXXXXX.p12")
+          IMPORT_LOG=$(mktemp "cm-keystore-verify-XXXXXX.log")
           if keytool -importkeystore \
             -noprompt \
             -srckeystore upload-keystore.keystore \
@@ -215,14 +216,34 @@ workflows:
             -deststoretype PKCS12 \
             -destkeystore "$TMP_P12" \
             -deststorepass changeit \
-            -destkeypass changeit >/dev/null 2>&1; then
+            -destkeypass changeit >"$IMPORT_LOG" 2>&1; then
             echo "OK: alias and key password verified"
           else
             echo "ERROR: alias/password mismatch (check CM_KEY_PASSWORD / CM_KEYSTORE_PASSWORD)" >&2
-            rm -f "$TMP_P12"
+            python3 - "$IMPORT_LOG" <<'PY'
+            import os
+            import sys
+            from pathlib import Path
+
+            log_path = Path(sys.argv[1])
+            if log_path.exists():
+                log = log_path.read_text(errors="replace")
+                for env in ("CM_KEYSTORE_PASSWORD", "CM_KEY_PASSWORD", "CM_KEY_ALIAS"):
+                    value = os.environ.get(env)
+                    if value:
+                        log = log.replace(value, "<redacted>")
+                log = log.strip()
+                if log:
+                    print("keytool output:", file=sys.stderr)
+                    print(log, file=sys.stderr)
+            PY
+            echo "Hint: 在本機執行下列指令重現並確認密碼是否正確 (需提供相同密碼)：" >&2
+            echo "  keytool -importkeystore -srckeystore upload-keystore.keystore -srcstoretype $STORETYPE -srcalias $CM_KEY_ALIAS \\" >&2
+            echo "    -destkeystore /tmp/upload-check.p12 -deststoretype PKCS12" >&2
+            rm -f "$TMP_P12" "$IMPORT_LOG"
             exit 1
           fi
-          rm -f "$TMP_P12"
+          rm -f "$TMP_P12" "$IMPORT_LOG"
 
       - name: Make gradlew executable
         script: |
