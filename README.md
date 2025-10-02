@@ -198,6 +198,34 @@ Codemagic looks for [`codemagic.yaml`](codemagic.yaml) in the repository root. T
 - **`mystic_tarot_ios`**: Builds iOS app with Xcode, includes CocoaPods dependency management
 - **`mystic_tarot_android`**: Builds Android APK/AAB with Gradle
 
+### Android keystore 驗證流程
+
+為了確保 Codemagic 與本機使用相同的簽章資訊，可依下列步驟進行檢查：
+
+1. **確認 Codemagic secrets**：於 Codemagic 後台的 `android_signing` 群組（或 workflow secrets）核對 `CM_KEYSTORE`、`CM_KEYSTORE_PASSWORD`、`CM_KEY_ALIAS`、`CM_KEY_PASSWORD` 與實際 keystore 是否一致。
+2. **本機驗證 keystore**：將 keystore 匯出為 `upload-keystore.jks` 後，使用預期的 store/key 密碼與 alias 執行：
+
+   ```bash
+   keytool -list -v -keystore upload-keystore.jks \
+     -alias "<alias>" \
+     -storepass "<store-password>" \
+     -keypass "<key-password>"
+   ```
+
+   若指令失敗，請重新匯出 keystore 或更新密碼後再產生 Base64，並同步調整 `CM_KEYSTORE`。
+3. **使用共用腳本驗證**：本機或 CI 皆可執行 [`scripts/verify-keystore.sh`](scripts/verify-keystore.sh) 來還原並驗證 keystore。以下範例會寫入 `android/app/upload-keystore.jks` 並輸出詳細資訊：
+
+   ```bash
+   export CM_KEYSTORE="$(base64 < upload-keystore.jks)"
+   export CM_KEYSTORE_PASSWORD="<store-password>"
+   export CM_KEY_PASSWORD="<key-password>"
+   export CM_KEY_ALIAS="<alias>"
+
+   ./scripts/verify-keystore.sh --output android/app/upload-keystore.jks
+   ```
+
+   Codemagic 會在 `mystic_tarot_android` workflow 中呼叫同一腳本，日誌可直接確認 `keytool` 驗證是否通過，再進行 `./gradlew bundleRelease` 打包。
+
 ### Workflow Triggers
 
 - Manual runs from Codemagic UI
