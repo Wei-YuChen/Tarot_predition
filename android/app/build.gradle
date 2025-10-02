@@ -18,14 +18,31 @@ android {
         }
     }
 
-    // 簽章設定：由 Codemagic 注入的環境變數與 android/app/upload-keystore.jks
+    // 簽章設定：由 Codemagic 注入的環境變數與 android/app/upload-keystore.keystore
     signingConfigs {
         release {
-            storeFile file("upload-keystore.jks")
+            storeFile file("upload-keystore.keystore")
             storePassword System.getenv("CM_KEYSTORE_PASSWORD")
             keyAlias System.getenv("CM_KEY_ALIAS")
             keyPassword System.getenv("CM_KEY_PASSWORD")
-            storeType "JKS"   // 保險：避免 keystore 類型誤判
+            def cmStoreType = System.getenv("CM_KEYSTORE_TYPE")
+            if (cmStoreType == null || cmStoreType.isEmpty()) {
+                def detectedFromEnv = System.getenv("CM_DETECTED_KEYSTORE_TYPE")
+                if (detectedFromEnv != null && !detectedFromEnv.isEmpty()) {
+                    cmStoreType = detectedFromEnv
+                } else {
+                    def detectedFile = file("keystore.storetype")
+                    if (detectedFile.exists()) {
+                        def detectedValue = detectedFile.getText('UTF-8').trim()
+                        if (!detectedValue.isEmpty()) {
+                            cmStoreType = detectedValue
+                        }
+                    }
+                }
+            }
+            if (cmStoreType != null && !cmStoreType.isEmpty()) {
+                storeType cmStoreType
+            }
         }
     }
 

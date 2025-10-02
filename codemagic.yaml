@@ -104,35 +104,146 @@ workflows:
 
       - name: Prepare Android signing keystore
         script: |
-          # 清理 Base64 的空白/換行並嘗試多種 base64 參數，還原到 android/app
-          mkdir -p $CM_BUILD_DIR/android/app
-          CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
-          ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
-            printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
-            printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
-            > $CM_BUILD_DIR/android/app/upload-keystore.jks
+          set -euo pipefail
+          mkdir -p "$CM_BUILD_DIR/android/app"
+
+          require_var() {
+            local name="$1"
+            if [ -z "${!name:-}" ]; then
+              echo "ERROR: missing required env var $name" >&2
+              exit 1
+            fi
+          }
+
+          require_var CM_KEYSTORE
+          require_var CM_KEYSTORE_PASSWORD
+          require_var CM_KEY_PASSWORD
+          require_var CM_KEY_ALIAS
+
+          CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \r\n\t')
+          OUTPUT_FILE="$CM_BUILD_DIR/android/app/upload-keystore.keystore"
+          if ! (
+            printf "%s" "$CLEANED" | base64 -d 2>/dev/null ||
+            printf "%s" "$CLEANED" | base64 --decode 2>/dev/null ||
+            printf "%s" "$CLEANED" | base64 -D 2>/dev/null
+          ) >"$OUTPUT_FILE"; then
+            echo "ERROR: failed to decode CM_KEYSTORE (check base64)" >&2
+            exit 1
+          fi
+
+          if [ ! -s "$OUTPUT_FILE" ]; then
+            echo "ERROR: decoded keystore is empty (check CM_KEYSTORE contents)" >&2
+            exit 1
+          fi
 
       - name: Inspect env & keystore (debug)
         script: |
           set -euo pipefail
+          cd "$CM_BUILD_DIR/android/app"
           echo "ALIAS=[$CM_KEY_ALIAS]"
           echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
           echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
-          cd $CM_BUILD_DIR/android/app
-          python3 -c 'import hashlib,sys; b=open("upload-keystore.jks","rb").read(); print("JKS size:",len(b)); print("JKS sha256:",hashlib.sha256(b).hexdigest())'
+          ls -l upload-keystore.keystore
+          python3 -c "import hashlib, pathlib; data = pathlib.Path('upload-keystore.keystore').read_bytes(); print(f'KEYSTORE size: {len(data)} bytes'); print(f'KEYSTORE sha256: {hashlib.sha256(data).hexdigest()}')"
 
       - name: Verify keystore (debug)
         script: |
           set -euo pipefail
-          cd $CM_BUILD_DIR/android/app
+          cd "$CM_BUILD_DIR/android/app"
+
+          detect_storetype() {
+            if [ -n "${CM_KEYSTORE_TYPE:-}" ]; then
+              printf '%s' "$CM_KEYSTORE_TYPE"
+              return 0
+            fi
+
+            for candidate in JKS PKCS12; do
+              if keytool -list -keystore upload-keystore.keystore \
+                -storepass "$CM_KEYSTORE_PASSWORD" \
+                -storetype "$candidate" >/dev/null 2>&1; then
+                printf '%s' "$candidate"
+                return 0
+              fi
+            done
+
+            return 1
+          }
+
+          STORETYPE=$(detect_storetype)
+          if [ -z "$STORETYPE" ]; then
+            echo "ERROR: unable to determine keystore type. Set CM_KEYSTORE_TYPE explicitly (JKS or PKCS12)." >&2
+            exit 1
+          fi
+
+          if [ -z "${CM_KEYSTORE_TYPE:-}" ]; then
+            echo "Detected keystore type: $STORETYPE"
+          else
+            echo "Using keystore type from CM_KEYSTORE_TYPE: $STORETYPE"
+          fi
+
+          export CM_DETECTED_KEYSTORE_TYPE="$STORETYPE"
+          printf '%s\n' "$STORETYPE" > keystore.storetype
+
           echo "== list aliases (storepass) =="
-          keytool -list -keystore upload-keystore.jks -storepass "$CM_KEYSTORE_PASSWORD"
-          echo "== open target alias (storepass + keypass) =="
-          keytool -list -v -keystore upload-keystore.jks \
+          if ! keytool -list -keystore upload-keystore.keystore -storepass "$CM_KEYSTORE_PASSWORD" -storetype "$STORETYPE"; then
+            echo "ERROR: failed to list aliases. Check CM_KEYSTORE_PASSWORD or keystore type" >&2
+            exit 1
+          fi
+
+          echo "== verify target alias with keytool (storepass + keypass) =="
+          if keytool -list -v \
+            -keystore upload-keystore.keystore \
             -alias "$CM_KEY_ALIAS" \
             -storepass "$CM_KEYSTORE_PASSWORD" \
-            -keypass "$CM_KEY_PASSWORD"
-          echo "OK: alias+password match"
+            -keypass "$CM_KEY_PASSWORD" \
+            -storetype "$STORETYPE" >/dev/null 2>&1; then
+            echo "OK: alias exists in keystore"
+          else
+            echo "ERROR: alias lookup failed (check CM_KEY_ALIAS / CM_KEYSTORE_PASSWORD / keystore type)" >&2
+            exit 1
+          fi
+
+          echo "== verify private key with import (storepass + keypass) =="
+          TMP_P12=$(mktemp "cm-keystore-XXXXXX.p12")
+          IMPORT_LOG=$(mktemp "cm-keystore-verify-XXXXXX.log")
+          if keytool -importkeystore \
+            -noprompt \
+            -srckeystore upload-keystore.keystore \
+            -srcstoretype "$STORETYPE" \
+            -srcalias "$CM_KEY_ALIAS" \
+            -srcstorepass "$CM_KEYSTORE_PASSWORD" \
+            -srckeypass "$CM_KEY_PASSWORD" \
+            -deststoretype PKCS12 \
+            -destkeystore "$TMP_P12" \
+            -deststorepass changeit \
+            -destkeypass changeit >"$IMPORT_LOG" 2>&1; then
+            echo "OK: alias and key password verified"
+          else
+            echo "ERROR: alias/password mismatch (check CM_KEY_PASSWORD / CM_KEYSTORE_PASSWORD)" >&2
+            python3 - "$IMPORT_LOG" <<'PY'
+            import os
+            import sys
+            from pathlib import Path
+
+            log_path = Path(sys.argv[1])
+            if log_path.exists():
+                log = log_path.read_text(errors="replace")
+                for env in ("CM_KEYSTORE_PASSWORD", "CM_KEY_PASSWORD", "CM_KEY_ALIAS"):
+                    value = os.environ.get(env)
+                    if value:
+                        log = log.replace(value, "<redacted>")
+                log = log.strip()
+                if log:
+                    print("keytool output:", file=sys.stderr)
+                    print(log, file=sys.stderr)
+            PY
+            echo "Hint: 在本機執行下列指令重現並確認密碼是否正確 (需提供相同密碼)：" >&2
+            echo "  keytool -importkeystore -srckeystore upload-keystore.keystore -srcstoretype $STORETYPE -srcalias $CM_KEY_ALIAS \\" >&2
+            echo "    -destkeystore /tmp/upload-check.p12 -deststoretype PKCS12" >&2
+            rm -f "$TMP_P12" "$IMPORT_LOG"
+            exit 1
+          fi
+          rm -f "$TMP_P12" "$IMPORT_LOG"
 
       - name: Make gradlew executable
         script: |
