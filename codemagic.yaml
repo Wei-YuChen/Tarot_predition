@@ -102,37 +102,12 @@ workflows:
         script: |
           npm run build:app
 
-      - name: Prepare Android signing keystore
-        script: |
-          # 清理 Base64 的空白/換行並嘗試多種 base64 參數，還原到 android/app
-          mkdir -p $CM_BUILD_DIR/android/app
-          CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
-          ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
-            printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
-            printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
-            > $CM_BUILD_DIR/android/app/upload-keystore.jks
-
-      - name: Inspect env & keystore (debug)
+      - name: Restore & verify Android signing keystore
         script: |
           set -euo pipefail
-          echo "ALIAS=[$CM_KEY_ALIAS]"
-          echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
-          echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
-          cd $CM_BUILD_DIR/android/app
-          python3 -c 'import hashlib,sys; b=open("upload-keystore.jks","rb").read(); print("JKS size:",len(b)); print("JKS sha256:",hashlib.sha256(b).hexdigest())'
-
-      - name: Verify keystore (debug)
-        script: |
-          set -euo pipefail
-          cd $CM_BUILD_DIR/android/app
-          echo "== list aliases (storepass) =="
-          keytool -list -keystore upload-keystore.jks -storepass "$CM_KEYSTORE_PASSWORD"
-          echo "== open target alias (storepass + keypass) =="
-          keytool -list -v -keystore upload-keystore.jks \
-            -alias "$CM_KEY_ALIAS" \
-            -storepass "$CM_KEYSTORE_PASSWORD" \
-            -keypass "$CM_KEY_PASSWORD"
-          echo "OK: alias+password match"
+          mkdir -p "$CM_BUILD_DIR/android/app"
+          ./scripts/verify-keystore.sh \
+            --output "$CM_BUILD_DIR/android/app/upload-keystore.jks"
 
       - name: Make gradlew executable
         script: |
