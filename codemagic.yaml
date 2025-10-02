@@ -113,12 +113,10 @@ workflows:
             > $CM_BUILD_DIR/android/app/upload-keystore.jks
           
           # 創建 keystore.properties 文件供 Gradle 讀取，避免環境變數解析問題
-          cat > $CM_BUILD_DIR/android/keystore.properties <<EOF
-storeFile=app/upload-keystore.jks
-storePassword=$CM_KEYSTORE_PASSWORD
-keyAlias=$CM_KEY_ALIAS
-keyPassword=$CM_KEY_PASSWORD
-EOF
+          echo "storeFile=app/upload-keystore.jks" > $CM_BUILD_DIR/android/keystore.properties
+          echo "storePassword=$CM_KEYSTORE_PASSWORD" >> $CM_BUILD_DIR/android/keystore.properties
+          echo "keyAlias=$CM_KEY_ALIAS" >> $CM_BUILD_DIR/android/keystore.properties
+          echo "keyPassword=$CM_KEY_PASSWORD" >> $CM_BUILD_DIR/android/keystore.properties
 
       - name: Inspect env & keystore (debug)
         script: |
