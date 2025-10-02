@@ -124,15 +124,23 @@ workflows:
           echo "ALIAS=[$CM_KEY_ALIAS]"
           echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
           echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
+          echo "== Checking keystore file =="
           cd $CM_BUILD_DIR/android/app
-          python3 -c 'import hashlib,sys; b=open("upload-keystore.jks","rb").read(); print("JKS size:",len(b)); print("JKS sha256:",hashlib.sha256(b).hexdigest())'
+          if [ -f upload-keystore.jks ]; then
+            ls -lh upload-keystore.jks
+            python3 -c 'import hashlib,sys; b=open("upload-keystore.jks","rb").read(); print("JKS size:",len(b)); print("JKS sha256:",hashlib.sha256(b).hexdigest())'
+          else
+            echo "ERROR: upload-keystore.jks not found!"
+            exit 1
+          fi
           echo "== keystore.properties content (passwords hidden) =="
           cd $CM_BUILD_DIR/android
           if [ -f keystore.properties ]; then
             grep -v "Password" keystore.properties || true
             echo "keystore.properties exists and is readable"
           else
-            echo "WARNING: keystore.properties not found!"
+            echo "ERROR: keystore.properties not found!"
+            exit 1
           fi
 
       - name: Verify keystore (debug)

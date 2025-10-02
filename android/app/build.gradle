@@ -32,10 +32,13 @@ android {
         release {
             if (useKeystoreProperties) {
                 // 從 keystore.properties 檔案讀取
-                storeFile file(keystoreProperties['storeFile'])
-                storePassword keystoreProperties['storePassword']
-                keyAlias keystoreProperties['keyAlias']
-                keyPassword keystoreProperties['keyPassword']
+                def keystoreFile = rootProject.file(keystoreProperties['storeFile'])
+                if (keystoreFile.exists()) {
+                    storeFile keystoreFile
+                    storePassword keystoreProperties['storePassword']
+                    keyAlias keystoreProperties['keyAlias']
+                    keyPassword keystoreProperties['keyPassword']
+                }
             } else {
                 // 從環境變數讀取（向後兼容）
                 def keystorePath = "upload-keystore.jks"
@@ -61,11 +64,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             
             // 只在簽章資訊可用時才應用簽章配置
-            if (useKeystoreProperties || 
-                (file("upload-keystore.jks").exists() && 
-                 System.getenv("CM_KEYSTORE_PASSWORD") && 
-                 System.getenv("CM_KEY_ALIAS") && 
-                 System.getenv("CM_KEY_PASSWORD"))) {
+            def hasValidSigning = false
+            if (useKeystoreProperties) {
+                def keystoreFile = rootProject.file(keystoreProperties['storeFile'])
+                hasValidSigning = keystoreFile.exists()
+            } else {
+                hasValidSigning = file("upload-keystore.jks").exists() && 
+                    System.getenv("CM_KEYSTORE_PASSWORD") && 
+                    System.getenv("CM_KEY_ALIAS") && 
+                    System.getenv("CM_KEY_PASSWORD")
+            }
+            
+            if (hasValidSigning) {
                 signingConfig signingConfigs.release
             }
         }
