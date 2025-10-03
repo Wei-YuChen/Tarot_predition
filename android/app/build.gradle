@@ -1,13 +1,24 @@
 apply plugin: 'com.android.application'
 
-// 讀取 keystore 屬性（如果存在）
+// ---- 可選：讀 keystore.properties（本機開發時方便） ----
 def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-def useKeystoreProperties = false
+def props = new Properties()
 if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-    useKeystoreProperties = true
+    props.load(new FileInputStream(keystorePropertiesFile))
 }
+
+// ---- 以環境變數為主，無則回退到 keystore.properties ----
+def keystorePath     = "upload-keystore.jks"                                   // Codemagic 會還原到 android/app 目錄
+def storePassEnv     = System.getenv("CM_KEYSTORE_PASSWORD")
+def keyAliasEnv      = System.getenv("CM_KEY_ALIAS")
+def keyPassEnv       = System.getenv("CM_KEY_PASSWORD")
+
+def storePass        = storePassEnv ?: props.getProperty("storePassword")
+def keyAlias         = keyAliasEnv  ?: props.getProperty("keyAlias")
+def keyPass          = keyPassEnv   ?: props.getProperty("keyPassword")
+def storeFilePath    = file(keystorePath)
+
+def signingReady = storeFilePath.exists() && storePass && keyAlias && keyPass  // 全部要齊
 
 android {
     namespace "com.mystictarot.app"
@@ -22,39 +33,18 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
-            // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
 
-    // 簽章設定：優先使用 keystore.properties，其次使用環境變數
-    // 只有在簽章資訊完整且檔案存在時才建立 release 簽章配置
+    // ---- 只在資訊齊全時才建立 release 簽章 ----
     signingConfigs {
-        if (useKeystoreProperties) {
-            def keystoreFile = rootProject.file(keystoreProperties['storeFile'])
-            if (keystoreFile.exists()) {
-                release {
-                    storeFile keystoreFile
-                    storePassword keystoreProperties['storePassword']
-                    keyAlias keystoreProperties['keyAlias']
-                    keyPassword keystoreProperties['keyPassword']
-                }
-            }
-        } else {
-            def keystorePath = "upload-keystore.jks"
-            if (file(keystorePath).exists()) {
-                def keystorePassword = System.getenv("CM_KEYSTORE_PASSWORD")
-                def keyAliasValue = System.getenv("CM_KEY_ALIAS") 
-                def keyPasswordValue = System.getenv("CM_KEY_PASSWORD")
-                
-                if (keystorePassword && keyAliasValue && keyPasswordValue) {
-                    release {
-                        storeFile file(keystorePath)
-                        storePassword keystorePassword
-                        keyAlias keyAliasValue
-                        keyPassword keyPasswordValue
-                    }
-                }
+        if (signingReady) {
+            release {
+                storeFile storeFilePath
+                storePassword storePass
+                keyAlias keyAlias
+                keyPassword keyPass
             }
         }
     }
@@ -63,11 +53,29 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            
-            // 只有在 release 簽章配置存在時才應用
+
+            // 有建立 release 簽章才套用，否則在真正要打 release 時丟出明確錯誤
             if (signingConfigs.findByName('release')) {
                 signingConfig signingConfigs.release
+            } else {
+                // 只有在真的建置 release（例如 bundleRelease / assembleRelease）時才報錯
+                if (project.gradle.startParameter.taskNames.any { it.toLowerCase().contains("release") }) {
+                    throw new GradleException(
+                        "Release signing is not configured.\n" +
+                        "Expected keystore: ${storeFilePath}\n" +
+                        "Exists: ${storeFilePath.exists()}\n" +
+                        "Env CM_KEYSTORE_PASSWORD present: ${storePassEnv != null}\n" +
+                        "Env CM_KEY_ALIAS present: ${keyAliasEnv != null}\n" +
+                        "Env CM_KEY_PASSWORD present: ${keyPassEnv != null}\n" +
+                        "If you are building on Codemagic, ensure the keystore is restored to android/app/upload-keystore.jks\n" +
+                        "and the three env vars are set."
+                    )
+                }
             }
+        }
+
+        debug {
+            // debug 不強制簽章，方便本機跑
         }
     }
 }
@@ -87,6 +95,7 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+
     def cordovaPluginsProject = rootProject.findProject(':capacitor-cordova-android-plugins')
     if (cordovaPluginsProject != null) {
         implementation cordovaPluginsProject
