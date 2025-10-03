@@ -111,6 +111,11 @@ workflows:
             printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
             > $CM_BUILD_DIR/android/app/upload-keystore.jks
+          
+          # 創建 keystore.properties 文件供 Gradle 讀取，避免環境變數解析問題  
+          # 使用 Python 來正確處理 Java Properties 格式的轉義
+          cd $CM_BUILD_DIR/android
+          python3 -c 'import os; v=lambda x:x.replace("\\\\","\\\\\\\\").replace("=","\\\\=").replace(":","\\\\:").replace("#","\\\\#").replace("!","\\\\!"); f=open("keystore.properties","w"); f.write("storeFile=app/upload-keystore.jks\\n"); f.write("storePassword="+v(os.environ.get("CM_KEYSTORE_PASSWORD",""))+"\\n"); f.write("keyAlias="+v(os.environ.get("CM_KEY_ALIAS",""))+"\\n"); f.write("keyPassword="+v(os.environ.get("CM_KEY_PASSWORD",""))+"\\n"); f.close(); print("Properties created")'
 
       - name: Inspect env & keystore (debug)
         script: |
@@ -118,8 +123,25 @@ workflows:
           echo "ALIAS=[$CM_KEY_ALIAS]"
           echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
           echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
+          echo "== Checking keystore file =="
           cd $CM_BUILD_DIR/android/app
-          python3 -c 'import hashlib,sys; b=open("upload-keystore.jks","rb").read(); print("JKS size:",len(b)); print("JKS sha256:",hashlib.sha256(b).hexdigest())'
+          if [ -f upload-keystore.jks ]; then
+            ls -lh upload-keystore.jks
+            python3 -c 'import hashlib,sys; b=open("upload-keystore.jks","rb").read(); print("JKS size:",len(b)); print("JKS sha256:",hashlib.sha256(b).hexdigest())'
+          else
+            echo "ERROR: upload-keystore.jks not found!"
+            exit 1
+          fi
+          echo "== keystore.properties content (passwords hidden) =="
+          cd $CM_BUILD_DIR/android
+          if [ -f keystore.properties ]; then
+            grep -v "Password" keystore.properties || true
+            echo "Properties file line count: $(wc -l < keystore.properties)"
+            echo "keystore.properties exists and is readable"
+          else
+            echo "ERROR: keystore.properties not found!"
+            exit 1
+          fi
 
       - name: Verify keystore (debug)
         script: |
