@@ -107,24 +107,24 @@ workflows:
           set -euo pipefail
           mkdir -p "$CM_BUILD_DIR/android/app"
 
-          # 還原 keystore（移除空白/換行，嘗試多種 base64 解碼器）
+          # 還原 keystore：清掉空白/換行並嘗試多種 base64 解碼器
           CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
           ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
             > "$CM_BUILD_DIR/android/app/upload-keystore.jks"
 
-          # 若沒提供獨立 key 密碼，則以 store 密碼作為 key 密碼
+          # 若未提供 key 密碼，預設等於 store 密碼
           : "${CM_KEY_PASSWORD:=$CM_KEYSTORE_PASSWORD}"
 
-          # Bash 轉義：把 Java properties 中的特殊字元全部跳脫
+          # Bash 轉義：跳脫 Java properties 的特殊字元
           esc() {
             local s="$1"
-            s="${s//\\/\\\\}"   # 反斜線
-            s="${s//=/\\=}"     # 等號
-            s="${s//:/\\:}"     # 冒號
-            s="${s//#/\\#}"     # 井號
-            s="${s//!/\\!}"     # 驚嘆號
+            s="${s//\\/\\\\}"   # \
+            s="${s//=/\\=}"     # =
+            s="${s//:/\\:}"     # :
+            s="${s//#/\\#}"     # #
+            s="${s//!/\\!}"     # !
             printf '%s' "$s"
           }
 
@@ -132,7 +132,7 @@ workflows:
           KEY_PASS_ESC=$(esc "$CM_KEY_PASSWORD")
           ALIAS_ESC=$(esc "$CM_KEY_ALIAS")
 
-          # 產生 keystore.properties （避免 YAML 解析問題，不用 heredoc/python）
+          # 產生 keystore.properties
           PROPS_PATH="$CM_BUILD_DIR/android/keystore.properties"
           printf 'storeFile=app/upload-keystore.jks\n' > "$PROPS_PATH"
           printf 'storePassword=%s\n' "$STORE_PASS_ESC" >> "$PROPS_PATH"
@@ -151,12 +151,13 @@ workflows:
           cd "$CM_BUILD_DIR/android/app"
           if [ -f upload-keystore.jks ]; then
             ls -lh upload-keystore.jks
-            python3 - << 'PY'
-import hashlib
-b=open('upload-keystore.jks','rb').read()
-print('JKS size:',len(b))
-print('JKS sha256:',hashlib.sha256(b).hexdigest())
-PY
+            echo "JKS size: $(wc -c < upload-keystore.jks)"
+            # sha256（避免 Python，使用 shasum / openssl 任一可用）
+            if command -v shasum >/dev/null 2>&1; then
+              echo "JKS sha256: $(shasum -a 256 upload-keystore.jks | cut -d' ' -f1)"
+            else
+              echo "JKS sha256: $(openssl dgst -sha256 upload-keystore.jks | awk '{print $2}')"
+            fi
           else
             echo "ERROR: upload-keystore.jks not found!"
             exit 1
@@ -165,7 +166,7 @@ PY
           echo "== keystore.properties content (passwords hidden) =="
           cd "$CM_BUILD_DIR/android"
           if [ -f keystore.properties ]; then
-            grep -v -E 'Password' keystore.properties || true
+            grep -v -Ei 'Password' keystore.properties || true
             echo "Lines: $(wc -l < keystore.properties)"
           else
             echo "ERROR: keystore.properties not found!"
