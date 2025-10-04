@@ -102,37 +102,33 @@ workflows:
         script: |
           npm run build:app
 
-      # 1) 還原 keystore，並建立 keystore.properties（Gradle 與本地皆可用）
       - name: Prepare Android signing keystore
         script: |
           set -euo pipefail
           mkdir -p "$CM_BUILD_DIR/android/app"
 
-          # 清理 Base64 的空白/換行後嘗試多種解碼器（不同環境相容）
+          # 還原 keystore（移除空白/換行，嘗試多種 base64 參數）
           CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
           ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
             > "$CM_BUILD_DIR/android/app/upload-keystore.jks"
 
-          # 產生 keystore.properties，正確處理特殊字元轉義
+          # 產生 keystore.properties（使用單行 Python，避免 YAML 解析問題）
           cd "$CM_BUILD_DIR/android"
-          python3 - << 'PY'
-import os
-def esc(v:str)->str:
-    return v.replace('\\','\\\\').replace('=','\\=').replace(':','\\:').replace('#','\\#').replace('!','\\!')
-store_pass = os.environ.get('CM_KEYSTORE_PASSWORD','')
-key_pass   = os.environ.get('CM_KEY_PASSWORD', '') or store_pass   # fallback
-alias      = os.environ.get('CM_KEY_ALIAS','')
-with open('keystore.properties','w') as f:
-    f.write('storeFile=app/upload-keystore.jks\n')
-    f.write('storePassword='+esc(store_pass)+'\n')
-    f.write('keyAlias='+esc(alias)+'\n')
-    f.write('keyPassword='+esc(key_pass)+'\n')
-print('keystore.properties created')
-PY
+          python3 -c 'import os,sys
+store_pass=os.environ.get("CM_KEYSTORE_PASSWORD","")
+key_pass=os.environ.get("CM_KEY_PASSWORD","") or store_pass
+alias=os.environ.get("CM_KEY_ALIAS","")
+def esc(v): return v.replace("\\\\","\\\\\\\\").replace("=","\\=").replace(":","\\:").replace("#","\\#").replace("!","\\!")
+open("keystore.properties","w").write(
+  "storeFile=app/upload-keystore.jks\\n"
+  "storePassword="+esc(store_pass)+"\\n"
+  "keyAlias="+esc(alias)+"\\n"
+  "keyPassword="+esc(key_pass)+"\\n"
+)
+print("keystore.properties created")'
 
-      # 2) 檢查環境與 keystore（如首次通過可關閉）
       - name: Inspect env & keystore (debug)
         script: |
           set -euo pipefail
@@ -145,7 +141,7 @@ PY
           if [ -f upload-keystore.jks ]; then
             ls -lh upload-keystore.jks
             python3 - << 'PY'
-import hashlib,sys
+import hashlib
 b=open('upload-keystore.jks','rb').read()
 print('JKS size:',len(b))
 print('JKS sha256:',hashlib.sha256(b).hexdigest())
@@ -165,7 +161,6 @@ PY
             exit 1
           fi
 
-      # 3) 用 keytool 確認 storepass / alias / keypass
       - name: Verify keystore (debug)
         script: |
           set -euo pipefail
@@ -189,7 +184,6 @@ PY
           cd android
           ./gradlew bundleRelease --stacktrace
 
-      # 可選：同時輸出 debug APK
       - name: Build Android APK (debug)
         script: |
           cd android
