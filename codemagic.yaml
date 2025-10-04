@@ -107,34 +107,45 @@ workflows:
           set -euo pipefail
           mkdir -p "$CM_BUILD_DIR/android/app"
 
-          # 還原 keystore（移除空白/換行，嘗試多種 base64 參數）
+          # 還原 keystore（移除空白/換行，嘗試多種 base64 解碼器）
           CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
           ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
             > "$CM_BUILD_DIR/android/app/upload-keystore.jks"
 
-          # 產生 keystore.properties（使用單行 Python，避免 YAML 解析問題）
-          cd "$CM_BUILD_DIR/android"
-          python3 -c 'import os,sys
-store_pass=os.environ.get("CM_KEYSTORE_PASSWORD","")
-key_pass=os.environ.get("CM_KEY_PASSWORD","") or store_pass
-alias=os.environ.get("CM_KEY_ALIAS","")
-def esc(v): return v.replace("\\\\","\\\\\\\\").replace("=","\\=").replace(":","\\:").replace("#","\\#").replace("!","\\!")
-open("keystore.properties","w").write(
-  "storeFile=app/upload-keystore.jks\\n"
-  "storePassword="+esc(store_pass)+"\\n"
-  "keyAlias="+esc(alias)+"\\n"
-  "keyPassword="+esc(key_pass)+"\\n"
-)
-print("keystore.properties created")'
+          # 若沒提供獨立 key 密碼，則以 store 密碼作為 key 密碼
+          : "${CM_KEY_PASSWORD:=$CM_KEYSTORE_PASSWORD}"
+
+          # Bash 轉義：把 Java properties 中的特殊字元全部跳脫
+          esc() {
+            local s="$1"
+            s="${s//\\/\\\\}"   # 反斜線
+            s="${s//=/\\=}"     # 等號
+            s="${s//:/\\:}"     # 冒號
+            s="${s//#/\\#}"     # 井號
+            s="${s//!/\\!}"     # 驚嘆號
+            printf '%s' "$s"
+          }
+
+          STORE_PASS_ESC=$(esc "$CM_KEYSTORE_PASSWORD")
+          KEY_PASS_ESC=$(esc "$CM_KEY_PASSWORD")
+          ALIAS_ESC=$(esc "$CM_KEY_ALIAS")
+
+          # 產生 keystore.properties （避免 YAML 解析問題，不用 heredoc/python）
+          PROPS_PATH="$CM_BUILD_DIR/android/keystore.properties"
+          printf 'storeFile=app/upload-keystore.jks\n' > "$PROPS_PATH"
+          printf 'storePassword=%s\n' "$STORE_PASS_ESC" >> "$PROPS_PATH"
+          printf 'keyAlias=%s\n' "$ALIAS_ESC" >> "$PROPS_PATH"
+          printf 'keyPassword=%s\n' "$KEY_PASS_ESC" >> "$PROPS_PATH"
+          echo "keystore.properties created at $PROPS_PATH"
 
       - name: Inspect env & keystore (debug)
         script: |
           set -euo pipefail
           echo "ALIAS=[$CM_KEY_ALIAS]"
           echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
-          echo "KEYPASS_LEN=${#CM_KEY_PASSWORD:-0}"
+          echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
 
           echo "== Checking keystore file =="
           cd "$CM_BUILD_DIR/android/app"
