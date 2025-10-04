@@ -85,7 +85,7 @@ workflows:
       node: 18
       java: 17
       groups:
-        - android_signing   # CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / CM_KEY_PASSWORD
+        - android_signing   # 需提供：CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / (可選) CM_KEY_PASSWORD
       vars:
         CI: 'true'
     cache:
@@ -102,58 +102,81 @@ workflows:
         script: |
           npm run build:app
 
+      # 1) 還原 keystore，並建立 keystore.properties（Gradle 與本地皆可用）
       - name: Prepare Android signing keystore
         script: |
-          # 清理 Base64 的空白/換行並嘗試多種 base64 參數，還原到 android/app
-          mkdir -p $CM_BUILD_DIR/android/app
+          set -euo pipefail
+          mkdir -p "$CM_BUILD_DIR/android/app"
+
+          # 清理 Base64 的空白/換行後嘗試多種解碼器（不同環境相容）
           CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
           ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
-            > $CM_BUILD_DIR/android/app/upload-keystore.jks
-          
-          # 創建 keystore.properties 文件供 Gradle 讀取，避免環境變數解析問題  
-          # 使用 Python 來正確處理 Java Properties 格式的轉義
-          cd $CM_BUILD_DIR/android
-          python3 -c 'import os; v=lambda x:x.replace("\\\\","\\\\\\\\").replace("=","\\\\=").replace(":","\\\\:").replace("#","\\\\#").replace("!","\\\\!"); f=open("keystore.properties","w"); f.write("storeFile=app/upload-keystore.jks\\n"); f.write("storePassword="+v(os.environ.get("CM_KEYSTORE_PASSWORD",""))+"\\n"); f.write("keyAlias="+v(os.environ.get("CM_KEY_ALIAS",""))+"\\n"); f.write("keyPassword="+v(os.environ.get("CM_KEY_PASSWORD",""))+"\\n"); f.close(); print("Properties created")'
+            > "$CM_BUILD_DIR/android/app/upload-keystore.jks"
 
+          # 產生 keystore.properties，正確處理特殊字元轉義
+          cd "$CM_BUILD_DIR/android"
+          python3 - << 'PY'
+import os
+def esc(v:str)->str:
+    return v.replace('\\','\\\\').replace('=','\\=').replace(':','\\:').replace('#','\\#').replace('!','\\!')
+store_pass = os.environ.get('CM_KEYSTORE_PASSWORD','')
+key_pass   = os.environ.get('CM_KEY_PASSWORD', '') or store_pass   # fallback
+alias      = os.environ.get('CM_KEY_ALIAS','')
+with open('keystore.properties','w') as f:
+    f.write('storeFile=app/upload-keystore.jks\n')
+    f.write('storePassword='+esc(store_pass)+'\n')
+    f.write('keyAlias='+esc(alias)+'\n')
+    f.write('keyPassword='+esc(key_pass)+'\n')
+print('keystore.properties created')
+PY
+
+      # 2) 檢查環境與 keystore（如首次通過可關閉）
       - name: Inspect env & keystore (debug)
         script: |
           set -euo pipefail
           echo "ALIAS=[$CM_KEY_ALIAS]"
           echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
-          echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
+          echo "KEYPASS_LEN=${#CM_KEY_PASSWORD:-0}"
+
           echo "== Checking keystore file =="
-          cd $CM_BUILD_DIR/android/app
+          cd "$CM_BUILD_DIR/android/app"
           if [ -f upload-keystore.jks ]; then
             ls -lh upload-keystore.jks
-            python3 -c 'import hashlib,sys; b=open("upload-keystore.jks","rb").read(); print("JKS size:",len(b)); print("JKS sha256:",hashlib.sha256(b).hexdigest())'
+            python3 - << 'PY'
+import hashlib,sys
+b=open('upload-keystore.jks','rb').read()
+print('JKS size:',len(b))
+print('JKS sha256:',hashlib.sha256(b).hexdigest())
+PY
           else
             echo "ERROR: upload-keystore.jks not found!"
             exit 1
           fi
+
           echo "== keystore.properties content (passwords hidden) =="
-          cd $CM_BUILD_DIR/android
+          cd "$CM_BUILD_DIR/android"
           if [ -f keystore.properties ]; then
-            grep -v "Password" keystore.properties || true
-            echo "Properties file line count: $(wc -l < keystore.properties)"
-            echo "keystore.properties exists and is readable"
+            grep -v -E 'Password' keystore.properties || true
+            echo "Lines: $(wc -l < keystore.properties)"
           else
             echo "ERROR: keystore.properties not found!"
             exit 1
           fi
 
+      # 3) 用 keytool 確認 storepass / alias / keypass
       - name: Verify keystore (debug)
         script: |
           set -euo pipefail
-          cd $CM_BUILD_DIR/android/app
+          cd "$CM_BUILD_DIR/android/app"
           echo "== list aliases (storepass) =="
           keytool -list -keystore upload-keystore.jks -storepass "$CM_KEYSTORE_PASSWORD"
-          echo "== open target alias (storepass + keypass) =="
+          echo "== open target alias (storepass + keypass/fallback) =="
           keytool -list -v -keystore upload-keystore.jks \
             -alias "$CM_KEY_ALIAS" \
             -storepass "$CM_KEYSTORE_PASSWORD" \
-            -keypass "$CM_KEY_PASSWORD"
+            -keypass "${CM_KEY_PASSWORD:-$CM_KEYSTORE_PASSWORD}" >/dev/null
           echo "OK: alias+password match"
 
       - name: Make gradlew executable
@@ -166,7 +189,8 @@ workflows:
           cd android
           ./gradlew bundleRelease --stacktrace
 
-      - name: Build Android APK (debug)   # 可選
+      # 可選：同時輸出 debug APK
+      - name: Build Android APK (debug)
         script: |
           cd android
           ./gradlew assembleDebug --stacktrace
