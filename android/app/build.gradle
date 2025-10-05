@@ -21,21 +21,22 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
-            // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
-            // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
 
-    // ✅ 使用 Java 17 編譯
+    // 🔑 強制 Gradle 使用 Java 17
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    // ===== 簽章設定（支援 keystore.properties 與環境變數；key 密碼會 fallback 到 keystore 密碼）=====
+    // 🔑 就算沒有 Kotlin 也加這個，避免 AGP fallback 到 JDK 21
+    kotlin {
+        jvmToolchain(17)
+    }
+
     signingConfigs {
-        // 先嘗試 keystore.properties
         if (hasKeystoreProps) {
             def propsStoreFile   = keystoreProperties['storeFile']
             def propsStorePass   = keystoreProperties['storePassword']
@@ -53,9 +54,8 @@ android {
             }
         }
 
-        // 若沒有 props 或 props 不完整，改用環境變數（Codemagic）
         if (!signingConfigs.findByName('release')) {
-            def storeFileEnv   = "upload-keystore.jks" // Codemagic 腳本會還原到 android/app
+            def storeFileEnv   = "upload-keystore.jks"
             def storePassEnv   = System.getenv("CM_KEYSTORE_PASSWORD")
             def aliasEnv       = System.getenv("CM_KEY_ALIAS")
             def keyPassEnvRaw  = System.getenv("CM_KEY_PASSWORD")
