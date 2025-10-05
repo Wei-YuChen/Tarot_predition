@@ -27,14 +27,10 @@ android {
         }
     }
 
-    // 🔧 強制使用 Java 17（修正：invalid source release: 21）
+    // ✅ 使用 Java 17 編譯
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-    // 若專案含 Kotlin，確保 JVM 目標為 17
-    kotlinOptions {
-        jvmTarget = "17"
     }
 
     // ===== 簽章設定（支援 keystore.properties 與環境變數；key 密碼會 fallback 到 keystore 密碼）=====
@@ -44,7 +40,6 @@ android {
             def propsStoreFile   = keystoreProperties['storeFile']
             def propsStorePass   = keystoreProperties['storePassword']
             def propsAlias       = keystoreProperties['keyAlias']
-            // fallback：若沒填 keyPassword，就用 storePassword
             def propsKeyPass     = keystoreProperties['keyPassword'] ?: propsStorePass
 
             if (propsStoreFile && file(propsStoreFile).exists()
@@ -64,7 +59,6 @@ android {
             def storePassEnv   = System.getenv("CM_KEYSTORE_PASSWORD")
             def aliasEnv       = System.getenv("CM_KEY_ALIAS")
             def keyPassEnvRaw  = System.getenv("CM_KEY_PASSWORD")
-            // 重點：key 密碼 fallback 到 store 密碼
             def keyPassEnv     = keyPassEnvRaw ?: storePassEnv
 
             if (file(storeFileEnv).exists() && storePassEnv && aliasEnv && keyPassEnv) {
@@ -83,7 +77,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            // 只有在 release 簽章配置存在時才套用，避免本地/CI 沒有檔案時出錯
             if (signingConfigs.findByName('release')) {
                 signingConfig signingConfigs.release
             }
