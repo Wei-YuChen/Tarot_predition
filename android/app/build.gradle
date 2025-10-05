@@ -34,7 +34,7 @@ android {
             def propsStoreFile   = keystoreProperties['storeFile']
             def propsStorePass   = keystoreProperties['storePassword']
             def propsAlias       = keystoreProperties['keyAlias']
-            // 這裡做 fallback：若沒填 keyPassword，就用 storePassword
+            // 若沒填 keyPassword，就用 storePassword
             def propsKeyPass     = keystoreProperties['keyPassword'] ?: propsStorePass
 
             if (propsStoreFile && file(propsStoreFile).exists()
