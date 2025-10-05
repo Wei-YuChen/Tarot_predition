@@ -27,6 +27,16 @@ android {
         }
     }
 
+    // 🔧 強制使用 Java 17（修正：invalid source release: 21）
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    // 若專案含 Kotlin，確保 JVM 目標為 17
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
     // ===== 簽章設定（支援 keystore.properties 與環境變數；key 密碼會 fallback 到 keystore 密碼）=====
     signingConfigs {
         // 先嘗試 keystore.properties
@@ -34,7 +44,7 @@ android {
             def propsStoreFile   = keystoreProperties['storeFile']
             def propsStorePass   = keystoreProperties['storePassword']
             def propsAlias       = keystoreProperties['keyAlias']
-            // 若沒填 keyPassword，就用 storePassword
+            // fallback：若沒填 keyPassword，就用 storePassword
             def propsKeyPass     = keystoreProperties['keyPassword'] ?: propsStorePass
 
             if (propsStoreFile && file(propsStoreFile).exists()
