@@ -84,7 +84,7 @@ workflows:
     max_build_duration: 120
     environment:
       node: 20
-      java: 17
+      java: 17   # 🔑 強制使用 Java 17，避免 JDK 21 導致 "invalid source release: 21"
       groups:
         - android_signing   # CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / (optional) CM_KEY_PASSWORD
       vars:
@@ -102,7 +102,7 @@ workflows:
       - name: Build and sync static export
         script: |
           npm run build:app
-          # 確保有 android 平台並同步 web 資產與原生專案
+          # 確保 android 平台存在並同步 web 資產
           npx cap add android || true
           npx cap sync android
 
