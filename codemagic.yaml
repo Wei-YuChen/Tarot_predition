@@ -3,7 +3,7 @@ workflows:
     name: Mystic Tarot Static Export
     max_build_duration: 60
     environment:
-      node: 18
+      node: 20
       vars:
         CI: 'true'
     cache:
@@ -41,7 +41,7 @@ workflows:
     name: Mystic Tarot iOS
     max_build_duration: 120
     environment:
-      node: 18
+      node: 20
       xcode: latest
       cocoapods: default
       vars:
@@ -57,6 +57,7 @@ workflows:
       - name: Build and sync static export
         script: |
           npm run build:app
+          npx cap sync ios
       - name: Update iOS dependencies
         script: |
           cd ios/App && pod install
@@ -82,10 +83,10 @@ workflows:
     name: Mystic Tarot Android
     max_build_duration: 120
     environment:
-      node: 18
+      node: 20
       java: 17
       groups:
-        - android_signing   # 需提供：CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / (可選) CM_KEY_PASSWORD
+        - android_signing   # CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / (optional) CM_KEY_PASSWORD
       vars:
         CI: 'true'
     cache:
@@ -101,10 +102,7 @@ workflows:
       - name: Build and sync static export
         script: |
           npm run build:app
-
-      - name: Add & sync Android platform (Capacitor)
-        script: |
-          # 若 repo 沒有 android/，這裡會自動建立；有也不會出錯
+          # 確保有 android 平台並同步 web 資產與原生專案
           npx cap add android || true
           npx cap sync android
 
@@ -113,24 +111,21 @@ workflows:
           set -euo pipefail
           mkdir -p "$CM_BUILD_DIR/android/app"
 
-          # 還原 keystore：清掉空白/換行並嘗試多種 base64 解碼器
           CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
           ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
             > "$CM_BUILD_DIR/android/app/upload-keystore.jks"
 
-          # 若未提供 key 密碼，預設等於 store 密碼
           : "${CM_KEY_PASSWORD:=$CM_KEYSTORE_PASSWORD}"
 
-          # Bash 轉義：跳脫 Java properties 的特殊字元
           esc() {
             local s="$1"
-            s="${s//\\/\\\\}"   # \
-            s="${s//=/\\=}"     # =
-            s="${s//:/\\:}"     # :
-            s="${s//#/\\#}"     # #
-            s="${s//!/\\!}"     # !
+            s="${s//\\/\\\\}"
+            s="${s//=/\\=}"
+            s="${s//:/\\:}"
+            s="${s//#/\\#}"
+            s="${s//!/\\!}"
             printf '%s' "$s"
           }
 
@@ -138,7 +133,6 @@ workflows:
           KEY_PASS_ESC=$(esc "$CM_KEY_PASSWORD")
           ALIAS_ESC=$(esc "$CM_KEY_ALIAS")
 
-          # 產生 keystore.properties（Gradle 在 android/ 根目錄讀）
           PROPS_PATH="$CM_BUILD_DIR/android/keystore.properties"
           printf 'storeFile=app/upload-keystore.jks\n' > "$PROPS_PATH"
           printf 'storePassword=%s\n' "$STORE_PASS_ESC" >> "$PROPS_PATH"
