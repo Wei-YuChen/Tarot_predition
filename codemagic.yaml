@@ -102,6 +102,12 @@ workflows:
         script: |
           npm run build:app
 
+      - name: Add & sync Android platform (Capacitor)
+        script: |
+          # 若 repo 沒有 android/，這裡會自動建立；有也不會出錯
+          npx cap add android || true
+          npx cap sync android
+
       - name: Prepare Android signing keystore
         script: |
           set -euo pipefail
@@ -132,7 +138,7 @@ workflows:
           KEY_PASS_ESC=$(esc "$CM_KEY_PASSWORD")
           ALIAS_ESC=$(esc "$CM_KEY_ALIAS")
 
-          # 產生 keystore.properties
+          # 產生 keystore.properties（Gradle 在 android/ 根目錄讀）
           PROPS_PATH="$CM_BUILD_DIR/android/keystore.properties"
           printf 'storeFile=app/upload-keystore.jks\n' > "$PROPS_PATH"
           printf 'storePassword=%s\n' "$STORE_PASS_ESC" >> "$PROPS_PATH"
@@ -152,7 +158,6 @@ workflows:
           if [ -f upload-keystore.jks ]; then
             ls -lh upload-keystore.jks
             echo "JKS size: $(wc -c < upload-keystore.jks)"
-            # sha256（避免 Python，使用 shasum / openssl 任一可用）
             if command -v shasum >/dev/null 2>&1; then
               echo "JKS sha256: $(shasum -a 256 upload-keystore.jks | cut -d' ' -f1)"
             else
