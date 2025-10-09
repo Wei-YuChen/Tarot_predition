@@ -8,13 +8,9 @@ function isGoogleBot(userAgent: string | null): boolean {
   if (!userAgent) return false;
   
   const googleBotPatterns = [
-    /googlebot/i,
-    /adsbot-google/i,
-    /mediapartners-google/i,
-    /googlebot-mobile/i,
-    /googlebot-image/i,
-    /googlebot-news/i,
-    /googlebot-video/i,
+    /googlebot/i,           // Matches all Googlebot variants (mobile, image, news, video)
+    /adsbot-google/i,       // AdSense crawler
+    /mediapartners-google/i, // AdSense crawler for page content
   ];
   
   return googleBotPatterns.some(pattern => pattern.test(userAgent));
