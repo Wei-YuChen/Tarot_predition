@@ -175,6 +175,41 @@ All modules now live under `apps/web` so they can later be imported into shared 
 
 Each phase builds upon the monorepo foundation established in Phase 0.
 
+## 🎯 Google AdSense Compliance
+
+To ensure optimal performance with Google AdSense and pass their approval requirements, we have implemented several key improvements:
+
+### Content Quality and Depth
+
+- **Rich Static Pages**: Added comprehensive content pages including About Us, Contact, FAQ, Terms of Service, and Privacy Policy, each containing 300+ words of meaningful, original content
+- **Enhanced Homepage**: Expanded homepage with detailed descriptions about tarot, our platform philosophy, and usage guidance in multiple languages
+- **Multilingual Support**: All new pages maintain our commitment to serving users in Traditional Chinese, English, and other supported languages
+
+### Site Structure and Navigation
+
+- **Footer Navigation**: Created a comprehensive footer component with quick links to all important pages (About, Contact, FAQ, Terms, Privacy)
+- **Clear Site Hierarchy**: Established logical information architecture with easy access to policies and support resources
+- **Default Locale**: Changed root redirect from `/en` to `/tw` to prioritize Traditional Chinese market
+
+### SEO and Discoverability
+
+- **robots.txt**: Added robots.txt file at `/public/robots.txt` to allow search engine crawling of all pages
+- **Comprehensive Metadata**: All pages include complete SEO metadata with titles, descriptions, keywords, and `robots: 'index, follow'` directives
+- **Semantic HTML**: Proper heading structure and semantic markup throughout all content pages
+
+### User Experience and Transparency
+
+- **Clear Purpose**: Each page clearly communicates the site's purpose as an entertainment and self-reflection tool
+- **Contact Information**: Easily accessible contact information for user support and inquiries
+- **Terms and Privacy**: Detailed Terms of Service and Privacy Policy explaining user rights, data handling, and service limitations
+- **FAQ Section**: Comprehensive answers to common questions about tarot, our platform, and usage
+
+These improvements ensure that Mystic Tarot meets Google AdSense requirements for:
+- Sufficient content quantity and quality
+- Clear site navigation and structure
+- User-friendly policies and transparency
+- Professional presentation and functionality
+
 ## 📝 Scripts Reference
 
 | Script                | Description                                          |
