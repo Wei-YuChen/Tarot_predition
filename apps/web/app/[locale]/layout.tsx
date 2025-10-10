@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import ClientThemeToggle from '@/components/ClientThemeToggle';
+import Footer from '@/components/Footer';
 import { getHomeTexts } from '@/lib/localization';
 
 interface LocaleLayoutProps {
@@ -106,38 +107,7 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
         {children}
       </main>
 
-      <footer className="mt-16 bg-gray-50 dark:bg-tarot-cosmic border-t border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center text-gray-600 dark:text-gray-400">
-            <p className="mb-2">
-              <span className="font-serif font-semibold">Mystic Tarot</span> -{' '}
-              {locale === 'zh'
-                ? '通往古老智慧的门户'
-                : locale === 'tw'
-                  ? '通往古老智慧的門戶'
-                  : 'Your gateway to ancient wisdom'}
-            </p>
-            <p className="text-sm mb-2">
-              {locale === 'zh'
-                ? '请记住，塔罗牌阅读仅供娱乐和自我反思之用。'
-                : locale === 'tw'
-                  ? '請記住，塔羅牌閱讀僅供娛樂和自我反思之用。'
-                  : 'Remember, tarot readings are for entertainment and self-reflection purposes only.'}
-            </p>
-            <p className="text-xs mb-2">
-              <a
-                href={`/${locale}/privacy`}
-                className="text-tarot-purple dark:text-tarot-gold hover:underline"
-              >
-                Privacy Policy
-              </a>
-            </p>
-            <p className="text-xs text-gray-500 dark:text-gray-500">
-              © 2024 Mystic Tarot. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer locale={locale} />
     </div>
   );
 }

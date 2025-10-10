@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const locales = ['en', 'zh', 'tw', 'ja', 'ko', 'vi', 'th', 'id', 'ms'];
-const defaultLocale = 'en';
+const defaultLocale = 'tw';
 
 // Detect if the request is from a Google bot
 function isGoogleBot(userAgent: string | null): boolean {
