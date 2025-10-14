@@ -31,11 +31,6 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    // 🔑 就算沒有 Kotlin 也加這個，避免 AGP fallback 到 JDK 21
-    kotlin {
-        jvmToolchain(17)
-    }
-
     signingConfigs {
         if (hasKeystoreProps) {
             def propsStoreFile   = keystoreProperties['storeFile']
