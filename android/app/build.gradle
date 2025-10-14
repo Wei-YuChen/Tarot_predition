@@ -90,6 +90,10 @@ java {
 tasks.withType(JavaCompile).configureEach {
     sourceCompatibility = '17'
     targetCompatibility = '17'
+    // 🔑 使用 --release 參數確保編譯器使用 Java 17
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.release = 17
+    }
 }
 
 repositories {
