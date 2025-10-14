@@ -190,19 +190,36 @@ workflows:
           cd android
           chmod +x ./gradlew
 
+      - name: Set Java 17 environment
+        script: |
+          # 強制使用 Codemagic 提供的 Java 17
+          export JAVA_HOME=$JAVA_HOME_17
+          export PATH=$JAVA_HOME/bin:$PATH
+          java -version
+          echo "JAVA_HOME=$JAVA_HOME"
+
       - name: Stop Gradle daemon
         script: |
           cd android
+          # 確保使用 Java 17
+          export JAVA_HOME=$JAVA_HOME_17
+          export PATH=$JAVA_HOME/bin:$PATH
           ./gradlew --stop
 
       - name: Build Android AAB (release)
         script: |
           cd android
+          # 確保使用 Java 17
+          export JAVA_HOME=$JAVA_HOME_17
+          export PATH=$JAVA_HOME/bin:$PATH
           ./gradlew bundleRelease --stacktrace
 
       - name: Build Android APK (debug)
         script: |
           cd android
+          # 確保使用 Java 17
+          export JAVA_HOME=$JAVA_HOME_17
+          export PATH=$JAVA_HOME/bin:$PATH
           ./gradlew assembleDebug --stacktrace
 
     artifacts:
