@@ -190,6 +190,11 @@ workflows:
           cd android
           chmod +x ./gradlew
 
+      - name: Stop Gradle daemon
+        script: |
+          cd android
+          ./gradlew --stop
+
       - name: Build Android AAB (release)
         script: |
           cd android
