@@ -22,6 +22,12 @@ allprojects {
         google()
         mavenCentral()
     }
+    
+    // 🔑 強制所有子專案使用 Java 17，避免 AGP fallback 到 JDK 21
+    tasks.withType(JavaCompile).configureEach {
+        sourceCompatibility = '17'
+        targetCompatibility = '17'
+    }
 }
 
 task clean(type: Delete) {
