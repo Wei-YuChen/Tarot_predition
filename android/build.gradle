@@ -24,10 +24,21 @@ allprojects {
     }
     
     // 🔑 強制所有子專案使用 Java 17
-    tasks.withType(JavaCompile).configureEach {
-        sourceCompatibility = '17'
-        targetCompatibility = '17'
-        options.release = 17
+    tasks.withType(JavaCompile).configureEach { task ->
+        sourceCompatibility = JavaVersion.VERSION_17.toString()
+        targetCompatibility = JavaVersion.VERSION_17.toString()
+
+        // AGP 8.x injects a --release flag that may default to 21 when a JDK 21
+        // installation is detected. That breaks environments that only have a
+        // JDK 17 compiler available (e.g. Codemagic), so coerce the argument
+        // back to 17 right before execution instead of relying on options.release.
+        doFirst {
+            def args = options.compilerArgs
+            def releaseIndex = args.indexOf('--release')
+            if (releaseIndex >= 0 && releaseIndex + 1 < args.size()) {
+                args[releaseIndex + 1] = '17'
+            }
+        }
     }
 }
 
