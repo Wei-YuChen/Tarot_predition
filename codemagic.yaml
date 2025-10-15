@@ -1,224 +1,227 @@
 workflows:
-      mystic_tarot_static_export:
-        name: Mystic Tarot Static Export
-        max_build_duration: 60
-        environment:
-          node: 20
-          vars:
-            CI: 'true'
-        cache:
-          cache_paths:
-            - $HOME/.npm
-        scripts:
-          - name: Install dependencies
-            script: |
-              npm install --no-progress
-          - name: Lint
-            script: |
-              npm run lint
-          - name: Type check
-            script: |
-              npm run type-check
-          - name: Build static export for Capacitor shells
-            script: |
-              npm run build:app
-          - name: Archive static export for download
-            script: |
-              tar -czf apps-web-out.tar.gz -C .next .
-        artifacts:
-          - apps-web-out.tar.gz
-          - .next/**
-        publishing:
-          email:
-            recipients:
-              - highandhigh96@hotmail.com
-              - fish760217@gmail.com
-            notify:
-              success: true
-              failure: true
+  mystic_tarot_static_export:
+    name: Mystic Tarot Static Export
+    max_build_duration: 60
+    environment:
+      node: 20
+      vars:
+        CI: 'true'
+    cache:
+      cache_paths:
+        - $HOME/.npm
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install --no-progress
+      - name: Lint
+        script: |
+          npm run lint
+      - name: Type check
+        script: |
+          npm run type-check
+      - name: Build static export for Capacitor shells
+        script: |
+          npm run build:app
+      - name: Archive static export for download
+        script: |
+          tar -czf apps-web-out.tar.gz -C .next .
+    artifacts:
+      - apps-web-out.tar.gz
+      - .next/**
+    publishing:
+      email:
+        recipients:
+          - highandhigh96@hotmail.com
+          - fish760217@gmail.com
+        notify:
+          success: true
+          failure: true
 
-      mystic_tarot_ios:
-        name: Mystic Tarot iOS
-        max_build_duration: 120
-        environment:
-          node: 20
-          xcode: latest
-          cocoapods: default
-          vars:
-            CI: 'true'
-        cache:
-          cache_paths:
-            - $HOME/.npm
-            - $HOME/Library/Caches/CocoaPods
-        scripts:
-          - name: Install dependencies
-            script: |
-              npm install --no-progress
-          - name: Build and sync static export
-            script: |
-              npm run build:app
-              npx cap sync ios
-          - name: Update iOS dependencies
-            script: |
-              cd ios/App && pod install
-          - name: Build iOS app
-            script: |
-              xcode-project build-ipa \
-                --workspace ios/App/App.xcworkspace \
-                --scheme App
-        artifacts:
-          - build/ios/ipa/*.ipa
-          - /tmp/xcodebuild_logs/*.log
-          - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-        publishing:
-          email:
-            recipients:
-              - highandhigh96@hotmail.com
-              - fish760217@gmail.com
-            notify:
-              success: true
-              failure: true
+  mystic_tarot_ios:
+    name: Mystic Tarot iOS
+    max_build_duration: 120
+    environment:
+      node: 20
+      xcode: latest
+      cocoapods: default
+      vars:
+        CI: 'true'
+    cache:
+      cache_paths:
+        - $HOME/.npm
+        - $HOME/Library/Caches/CocoaPods
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install --no-progress
+      - name: Build and sync static export
+        script: |
+          npm run build:app
+          npx cap sync ios
+      - name: Update iOS dependencies
+        script: |
+          cd ios/App && pod install
+      - name: Build iOS app
+        script: |
+          xcode-project build-ipa \
+            --workspace ios/App/App.xcworkspace \
+            --scheme App
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+    publishing:
+      email:
+        recipients:
+          - highandhigh96@hotmail.com
+          - fish760217@gmail.com
+        notify:
+          success: true
+          failure: true
 
-      mystic_tarot_android:
-        name: Mystic Tarot Android
-        max_build_duration: 120
-        environment:
-          node: 20
-          java: 17   #  強制使用 Java 17，避免 JDK 21 導致 "invalid source release: 21"
-          groups:
-            - android_signing   # CM_KEYSTORE / CM_KEYSTORE_PASSWORD /
-CM_KEY_ALIAS / (optional) CM_KEY_PASSWORD
-          vars:
-            CI: 'true'
-        cache:
-          cache_paths:
-            - $HOME/.npm
-            - $HOME/.gradle/caches
+  mystic_tarot_android:
+    name: Mystic Tarot Android
+    max_build_duration: 120
+    environment:
+      node: 20
+      java: 17   # 強制使用 Java 17，避免 JDK 21 導致 "invalid source release: 21"
+      groups:
+        - android_signing   # CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / (optional) CM_KEY_PASSWORD
+      vars:
+        CI: 'true'
+    cache:
+      cache_paths:
+        - $HOME/.npm
+        - $HOME/.gradle/caches
 
-        scripts:
-          - name: Install dependencies
-            script: |
-              npm install --no-progress
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install --no-progress
 
-          - name: Build and sync static export
-            script: |
-              npm run build:app
-              # 確保 android 平台存在並同步 web 資產
-              npx cap add android || true
-              npx cap sync android
+      - name: Build and sync static export
+        script: |
+          npm run build:app
+          # 確保 android 平台存在並同步 web 資產
+          npx cap add android || true
+          npx cap sync android
 
-          - name: Prepare Android signing keystore
-            script: |
-              set -euo pipefail
-              mkdir -p "$CM_BUILD_DIR/android/app"
+      - name: Prepare Android signing keystore
+        script: |
+          set -euo pipefail
+          mkdir -p "$CM_BUILD_DIR/android/app"
 
-              CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
-              ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
-                printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
-                printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
-                > "$CM_BUILD_DIR/android/app/upload-keystore.jks"
+          CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
+          ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
+            printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
+            printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
+            > "$CM_BUILD_DIR/android/app/upload-keystore.jks"
 
-              : "${CM_KEY_PASSWORD:=$CM_KEYSTORE_PASSWORD}"
+          : "${CM_KEY_PASSWORD:=$CM_KEYSTORE_PASSWORD}"
 
-              esc() {
-                local s="$1"
-                s="${s//\\/\\\\}"
-                s="${s//=/\\=}"
-                s="${s//:/\\:}"
-                s="${s//#/\\#}"
-                s="${s//!/\\!}"
-                printf '%s' "$s"
-              }
+          esc() {
+            local s="$1"
+            s="${s//\\/\\\\}"
+            s="${s//=/\\=}"
+            s="${s//:/\\:}"
+            s="${s//#/\\#}"
+            s="${s//!/\\!}"
+            printf '%s' "$s"
+          }
 
-              STORE_PASS_ESC=$(esc "$CM_KEYSTORE_PASSWORD")
-              KEY_PASS_ESC=$(esc "$CM_KEY_PASSWORD")
-              ALIAS_ESC=$(esc "$CM_KEY_ALIAS")
+          STORE_PASS_ESC=$(esc "$CM_KEYSTORE_PASSWORD")
+          KEY_PASS_ESC=$(esc "$CM_KEY_PASSWORD")
+          ALIAS_ESC=$(esc "$CM_KEY_ALIAS")
 
-              PROPS_PATH="$CM_BUILD_DIR/android/keystore.properties"
-              printf 'storeFile=app/upload-keystore.jks\n' > "$PROPS_PATH"
-              printf 'storePassword=%s\n' "$STORE_PASS_ESC" >> "$PROPS_PATH"
-              printf 'keyAlias=%s\n' "$ALIAS_ESC" >> "$PROPS_PATH"
-              printf 'keyPassword=%s\n' "$KEY_PASS_ESC" >> "$PROPS_PATH"
-              echo "keystore.properties created at $PROPS_PATH"
+          PROPS_PATH="$CM_BUILD_DIR/android/keystore.properties"
+          printf 'storeFile=app/upload-keystore.jks\n' > "$PROPS_PATH"
+          printf 'storePassword=%s\n' "$STORE_PASS_ESC" >> "$PROPS_PATH"
+          printf 'keyAlias=%s\n' "$ALIAS_ESC" >> "$PROPS_PATH"
+          printf 'keyPassword=%s\n' "$KEY_PASS_ESC" >> "$PROPS_PATH"
+          echo "keystore.properties created at $PROPS_PATH"
 
-          - name: Inspect env & keystore (debug)
-            script: |
-              set -euo pipefail
-              echo "ALIAS=[$CM_KEY_ALIAS]"
-              echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
-              echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
+      - name: Inspect env & keystore (debug)
+        script: |
+          set -euo pipefail
+          echo "ALIAS=[$CM_KEY_ALIAS]"
+          echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
+          echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
 
-              echo "== Checking keystore file =="
-              cd "$CM_BUILD_DIR/android/app"
-              if [ -f upload-keystore.jks ]; then
-                ls -lh upload-keystore.jks
-                echo "JKS size: $(wc -c < upload-keystore.jks)"
-                if command -v shasum >/dev/null 2>&1; then
-                  echo "JKS sha256: $(shasum -a 256 upload-keystore.jks | cut -d' ' -f1)"
-                else
-                  echo "JKS sha256: $(openssl dgst -sha256 upload-keystore.jks | awk '{print $2}')"
-                fi
-              else
-                echo "ERROR: upload-keystore.jks not found!"
-                exit 1
-              fi
+          echo "== Checking keystore file =="
+          cd "$CM_BUILD_DIR/android/app"
+          if [ -f upload-keystore.jks ]; then
+            ls -lh upload-keystore.jks
+            echo "JKS size: $(wc -c < upload-keystore.jks)"
+            if command -v shasum >/dev/null 2>&1; then
+              echo "JKS sha256: $(shasum -a 256 upload-keystore.jks | cut -d' ' -f1)"
+            else
+              echo "JKS sha256: $(openssl dgst -sha256 upload-keystore.jks | awk '{print $2}')"
+            fi
+          else
+            echo "ERROR: upload-keystore.jks not found!"
+            exit 1
+          fi
 
-              echo "== keystore.properties content (passwords hidden) =="
-              cd "$CM_BUILD_DIR/android"
-              if [ -f keystore.properties ]; then
-                grep -v -Ei 'Password' keystore.properties || true
-                echo "Lines: $(wc -l < keystore.properties)"
-              else
-                echo "ERROR: keystore.properties not found!"
-                exit 1
-              fi
+          echo "== keystore.properties content (passwords hidden) =="
+          cd "$CM_BUILD_DIR/android"
+          if [ -f keystore.properties ]; then
+            grep -v -Ei 'Password' keystore.properties || true
+            echo "Lines: $(wc -l < keystore.properties)"
+          else
+            echo "ERROR: keystore.properties not found!"
+            exit 1
+          fi
 
-          - name: Verify keystore (debug)
-            script: |
-              set -euo pipefail
-              cd "$CM_BUILD_DIR/android/app"
-              echo "== list aliases (storepass) =="
-              keytool -list -keystore upload-keystore.jks -storepass "$CM_KEYSTORE_PASSWORD"
-              echo "== open target alias (storepass + keypass/fallback) =="
-              keytool -list -v -keystore upload-keystore.jks \
-                -alias "$CM_KEY_ALIAS" \
-                -storepass "$CM_KEYSTORE_PASSWORD" \
-                -keypass "${CM_KEY_PASSWORD:-$CM_KEYSTORE_PASSWORD}" >/dev/null
-              echo "OK: alias+password match"
+      - name: Verify keystore (debug)
+        script: |
+          set -euo pipefail
+          cd "$CM_BUILD_DIR/android/app"
+          echo "== list aliases (storepass) =="
+          keytool -list -keystore upload-keystore.jks -storepass "$CM_KEYSTORE_PASSWORD"
+          echo "== open target alias (storepass + keypass/fallback) =="
+          keytool -list -v -keystore upload-keystore.jks \
+            -alias "$CM_KEY_ALIAS" \
+            -storepass "$CM_KEYSTORE_PASSWORD" \
+            -keypass "${CM_KEY_PASSWORD:-$CM_KEYSTORE_PASSWORD}" >/dev/null
+          echo "OK: alias+password match"
 
-          - name: Make gradlew executable
-            script: |
-              cd android
-              chmod +x ./gradlew
+      - name: Make gradlew executable
+        script: |
+          cd android
+          chmod +x ./gradlew
 
-              - name: Print tool versions
-            script: |
-              cd android
-              java -version
-              ./gradlew -version
-              echo "$JAVA_HOME"
+      - name: Print tool versions
+        script: |
+          cd android
+          java -version
+          ./gradlew -version
+          echo "$JAVA_HOME"
 
-            - name: Build Android AAB (release)
-             script: |
-               cd android
-               ./gradlew -Dorg.gradle.java.installations.auto-download=true 
--Dorg.gradle.java.installations.fromEnv=JAVA_HOME bundleRelease --stacktrace
+      - name: Build Android AAB (release)
+        script: |
+          cd android
+          ./gradlew \
+            -Dorg.gradle.java.installations.auto-download=true \
+            -Dorg.gradle.java.installations.fromEnv=JAVA_HOME \
+            bundleRelease --stacktrace
 
-          - name: Build Android APK (debug)
-            script: |
-              cd android
-              ./gradlew -Dorg.gradle.java.installations.auto-download=true 
--Dorg.gradle.java.installations.fromEnv=JAVA_HOME assembleDebug --stacktrace
+      - name: Build Android APK (debug)
+        script: |
+          cd android
+          ./gradlew \
+            -Dorg.gradle.java.installations.auto-download=true \
+            -Dorg.gradle.java.installations.fromEnv=JAVA_HOME \
+            assembleDebug --stacktrace
 
-        artifacts:
-          - android/app/build/outputs/bundle/release/app-release.aab
-          - android/app/build/outputs/**/*.apk
+    artifacts:
+      - android/app/build/outputs/bundle/release/app-release.aab
+      - android/app/build/outputs/**/*.apk
 
-        publishing:
-          email:
-            recipients:
-              - highandhigh96@hotmail.com
-              - fish760217@gmail.com
-            notify:
-              success: true
-              failure: true
+    publishing:
+      email:
+        recipients:
+          - highandhigh96@hotmail.com
+          - fish760217@gmail.com
+        notify:
+          success: true
+          failure: true
