@@ -190,15 +190,23 @@ workflows:
           cd android
           chmod +x ./gradlew
 
-      - name: Build Android AAB (release)
+   
+          - name: Print tool versions
         script: |
           cd android
-          ./gradlew bundleRelease --stacktrace
+          java -version
+          ./gradlew -version
+          echo "$JAVA_HOME"
+
+       - name: Build Android AAB (release)
+        script: |
+          cd android
+          ./gradlew -Dorg.gradle.java.installations.auto-download=true -Dorg.gradle.java.installations.fromEnv=JAVA_HOME bundleRelease --stacktrace
 
       - name: Build Android APK (debug)
         script: |
           cd android
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew -Dorg.gradle.java.installations.auto-download=true -Dorg.gradle.java.installations.fromEnv=JAVA_HOME assembleDebug --stacktrace
 
     artifacts:
       - android/app/build/outputs/bundle/release/app-release.aab
