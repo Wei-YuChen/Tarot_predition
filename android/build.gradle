@@ -1,9 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+import org.gradle.api.tasks.compile.JavaCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 
 buildscript {
     
     repositories {
         google()
+   
+
         mavenCentral()
     }
     dependencies {
@@ -28,14 +33,14 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 subprojects {
-    tasks.withType(org.gradle.api.tasks.compile.JavaCompile).configureEach {
+      tasks.withType(JavaCompile).configureEach {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    tasks.withType(KotlinCompile).configureEach {
         kotlinOptions {
             jvmTarget = '17'
         }
     }
-}
+
 
