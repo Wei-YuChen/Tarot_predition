@@ -79,17 +79,6 @@ android {
     }
 }
 
-// 🔑 確保所有 Java 編譯任務使用 Java 17
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
-tasks.withType(JavaCompile).configureEach {
-    sourceCompatibility = '17'
-    targetCompatibility = '17'
-}
-
 repositories {
     flatDir {
         dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
