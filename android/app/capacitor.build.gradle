@@ -110,8 +110,8 @@ dependencies {
     }
 }
 
-// 由 Capacitor 產生的 build 設定（你已把其中 Java 版本鎖為 VERSION_17，很好）
-apply from: 'capacitor.build.gradle'
+// ⚠️ 禁止遞迴載入自己，否則會導致 StackOverflow。
+// 原生 Capacitor 設定已直接內建於本檔，因此不再額外 apply 其他腳本。
 
 try {
     def servicesJSON = file('google-services.json')

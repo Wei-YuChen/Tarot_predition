@@ -79,14 +79,12 @@ android {
     }
 }
 
-// 🔑 配置 Java 工具鏈為 17，避免 Gradle 使用系統 JDK 21
+// 🔑 確保所有 Java 編譯任務使用 Java 17
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
-// 🔑 確保所有 Java 編譯任務使用 Java 17
 tasks.withType(JavaCompile).configureEach {
     sourceCompatibility = '17'
     targetCompatibility = '17'
