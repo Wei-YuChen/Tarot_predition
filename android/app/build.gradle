@@ -12,6 +12,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace "com.mystictarot.app"
     compileSdk rootProject.ext.compileSdkVersion
+
     defaultConfig {
         applicationId "com.mystictarot.app"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -36,10 +37,10 @@ android {
             def propsAlias       = keystoreProperties['keyAlias']
             def propsKeyPass     = keystoreProperties['keyPassword'] ?: propsStorePass
 
-            if (propsStoreFile && file(propsStoreFile).exists()
+            if (propsStoreFile && rootProject.file(propsStoreFile).exists()
                     && propsStorePass && propsAlias && propsKeyPass) {
                 release {
-                    storeFile file(propsStoreFile)
+                    storeFile rootProject.file(propsStoreFile)
                     storePassword propsStorePass
                     keyAlias propsAlias
                     keyPassword propsKeyPass
@@ -47,6 +48,7 @@ android {
             }
         }
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -73,6 +75,7 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
+
     def cordovaPluginsProject = rootProject.findProject(':capacitor-cordova-android-plugins')
     if (cordovaPluginsProject != null) {
         implementation cordovaPluginsProject
