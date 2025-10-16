@@ -200,3 +200,4 @@ workflows:
         notify:
           success: true
           failure: true
+# Note: Signing config path fixed in android/app/build.gradle using rootProject.file()
