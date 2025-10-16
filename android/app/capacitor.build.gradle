@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+
 
 // 讀取 keystore.properties（若存在）
 def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -24,12 +24,6 @@ android {
             // 避免把 web 編譯暫存檔打包進去
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
-    }
-
-    // ✅ 強制以 Java 17 編譯（搭配你已修改的 capacitor.build.gradle -> VERSION_17）
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
     }
 
     // ⚠️ 別放 kotlin{} / kotlinOptions{}；此專案不是 Kotlin，且前者會造成你看到的錯誤
@@ -111,13 +105,13 @@ dependencies {
 }
 
 // 由 Capacitor 產生的 build 設定（你已把其中 Java 版本鎖為 VERSION_17，很好）
-apply from: 'capacitor.build.gradle'
 
-try {
-    def servicesJSON = file('google-services.json')
-    if (servicesJSON.text) {
-        apply plugin: 'com.google.gms.google-services'
+
+    try {
+        def servicesJSON = file('google-services.json')
+        if (servicesJSON.exists()) {
+            apply plugin: 'com.google.gms.google-services'
+        }
+    } catch(Exception e) {
+        logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
     }
-} catch(Exception e) {
-    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
-}

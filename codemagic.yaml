@@ -84,7 +84,7 @@ workflows:
     max_build_duration: 120
     environment:
       node: 20
-      java: 17   # 🔑 強制使用 Java 17，避免 JDK 21 導致 "invalid source release: 21"
+      java: 17   # 強制使用 Java 17，避免 JDK 21 導致 "invalid source release: 21"
       groups:
         - android_signing   # CM_KEYSTORE / CM_KEYSTORE_PASSWORD / CM_KEY_ALIAS / (optional) CM_KEY_PASSWORD
       vars:
@@ -190,15 +190,28 @@ workflows:
           cd android
           chmod +x ./gradlew
 
+      - name: Print tool versions
+        script: |
+          cd android
+          java -version
+          ./gradlew -version
+          echo "$JAVA_HOME"
+
       - name: Build Android AAB (release)
         script: |
           cd android
-          ./gradlew bundleRelease --stacktrace
+          ./gradlew \
+            -Dorg.gradle.java.installations.auto-download=true \
+            -Dorg.gradle.java.installations.fromEnv=JAVA_HOME \
+            bundleRelease --stacktrace
 
       - name: Build Android APK (debug)
         script: |
           cd android
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew \
+            -Dorg.gradle.java.installations.auto-download=true \
+            -Dorg.gradle.java.installations.fromEnv=JAVA_HOME \
+            assembleDebug --stacktrace
 
     artifacts:
       - android/app/build/outputs/bundle/release/app-release.aab
