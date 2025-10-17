@@ -13,17 +13,21 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
+
 apply from: "variables.gradle"
+
 allprojects {
     repositories {
         google()
         mavenCentral()
     }
 }
-// Force Java 17 toolchain globally to prevent Gradle from using Java 21
+
+// Force Java 17 globally to prevent Gradle from using Java 21
 subprojects {
     tasks.withType(JavaCompile).configureEach {
-        options.release = 17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     
     // For Kotlin projects - only configure if Kotlin plugin is applied
@@ -34,7 +38,4 @@ subprojects {
             }
         }
     }
-}
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }
