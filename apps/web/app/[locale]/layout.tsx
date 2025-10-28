@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import ClientThemeToggle from '@/components/ClientThemeToggle';
 import Footer from '@/components/Footer';
+import StructuredData from '@/components/StructuredData';
 import { getHomeTexts } from '@/lib/localization';
 
 interface LocaleLayoutProps {

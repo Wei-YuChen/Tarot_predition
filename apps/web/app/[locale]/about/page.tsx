@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
 
+interface AboutPageProps {
+  params: { locale: string };
+}
+
 export const metadata: Metadata = {
   title: 'About Us - Mystic Tarot',
   description:
@@ -9,7 +13,9 @@ export const metadata: Metadata = {
   robots: 'index, follow',
 };
 
-export default function AboutPage() {
+export default function AboutPage({ params }: AboutPageProps) {
+  const { locale } = params;
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -134,7 +140,7 @@ export default function AboutPage() {
               data we do collect. You can read more about our privacy practices
               in our{' '}
               <a
-                href="/tw/privacy"
+                href={`/${locale}/privacy`}
                 className="text-tarot-purple dark:text-tarot-gold hover:underline"
               >
                 Privacy Policy
