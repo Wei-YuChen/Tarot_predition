@@ -9,23 +9,29 @@ export async function generateMetadata({
 }: CardsPageProps): Promise<Metadata> {
   const { locale } = params;
 
-  if (locale === 'tw') {
-    return {
-      title: '塔羅牌意義大全 - 神秘塔羅',
-      description:
-        '探索完整78張塔羅牌的詳細含義，包括大阿爾卡納和小阿爾卡納的正位與逆位解釋。深入了解每張牌的象徵意義、關鍵詞和實用解讀指南。',
-      keywords:
-        '塔羅牌意義, 大阿爾卡納, 小阿爾卡納, 塔羅牌解讀, 逆位牌意, 正位牌意',
-      robots: 'index, follow',
-    };
-  }
+  const titles: Record<string, string> = {
+    tw: '塔羅牌意義指南 - 神秘塔羅',
+    zh: '塔罗牌意义指南 - 神秘塔罗',
+    ja: 'タロットカード意味ガイド - ミスティックタロット',
+    ko: '타로 카드 의미 가이드 - 미스틱 타로',
+    en: 'Tarot Card Meanings Guide - Mystic Tarot',
+  };
+
+  const descriptions: Record<string, string> = {
+    tw: '探索完整78張塔羅牌的詳細含義，包括大阿爾卡納和小阿爾卡納的正位與逆位解釋。深入了解每張牌的象徵意義、關鍵詞和實用解讀指南。',
+    zh: '探索完整78张塔罗牌的详细含义，包括大阿尔卡纳和小阿尔卡纳的正位与逆位解释。深入了解每张牌的象征意义、关键词和实用解读指南。',
+    ja: '78枚すべてのタロットカードの詳細な意味を探求します。メジャーアルカナとマイナーアルカナの正位置と逆位置の解釈を含みます。',
+    ko: '78장의 타로 카드 의미를 상세히 탐색하세요. 메이저 아르카나와 마이너 아르카나의 정방향 및 역방향 해석을 포함합니다.',
+    en: 'Explore comprehensive meanings of all 78 tarot cards, including Major and Minor Arcana with upright and reversed interpretations. Learn the symbolism, keywords, and practical guidance for each card.',
+  };
 
   return {
-    title: 'Tarot Card Meanings - Mystic Tarot',
-    description:
-      'Explore comprehensive meanings of all 78 tarot cards, including Major and Minor Arcana with upright and reversed interpretations. Learn the symbolism, keywords, and practical guidance for each card.',
+    title: titles[locale] || titles.en,
+    description: descriptions[locale] || descriptions.en,
     keywords:
-      'tarot card meanings, major arcana, minor arcana, tarot interpretations, reversed meanings, upright meanings',
+      locale === 'tw' || locale === 'zh'
+        ? '塔羅牌意義, 大阿爾卡納, 小阿爾卡納, 塔羅牌解讀, 逆位牌意, 正位牌意'
+        : 'tarot card meanings, major arcana, minor arcana, tarot interpretations, reversed meanings, upright meanings',
     robots: 'index, follow',
   };
 }
@@ -38,7 +44,7 @@ export default function CardsPage({ params }: CardsPageProps) {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8 font-serif text-center">
-          {isTw ? '塔羅牌意義大全' : 'Complete Tarot Card Meanings'}
+          {isTw ? '塔羅牌意義指南' : 'Tarot Card Meanings Guide'}
         </h1>
 
         <div className="prose prose-gray dark:prose-invert max-w-none">
