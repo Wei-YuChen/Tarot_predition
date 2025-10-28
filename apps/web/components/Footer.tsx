@@ -6,10 +6,14 @@ interface FooterProps {
 
 export default function Footer({ locale }: FooterProps) {
   const footerLinks = [
-    { href: '/about', label: locale === 'tw' ? '關於我們' : 'About' },
-    { href: '/contact', label: locale === 'tw' ? '聯絡我們' : 'Contact' },
-    { href: '/faq', label: locale === 'tw' ? '常見問題' : 'FAQ' },
-    { href: '/terms', label: locale === 'tw' ? '使用條款' : 'Terms' },
+    { href: `/${locale}/about`, label: locale === 'tw' ? '關於我們' : 'About' },
+    { href: `/${locale}/guide`, label: locale === 'tw' ? '塔羅指南' : 'Guide' },
+    {
+      href: `/${locale}/contact`,
+      label: locale === 'tw' ? '聯絡我們' : 'Contact',
+    },
+    { href: `/${locale}/faq`, label: locale === 'tw' ? '常見問題' : 'FAQ' },
+    { href: `/${locale}/terms`, label: locale === 'tw' ? '使用條款' : 'Terms' },
     {
       href: `/${locale}/privacy`,
       label: locale === 'tw' ? '隱私政策' : 'Privacy',

@@ -85,10 +85,16 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
                 {t.nav.reading}
               </a>
               <a
-                href={`/${locale}/privacy`}
+                href={`/${locale}/about`}
                 className="text-gray-600 dark:text-gray-300 hover:text-tarot-purple dark:hover:text-tarot-gold transition-colors text-sm"
               >
-                Privacy
+                {locale === 'tw' ? '關於' : 'About'}
+              </a>
+              <a
+                href={`/${locale}/faq`}
+                className="text-gray-600 dark:text-gray-300 hover:text-tarot-purple dark:hover:text-tarot-gold transition-colors text-sm"
+              >
+                {locale === 'tw' ? '常見問題' : 'FAQ'}
               </a>
               <Suspense
                 fallback={

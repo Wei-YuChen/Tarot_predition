@@ -4,5 +4,5 @@
 User-agent: *
 Allow: /
 
-# Sitemap location (update when sitemap is available)
-# Sitemap: https://yourdomain.com/sitemap.xml
+# Sitemap location
+Sitemap: https://tarot-predition.vercel.app/sitemap.xml
