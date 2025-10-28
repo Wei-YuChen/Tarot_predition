@@ -9,6 +9,10 @@ export default function Footer({ locale }: FooterProps) {
     { href: `/${locale}/about`, label: locale === 'tw' ? '關於我們' : 'About' },
     { href: `/${locale}/guide`, label: locale === 'tw' ? '塔羅指南' : 'Guide' },
     {
+      href: `/${locale}/cards`,
+      label: locale === 'tw' ? '牌卡意義' : 'Card Meanings',
+    },
+    {
       href: `/${locale}/contact`,
       label: locale === 'tw' ? '聯絡我們' : 'Contact',
     },
