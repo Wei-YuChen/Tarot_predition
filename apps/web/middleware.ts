@@ -6,14 +6,14 @@ const defaultLocale = 'tw';
 // Detect if the request is from a Google bot
 function isGoogleBot(userAgent: string | null): boolean {
   if (!userAgent) return false;
-  
+
   const googleBotPatterns = [
-    /googlebot/i,           // Matches all Googlebot variants (mobile, image, news, video)
-    /adsbot-google/i,       // AdSense crawler
+    /googlebot/i, // Matches all Googlebot variants (mobile, image, news, video)
+    /adsbot-google/i, // AdSense crawler
     /mediapartners-google/i, // AdSense crawler for page content
   ];
-  
-  return googleBotPatterns.some(pattern => pattern.test(userAgent));
+
+  return googleBotPatterns.some((pattern) => pattern.test(userAgent));
 }
 
 // Get locale from pathname
@@ -92,11 +92,11 @@ export function middleware(request: NextRequest) {
     // Check if request is from a Google bot
     const userAgent = request.headers.get('user-agent');
     const isBot = isGoogleBot(userAgent);
-    
+
     // For Google bots, always redirect to English to ensure consistent crawling
     // For regular users, detect their preferred language
     const detectedLocale = isBot ? defaultLocale : detectLocale(request);
-    
+
     const url = request.nextUrl.clone();
     url.pathname = `/${detectedLocale}${pathname}`;
     return NextResponse.redirect(url);

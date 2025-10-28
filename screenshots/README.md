@@ -5,6 +5,7 @@ This directory contains Android app store screenshots for the Mystic Tarot appli
 ## Screenshot Specifications
 
 ### Mobile Phone Screenshots (4 images)
+
 - **Dimensions**: 360x800 pixels
 - **Format**: PNG
 - **Directory**: `screenshots/android/phone/`
@@ -15,6 +16,7 @@ This directory contains Android app store screenshots for the Mystic Tarot appli
 4. **04-deep-analysis.png** - Detailed analysis view with comprehensive card interpretation
 
 ### 7-inch Tablet Screenshots (2 images)
+
 - **Dimensions**: 960x600 pixels
 - **Format**: PNG
 - **Directory**: `screenshots/android/tablet-7inch/`
@@ -23,6 +25,7 @@ This directory contains Android app store screenshots for the Mystic Tarot appli
 2. **02-card-reading.png** - Card reading results with enhanced tablet layout
 
 ### 10-inch Tablet Screenshots (2 images)
+
 - **Dimensions**: 1280x800 pixels
 - **Format**: PNG
 - **Directory**: `screenshots/android/tablet-10inch/`

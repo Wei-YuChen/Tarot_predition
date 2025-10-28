@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
 
+interface TermsPageProps {
+  params: { locale: string };
+}
+
 export const metadata: Metadata = {
   title: 'Terms of Service - Mystic Tarot',
   description:
@@ -9,7 +13,9 @@ export const metadata: Metadata = {
   robots: 'index, follow',
 };
 
-export default function TermsPage() {
+export default function TermsPage({ params }: TermsPageProps) {
+  const { locale } = params;
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -159,7 +165,7 @@ export default function TermsPage() {
               Your privacy is important to us. Our collection and use of
               personal information is governed by our{' '}
               <a
-                href="/tw/privacy"
+                href={`/${locale}/privacy`}
                 className="text-tarot-purple dark:text-tarot-gold hover:underline"
               >
                 Privacy Policy

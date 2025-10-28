@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
 
+interface FAQPageProps {
+  params: { locale: string };
+}
+
 export const metadata: Metadata = {
   title: 'Frequently Asked Questions - Mystic Tarot',
   description:
@@ -9,7 +13,9 @@ export const metadata: Metadata = {
   robots: 'index, follow',
 };
 
-export default function FAQPage() {
+export default function FAQPage({ params }: FAQPageProps) {
+  const { locale } = params;
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -250,7 +256,7 @@ export default function FAQPage() {
                 device to isolate the issue. For ongoing technical issues,
                 please contact our support team through the{' '}
                 <a
-                  href="/contact"
+                  href={`/${locale}/contact`}
                   className="text-tarot-purple dark:text-tarot-gold hover:underline"
                 >
                   Contact page
@@ -318,7 +324,7 @@ export default function FAQPage() {
               If you couldn't find the answer you were looking for, please don't
               hesitate to reach out through our{' '}
               <a
-                href="/contact"
+                href={`/${locale}/contact`}
                 className="text-tarot-purple dark:text-tarot-gold hover:underline font-semibold"
               >
                 Contact page

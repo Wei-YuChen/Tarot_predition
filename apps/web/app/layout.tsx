@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import { ThemeProvider } from '@/lib/theme-context';
+import StructuredData from '@/components/StructuredData';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -43,6 +44,15 @@ export default function RootLayout({
             process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID ||
             'ca-pub-8388475297920969'
           }
+        />
+        <StructuredData type="website" data={{}} />
+        <StructuredData type="organization" data={{}} />
+        <StructuredData
+          type="service"
+          data={{
+            description:
+              'Free online tarot card readings with traditional three-card spreads. Get insights into your past, present, and future through our mystical platform.',
+          }}
         />
       </head>
       <body className="font-sans antialiased">

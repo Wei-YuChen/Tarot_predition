@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
 
+interface ContactPageProps {
+  params: { locale: string };
+}
+
 export const metadata: Metadata = {
   title: 'Contact Us - Mystic Tarot',
   description:
@@ -8,7 +12,9 @@ export const metadata: Metadata = {
   robots: 'index, follow',
 };
 
-export default function ContactPage() {
+export default function ContactPage({ params }: ContactPageProps) {
+  const { locale } = params;
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -123,7 +129,7 @@ export default function ContactPage() {
             <p className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
               Before reaching out, you might want to check our{' '}
               <a
-                href="/faq"
+                href={`/${locale}/faq`}
                 className="text-tarot-purple dark:text-tarot-gold hover:underline"
               >
                 FAQ page
@@ -147,7 +153,7 @@ export default function ContactPage() {
               seriously and comply with all applicable data protection
               regulations. For more details, please review our{' '}
               <a
-                href="/tw/privacy"
+                href={`/${locale}/privacy`}
                 className="text-tarot-purple dark:text-tarot-gold hover:underline"
               >
                 Privacy Policy
