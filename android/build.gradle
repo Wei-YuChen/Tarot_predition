@@ -18,12 +18,6 @@ allprojects {
         google()
         mavenCentral()
     }
-    
-    // Force all subprojects to use Java 17 compatibility
-    tasks.withType(JavaCompile).configureEach {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
 }
 task clean(type: Delete) {
     delete rootProject.buildDir
