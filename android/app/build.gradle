@@ -24,16 +24,10 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
-
-    // 🔑 強制 Gradle 使用 Java 17
+    
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-
-    // 🔑 就算沒有 Kotlin 也加這個，避免 AGP fallback 到 JDK 21
-    kotlin {
-        jvmToolchain(17)
     }
 
     signingConfigs {
@@ -43,30 +37,13 @@ android {
             def propsAlias       = keystoreProperties['keyAlias']
             def propsKeyPass     = keystoreProperties['keyPassword'] ?: propsStorePass
 
-            if (propsStoreFile && file(propsStoreFile).exists()
+            if (propsStoreFile && rootProject.file(propsStoreFile).exists()
                     && propsStorePass && propsAlias && propsKeyPass) {
                 release {
-                    storeFile file(propsStoreFile)
+                    storeFile rootProject.file(propsStoreFile)
                     storePassword propsStorePass
                     keyAlias propsAlias
                     keyPassword propsKeyPass
-                }
-            }
-        }
-
-        if (!signingConfigs.findByName('release')) {
-            def storeFileEnv   = "upload-keystore.jks"
-            def storePassEnv   = System.getenv("CM_KEYSTORE_PASSWORD")
-            def aliasEnv       = System.getenv("CM_KEY_ALIAS")
-            def keyPassEnvRaw  = System.getenv("CM_KEY_PASSWORD")
-            def keyPassEnv     = keyPassEnvRaw ?: storePassEnv
-
-            if (file(storeFileEnv).exists() && storePassEnv && aliasEnv && keyPassEnv) {
-                release {
-                    storeFile file(storeFileEnv)
-                    storePassword storePassEnv
-                    keyAlias aliasEnv
-                    keyPassword keyPassEnv
                 }
             }
         }
@@ -76,7 +53,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
             if (signingConfigs.findByName('release')) {
                 signingConfig signingConfigs.release
             }

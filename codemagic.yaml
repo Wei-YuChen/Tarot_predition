@@ -93,32 +93,31 @@ workflows:
       cache_paths:
         - $HOME/.npm
         - $HOME/.gradle/caches
-
     scripts:
+      - name: Set Java 17 environment
+        script: |
+          export JAVA_HOME="$JAVA_HOME_17"
+          echo "JAVA_HOME set to: $JAVA_HOME"
+          java -version
       - name: Install dependencies
         script: |
           npm install --no-progress
-
       - name: Build and sync static export
         script: |
           npm run build:app
           # 確保 android 平台存在並同步 web 資產
           npx cap add android || true
           npx cap sync android
-
       - name: Prepare Android signing keystore
         script: |
           set -euo pipefail
           mkdir -p "$CM_BUILD_DIR/android/app"
-
           CLEANED=$(printf "%s" "$CM_KEYSTORE" | tr -d ' \n\r\t')
           ( printf "%s" "$CLEANED" | base64 -d 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 --decode 2>/dev/null || \
             printf "%s" "$CLEANED" | base64 -D 2>/dev/null ) \
             > "$CM_BUILD_DIR/android/app/upload-keystore.jks"
-
           : "${CM_KEY_PASSWORD:=$CM_KEYSTORE_PASSWORD}"
-
           esc() {
             local s="$1"
             s="${s//\\/\\\\}"
@@ -128,25 +127,21 @@ workflows:
             s="${s//!/\\!}"
             printf '%s' "$s"
           }
-
           STORE_PASS_ESC=$(esc "$CM_KEYSTORE_PASSWORD")
           KEY_PASS_ESC=$(esc "$CM_KEY_PASSWORD")
           ALIAS_ESC=$(esc "$CM_KEY_ALIAS")
-
           PROPS_PATH="$CM_BUILD_DIR/android/keystore.properties"
           printf 'storeFile=app/upload-keystore.jks\n' > "$PROPS_PATH"
           printf 'storePassword=%s\n' "$STORE_PASS_ESC" >> "$PROPS_PATH"
           printf 'keyAlias=%s\n' "$ALIAS_ESC" >> "$PROPS_PATH"
           printf 'keyPassword=%s\n' "$KEY_PASS_ESC" >> "$PROPS_PATH"
           echo "keystore.properties created at $PROPS_PATH"
-
       - name: Inspect env & keystore (debug)
         script: |
           set -euo pipefail
           echo "ALIAS=[$CM_KEY_ALIAS]"
           echo "STOREPASS_LEN=${#CM_KEYSTORE_PASSWORD}"
           echo "KEYPASS_LEN=${#CM_KEY_PASSWORD}"
-
           echo "== Checking keystore file =="
           cd "$CM_BUILD_DIR/android/app"
           if [ -f upload-keystore.jks ]; then
@@ -161,7 +156,6 @@ workflows:
             echo "ERROR: upload-keystore.jks not found!"
             exit 1
           fi
-
           echo "== keystore.properties content (passwords hidden) =="
           cd "$CM_BUILD_DIR/android"
           if [ -f keystore.properties ]; then
@@ -171,7 +165,6 @@ workflows:
             echo "ERROR: keystore.properties not found!"
             exit 1
           fi
-
       - name: Verify keystore (debug)
         script: |
           set -euo pipefail
@@ -184,26 +177,21 @@ workflows:
             -storepass "$CM_KEYSTORE_PASSWORD" \
             -keypass "${CM_KEY_PASSWORD:-$CM_KEYSTORE_PASSWORD}" >/dev/null
           echo "OK: alias+password match"
-
       - name: Make gradlew executable
         script: |
           cd android
           chmod +x ./gradlew
-
       - name: Build Android AAB (release)
         script: |
           cd android
           ./gradlew bundleRelease --stacktrace
-
       - name: Build Android APK (debug)
         script: |
           cd android
           ./gradlew assembleDebug --stacktrace
-
     artifacts:
       - android/app/build/outputs/bundle/release/app-release.aab
       - android/app/build/outputs/**/*.apk
-
     publishing:
       email:
         recipients:
@@ -212,3 +200,4 @@ workflows:
         notify:
           success: true
           failure: true
+# Note: Signing config path fixed in android/app/build.gradle using rootProject.file()
