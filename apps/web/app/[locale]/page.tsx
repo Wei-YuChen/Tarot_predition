@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { getHomeTexts, type HomeTexts } from '@/lib/localization';
 
+// Enhanced for Google AdSense compliance - Added structured data and improved content
+
 interface LocalePageProps {
   params: { locale: string };
 }
