@@ -71,7 +71,7 @@ export default function RootLayout({
           className="adsbygoogle"
           style={{ display: 'block', margin: '20px 0' }}
           data-ad-client="ca-pub-8388475297920969"
-          data-ad-slot="1234567890"
+          data-ad-slot="2855621756"
           data-ad-format="auto"
           data-full-width-responsive="true"
         />
