@@ -66,8 +66,7 @@ export default function RootLayout({
           strategy="afterInteractive"
           crossOrigin="anonymous"
         />
-                {/* Google AdSense ad units */}
-        <ins
+        {/* Google AdSense ad units */}        <ins
           className="adsbygoogle"
           style={{ display: 'block', margin: '20px 0' }}
           data-ad-client="ca-pub-8388475297920969"
