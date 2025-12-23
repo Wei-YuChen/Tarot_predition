@@ -31,11 +31,6 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    // 🔑 就算沒有 Kotlin 也加這個，避免 AGP fallback 到 JDK 21
-    kotlin {
-        jvmToolchain(17)
-    }
-
     signingConfigs {
         if (hasKeystoreProps) {
             def propsStoreFile   = keystoreProperties['storeFile']
@@ -82,6 +77,19 @@ android {
             }
         }
     }
+}
+
+// 🔑 配置 Java 工具鏈為 17，避免 Gradle 使用系統 JDK 21
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+// 🔑 確保所有 Java 編譯任務使用 Java 17
+tasks.withType(JavaCompile).configureEach {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
 }
 
 repositories {
